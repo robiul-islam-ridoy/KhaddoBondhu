@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "346925260591",
+    "project_id": "khaddobondhu-86011",
+    "storage_bucket": "khaddobondhu-86011.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346925260591:android:ade651babbd34326420bda",
+        "android_client_info": {
+          "package_name": "com.example.khaddobondhu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMe0aCtr0eBwUUohGMrvqJn3xiIbvXfwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
