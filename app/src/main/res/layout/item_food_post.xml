@@ -58,12 +58,14 @@
             android:textColor="@color/design_default_color_primary"
             android:textSize="16sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/titleTextView"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.955"
             app:layout_constraintStart_toStartOf="@+id/titleTextView"
-            tools:layout_editor_absoluteY="166dp"
-            tools:text="৳150"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.7"
+            tools:ignore="MissingConstraints"
+            tools:text="৳150" />
 
         <TextView
             android:id="@+id/descriptionTextView"
