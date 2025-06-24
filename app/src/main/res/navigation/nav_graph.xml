@@ -59,6 +59,13 @@
         android:label="Messages"
         tools:layout="@layout/fragment_message"
         tools:ignore="DuplicateIds" />
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.khaddobondhu.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile"
+        tools:ignore="DuplicateIds" />
+
 
 
 </navigation> 
