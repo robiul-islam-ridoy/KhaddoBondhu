@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-<<<<<<< HEAD
-    xmlns:tools="http://schemas.android.com/tools"
-=======
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
     android:id="@+id/nav_graph"
     app:startDestination="@id/navigation_home">
 
@@ -56,22 +52,5 @@
         android:id="@+id/navigation_cart"
         android:name="com.example.khaddobondhu.ui.cart.CartFragment"
         android:label="@string/cart" />
-<<<<<<< HEAD
-    <fragment
-        android:id="@+id/navigation_messages"
-        android:name="com.example.khaddobondhu.MessageFragment"
-        android:label="Messages"
-        tools:layout="@layout/fragment_message"
-        tools:ignore="DuplicateIds" />
-    <fragment
-        android:id="@+id/navigation_profile"
-        android:name="com.example.khaddobondhu.ProfileFragment"
-        android:label="Profile"
-        tools:layout="@layout/fragment_profile"
-        tools:ignore="DuplicateIds" />
-
-
-=======
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
 
 </navigation> 

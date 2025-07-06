@@ -1,9 +1,5 @@
 package com.example.khaddobondhu.ui.home;
 
-<<<<<<< HEAD
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-=======
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,28 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.khaddobondhu.R;
-<<<<<<< HEAD
-import com.example.khaddobondhu.databinding.ItemFoodPostBinding;
-import com.example.khaddobondhu.model.FoodPost;
-import java.util.ArrayList;
-import java.util.List;
-
-public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.FoodPostViewHolder> {
-    private List<FoodPost> foodPosts = new ArrayList<>();
-    private final OnFoodPostClickListener listener;
-
-    public interface OnFoodPostClickListener {
-        void onFoodPostClick(FoodPost foodPost);
-    }
-
-    public FoodPostAdapter(OnFoodPostClickListener listener) {
-        this.listener = listener;
-=======
 import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.ui.post.PostDetailActivity;
 import java.text.SimpleDateFormat;
@@ -47,25 +25,10 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
     public FoodPostAdapter(Context context, List<FoodPost> foodPosts) {
         this.context = context;
         this.foodPosts = foodPosts;
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
     }
 
     @NonNull
     @Override
-<<<<<<< HEAD
-    public FoodPostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemFoodPostBinding binding = ItemFoodPostBinding.inflate(
-            LayoutInflater.from(parent.getContext()),
-            parent,
-            false
-        );
-        return new FoodPostViewHolder(binding);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull FoodPostViewHolder holder, int position) {
-        holder.bind(foodPosts.get(position));
-=======
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_food_post, parent, false);
         return new ViewHolder(view);
@@ -143,7 +106,6 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
             intent.putExtra("post_id", post.getId());
             context.startActivity(intent);
         });
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
     }
 
     @Override
@@ -151,50 +113,6 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         return foodPosts.size();
     }
 
-<<<<<<< HEAD
-    public void setFoodPosts(List<FoodPost> foodPosts) {
-        this.foodPosts = foodPosts;
-        notifyDataSetChanged();
-    }
-
-    class FoodPostViewHolder extends RecyclerView.ViewHolder {
-        private final ItemFoodPostBinding binding;
-
-        FoodPostViewHolder(ItemFoodPostBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-
-        void bind(FoodPost foodPost) {
-            binding.titleTextView.setText(foodPost.getTitle());
-            binding.descriptionTextView.setText(foodPost.getDescription());
-            binding.postTypeTextView.setText(foodPost.getPostType());
-            binding.distanceTextView.setText(foodPost.getDistance());
-            binding.timeLeftTextView.setText(foodPost.getTimeLeft());
-            binding.quantityTextView.setText("• " + foodPost.getQuantity() + " servings");
-
-            // Set price or hide if it's a donation
-            if (foodPost.getPostType().equals("DONATE") || foodPost.getPostType().equals("REQUEST_DONATION")) {
-                binding.priceTextView.setVisibility(android.view.View.GONE);
-            } else {
-                binding.priceTextView.setVisibility(android.view.View.VISIBLE);
-                binding.priceTextView.setText("৳" + foodPost.getPrice());
-            }
-
-            // Load image using Glide
-            Glide.with(binding.getRoot())
-                .load(foodPost.getImageUrl())
-                .placeholder(R.drawable.placeholder_food)
-                .error(R.drawable.placeholder_food)
-                .into(binding.imageView);
-
-            // Set click listener
-            binding.getRoot().setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onFoodPostClick(foodPost);
-                }
-            });
-=======
     public void updatePosts(List<FoodPost> newPosts) {
         this.foodPosts = newPosts;
         notifyDataSetChanged();
@@ -243,7 +161,6 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
             timeLeftTextView = itemView.findViewById(R.id.timeLeftTextView);
             distanceTextView = itemView.findViewById(R.id.distanceTextView);
             expiryTextView = itemView.findViewById(R.id.expiryTextView);
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
         }
     }
 } 

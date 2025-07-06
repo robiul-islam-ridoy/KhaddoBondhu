@@ -131,9 +131,9 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
         });
         
         holder.editButton.setOnClickListener(v -> {
-            if (actionListener != null) {
-                actionListener.onEditPost(post);
-            }
+            Intent intent = new Intent(context, com.example.khaddobondhu.ui.post.EditPostActivity.class);
+            intent.putExtra("post_id", post.getId());
+            context.startActivity(intent);
         });
         
         holder.deleteButton.setOnClickListener(v -> showDeleteConfirmation(post));

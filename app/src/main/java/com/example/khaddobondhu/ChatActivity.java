@@ -1,23 +1,11 @@
 package com.example.khaddobondhu;
 
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
 import android.view.View;
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-<<<<<<< HEAD
-
-import androidx.appcompat.app.AppCompatActivity;
-
-public class ChatActivity extends AppCompatActivity {
-    TextView chatHeader;
-    EditText editTextMessage;
-    Button buttonSend;
-=======
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,30 +33,12 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseService firebaseService;
     private String receiverId, receiverName, chatId;
     private FirebaseUser currentUser;
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-<<<<<<< HEAD
-        chatHeader = findViewById(R.id.textViewChatHeader);
-        editTextMessage = findViewById(R.id.editTextMessage);
-        buttonSend = findViewById(R.id.buttonSend);
-
-        String userName = getIntent().getStringExtra("userName");
-        chatHeader.setText("Chatting with " + userName);
-
-        buttonSend.setOnClickListener(v -> {
-            String msg = editTextMessage.getText().toString().trim();
-            if (!msg.isEmpty()) {
-                Toast.makeText(this, "Sending: " + msg, Toast.LENGTH_SHORT).show();
-                editTextMessage.setText("");
-            }
-        });
-    }
-=======
         // Initialize Firebase service
         firebaseService = new FirebaseService();
         currentUser = firebaseService.getCurrentUser();
@@ -181,6 +151,5 @@ public class ChatActivity extends AppCompatActivity {
         // Update user's last active time
         firebaseService.updateUserLastActive();
     }
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
 }
 

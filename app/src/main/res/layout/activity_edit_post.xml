@@ -1,83 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light">
+    android:orientation="vertical"
+    android:background="@color/background">
 
-    <LinearLayout
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:paddingBottom="120dp">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary_color"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <!-- Image Upload Section -->
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="20dp">
+            android:padding="20dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Food Photo"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary"
-                android:layout_marginBottom="8dp" />
-
-            <FrameLayout
+            <!-- Image Section -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:background="@drawable/image_upload_background"
-                android:layout_marginBottom="12dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="24dp">
 
-                <ImageView
-                    android:id="@+id/foodImageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/placeholder_food"
-                    android:visibility="gone" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Post Image"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginBottom="16dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:id="@+id/uploadPlaceholder">
+                <FrameLayout
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:background="@drawable/image_upload_background"
+                    android:layout_marginBottom="16dp">
 
-                    <TextView
+                    <ImageView
+                        android:id="@+id/postImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/placeholder_food"
+                        android:scaleType="centerCrop" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/changeImageButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tap to add photo"
-                        android:textSize="16sp"
-                        android:textColor="@color/primary_color"
-                        android:textStyle="bold" />
+                        android:layout_gravity="bottom|end"
+                        android:layout_margin="12dp"
+                        android:src="@drawable/ic_camera"
+                        app:fabSize="mini"
+                        app:backgroundTint="@color/primary_color"
+                        app:tint="@android:color/white" />
 
-                </LinearLayout>
+                </FrameLayout>
 
-            </FrameLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap to change image"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary" />
 
-            <Button
-                android:id="@+id/addImageButton"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="Choose Photo"
-                android:textSize="16sp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+            </LinearLayout>
 
-        </LinearLayout>
-
-        <!-- Form Fields -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Title -->
+            <!-- Form Fields -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,7 +98,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Description -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,7 +110,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
-                    android:maxLines="4" />
+                    android:minLines="3"
+                    android:maxLines="6" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -240,7 +244,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="32dp"
                 android:hint="Pickup Location"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -252,26 +256,29 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Save Button -->
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Save Changes"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:background="@drawable/gradient_background"
+                android:textColor="@android:color/white"
+                android:elevation="4dp" />
+
+            <!-- Progress Bar -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:visibility="gone" />
+
         </LinearLayout>
 
-        <!-- Create Post Button -->
-        <Button
-            android:id="@+id/createPostButton"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Create Post"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="50dp" />
+    </ScrollView>
 
-        <!-- Progress Bar -->
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone" />
-
-    </LinearLayout>
-
-</androidx.core.widget.NestedScrollView> 
+</LinearLayout> 

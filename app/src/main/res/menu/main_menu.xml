@@ -20,4 +20,10 @@
         android:icon="@drawable/ic_logout"
         app:showAsAction="never" />
         
+    <item
+        android:id="@+id/action_test_cloudinary"
+        android:title="Test Cloudinary"
+        android:icon="@drawable/ic_visibility"
+        app:showAsAction="never" />
+        
 </menu> 

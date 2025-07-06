@@ -32,8 +32,6 @@
         <item name="cardBackgroundColor">@color/card_background</item>
         <item name="contentPadding">16dp</item>
     </style>
-<<<<<<< HEAD
-=======
 
     <style name="Theme.KhaddoBondhu.NoActionBar" parent="Theme.KhaddoBondhu">
         <item name="windowActionBar">false</item>
@@ -41,5 +39,4 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
 </resources>

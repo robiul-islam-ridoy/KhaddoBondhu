@@ -2,17 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-<<<<<<< HEAD
-    <application
-=======
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".KhaddoBondhuApplication"
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -22,18 +20,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KhaddoBondhu"
         tools:targetApi="31">
+        
+        <!-- Google Maps API Key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAMe0aCtr0eBwUUohGMrvqJn3xiIbvXfwg" />
         <activity
-<<<<<<< HEAD
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ChatActivity" />
-=======
             android:name=".auth.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.KhaddoBondhu.NoActionBar">
@@ -53,7 +45,8 @@
             
         <activity android:name=".ChatActivity" />
         <activity android:name=".ui.post.PostDetailActivity" />
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
+        <activity android:name=".ui.post.EditPostActivity" />
+        <activity android:name=".CloudinaryTestActivity" />
 
     </application>
 

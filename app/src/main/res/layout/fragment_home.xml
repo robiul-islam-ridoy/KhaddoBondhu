@@ -16,8 +16,6 @@
             android:clipToPadding="false"
             android:padding="8dp" />
 
-<<<<<<< HEAD
-=======
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -34,18 +32,13 @@
             android:textAlignment="center"
             android:visibility="gone" />
 
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-<<<<<<< HEAD
-            android:layout_margin="16dp"
-=======
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="140dp"
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
             android:contentDescription="Filter"
             app:srcCompat="@drawable/ic_filter" />
 

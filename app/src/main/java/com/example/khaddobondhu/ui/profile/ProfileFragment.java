@@ -1,21 +1,5 @@
 package com.example.khaddobondhu.ui.profile;
 
-<<<<<<< HEAD
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import com.example.khaddobondhu.databinding.FragmentProfileBinding;
-
-public class ProfileFragment extends Fragment {
-    private FragmentProfileBinding binding;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentProfileBinding.inflate(inflater, container, false);
-=======
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -91,16 +75,10 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
         loadUserProfile();
         loadUserPosts();
         
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
         return binding.getRoot();
     }
 
     @Override
-<<<<<<< HEAD
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-=======
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         
@@ -111,6 +89,8 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
             showEditProfileDialog();
         });
     }
+    
+
     
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -399,247 +379,11 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
 
     @Override
     public void onEditPost(FoodPost post) {
-        showEditPostDialog(post);
+        // This method is no longer used since we now use EditPostActivity
+        // But keeping it for interface compatibility
     }
     
-    private void showEditPostDialog(FoodPost post) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_post, null);
-        builder.setView(dialogView);
-
-        // Initialize dialog views
-        EditText titleInput = dialogView.findViewById(R.id.titleInput);
-        EditText descriptionInput = dialogView.findViewById(R.id.descriptionInput);
-        AutoCompleteTextView postTypeSpinner = dialogView.findViewById(R.id.postTypeSpinner);
-        AutoCompleteTextView foodTypeSpinner = dialogView.findViewById(R.id.foodTypeSpinner);
-        EditText priceInput = dialogView.findViewById(R.id.priceInput);
-        EditText quantityInput = dialogView.findViewById(R.id.quantityInput);
-        AutoCompleteTextView quantityUnitSpinner = dialogView.findViewById(R.id.quantityUnitSpinner);
-        EditText locationInput = dialogView.findViewById(R.id.locationInput);
-        EditText expiryDateEditText = dialogView.findViewById(R.id.expiryDateEditText);
-        ImageView postImageView = dialogView.findViewById(R.id.postImageView);
-        FloatingActionButton changeImageButton = dialogView.findViewById(R.id.changeImageButton);
-        Button cancelButton = dialogView.findViewById(R.id.cancelButton);
-        Button saveButton = dialogView.findViewById(R.id.saveButton);
-
-        // Pre-fill current data
-        titleInput.setText(post.getTitle());
-        descriptionInput.setText(post.getDescription());
-        priceInput.setText(String.valueOf(post.getPrice()));
-        quantityInput.setText(String.valueOf(post.getQuantity()));
-        locationInput.setText(post.getPickupLocation());
-
-        // Setup spinners
-        String[] postTypes = {"DONATE", "SELL", "REQUEST_DONATION", "REQUEST_TO_BUY"};
-        String[] foodTypes = {"Rice", "Curry", "Snacks", "Fruits", "Vegetables", "Bread", "Dessert", "Other"};
-        String[] quantityUnits = {"servings", "pieces", "kg", "grams", "liters", "packets"};
-
-        ArrayAdapter<String> postTypeAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, postTypes);
-        ArrayAdapter<String> foodTypeAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, foodTypes);
-        ArrayAdapter<String> quantityUnitAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, quantityUnits);
-
-        postTypeSpinner.setAdapter(postTypeAdapter);
-        foodTypeSpinner.setAdapter(foodTypeAdapter);
-        quantityUnitSpinner.setAdapter(quantityUnitAdapter);
-
-        postTypeSpinner.setText(post.getPostType(), false);
-        foodTypeSpinner.setText(post.getFoodType(), false);
-        quantityUnitSpinner.setText(post.getQuantityUnit(), false);
-        
-        // Set threshold to 0 to show dropdown immediately
-        postTypeSpinner.setThreshold(0);
-        foodTypeSpinner.setThreshold(0);
-        quantityUnitSpinner.setThreshold(0);
-        
-        // Set click listeners to show dropdown
-        postTypeSpinner.setOnClickListener(v -> postTypeSpinner.showDropDown());
-        foodTypeSpinner.setOnClickListener(v -> foodTypeSpinner.showDropDown());
-        quantityUnitSpinner.setOnClickListener(v -> quantityUnitSpinner.showDropDown());
-
-        // Set expiry date if available
-        if (post.getExpiryDate() != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
-            expiryDateEditText.setText(sdf.format(post.getExpiryDate().toDate()));
-        }
-
-        // Load current post image
-        if (post.getImageUrls() != null && !post.getImageUrls().isEmpty()) {
-            Glide.with(this)
-                .load(post.getImageUrls().get(0))
-                .placeholder(R.drawable.placeholder_food)
-                .error(R.drawable.placeholder_food)
-                .into(postImageView);
-        }
-
-        AlertDialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        // Image selection
-        changeImageButton.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            startActivityForResult(intent, REQUEST_IMAGE_PICK);
-        });
-
-        // Expiry date picker
-        expiryDateEditText.setOnClickListener(v -> {
-            Calendar currentDate = Calendar.getInstance();
-            Calendar minDate = Calendar.getInstance();
-            minDate.add(Calendar.HOUR, 1);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(
-                requireContext(),
-                (view, year, month, dayOfMonth) -> {
-                    Calendar selectedDate = Calendar.getInstance();
-                    selectedDate.set(Calendar.YEAR, year);
-                    selectedDate.set(Calendar.MONTH, month);
-                    selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                    TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        requireContext(),
-                        (timeView, hourOfDay, minute) -> {
-                            selectedDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                            selectedDate.set(Calendar.MINUTE, minute);
-                            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
-                            expiryDateEditText.setText(sdf.format(selectedDate.getTime()));
-                        },
-                        currentDate.get(Calendar.HOUR_OF_DAY),
-                        currentDate.get(Calendar.MINUTE),
-                        true
-                    );
-                    timePickerDialog.show();
-                },
-                currentDate.get(Calendar.YEAR),
-                currentDate.get(Calendar.MONTH),
-                currentDate.get(Calendar.DAY_OF_MONTH)
-            );
-            datePickerDialog.getDatePicker().setMinDate(minDate.getTimeInMillis());
-            datePickerDialog.show();
-        });
-
-        // Cancel button
-        cancelButton.setOnClickListener(v -> dialog.dismiss());
-
-        // Save button
-        saveButton.setOnClickListener(v -> {
-            String title = titleInput.getText().toString().trim();
-            String description = descriptionInput.getText().toString().trim();
-            String postType = postTypeSpinner.getText().toString();
-            String foodType = foodTypeSpinner.getText().toString();
-            String quantityUnit = quantityUnitSpinner.getText().toString();
-            String location = locationInput.getText().toString().trim();
-            String expiryDate = expiryDateEditText.getText().toString();
-
-            // Validation
-            if (title.isEmpty()) {
-                titleInput.setError("Title is required");
-                return;
-            }
-            if (description.isEmpty()) {
-                descriptionInput.setError("Description is required");
-                return;
-            }
-            if (postType.isEmpty()) {
-                postTypeSpinner.setError("Post type is required");
-                return;
-            }
-            if (foodType.isEmpty()) {
-                foodTypeSpinner.setError("Food type is required");
-                return;
-            }
-            if (quantityUnit.isEmpty()) {
-                quantityUnitSpinner.setError("Quantity unit is required");
-                return;
-            }
-            if (location.isEmpty()) {
-                locationInput.setError("Location is required");
-                return;
-            }
-
-            double price;
-            int quantity;
-            try {
-                price = Double.parseDouble(priceInput.getText().toString());
-                quantity = Integer.parseInt(quantityInput.getText().toString());
-            } catch (NumberFormatException e) {
-                showErrorMessage("Please enter valid price and quantity");
-                return;
-            }
-
-            // Show progress
-            saveButton.setEnabled(false);
-            saveButton.setText("Saving...");
-
-            // Update post with image if selected
-            Uri selectedUri = getSelectedImageUri();
-            if (selectedUri != null) {
-                updatePostWithImage(post.getId(), title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate, selectedUri.toString(), dialog, saveButton);
-            } else {
-                updatePost(post.getId(), title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate, dialog, saveButton);
-            }
-        });
-
-        dialog.show();
-    }
-    
-    private void updatePost(String postId, String title, String description, String postType, 
-                           double price, int quantity, String quantityUnit, String foodType, String location, String expiryDate, AlertDialog dialog, Button saveButton) {
-        updatePostWithData(postId, title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate, null, dialog, saveButton);
-    }
-
-    private void updatePostWithImage(String postId, String title, String description, String postType, double price, int quantity, String quantityUnit, String foodType, String location, String expiryDate, String imagePath, AlertDialog dialog, Button saveButton) {
-        cloudinaryService.uploadImage(Uri.parse(imagePath), "food_posts", new com.google.android.gms.tasks.OnCompleteListener<String>() {
-            public void onComplete(com.google.android.gms.tasks.Task<String> task) {
-                if (task.isSuccessful() && task.getResult() != null) {
-                    String imageUrl = task.getResult();
-                    // Update post data on main thread
-                    requireActivity().runOnUiThread(() -> {
-                        updatePostWithData(postId, title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate, Arrays.asList(imageUrl), dialog, saveButton);
-                    });
-                } else {
-                    requireActivity().runOnUiThread(() -> {
-                        saveButton.setEnabled(true);
-                        saveButton.setText("Save Changes");
-                        showErrorMessage("Failed to upload image: " + (task.getException() != null ? task.getException().getMessage() : "Unknown error"));
-                    });
-                }
-            }
-        });
-    }
-
-    private void updatePostWithData(String postId, String title, String description, String postType, double price, int quantity, String quantityUnit, String foodType, String location, String expiryDate, List<String> imageUrls, AlertDialog dialog, Button saveButton) {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        Timestamp expiryTimestamp = null;
-        if (expiryDate != null && !expiryDate.isEmpty()) {
-            try {
-                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault());
-                java.util.Date date = sdf.parse(expiryDate);
-                expiryTimestamp = new Timestamp(date);
-            } catch (Exception e) {
-                // Ignore parse error, keep expiryTimestamp null
-            }
-        }
-        firebaseService.updateFoodPost(postId, title, description, postType, price, quantity, quantityUnit, foodType, location, expiryTimestamp, imageUrls, new FirebaseService.Callback() {
-            @Override
-            public void onSuccess() {
-                requireActivity().runOnUiThread(() -> {
-                    binding.progressBar.setVisibility(View.GONE);
-                    dialog.dismiss();
-                    loadUserPosts(); // Refresh the posts list
-                    showSuccessMessage("Post updated successfully!");
-                });
-            }
-            @Override
-            public void onError(String error) {
-                requireActivity().runOnUiThread(() -> {
-                    binding.progressBar.setVisibility(View.GONE);
-                    saveButton.setEnabled(true);
-                    saveButton.setText("Save Changes");
-                    showErrorMessage("Failed to update post: " + error);
-                });
-            }
-        });
-    }
+    // Removed showEditPostDialog and related methods - now using EditPostActivity
 
     @Override
     public void onDeletePost(FoodPost post) {
@@ -729,6 +473,5 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
         Uri uri = selectedImageUri;
         selectedImageUri = null; // Clear after use
         return uri;
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
     }
 } 

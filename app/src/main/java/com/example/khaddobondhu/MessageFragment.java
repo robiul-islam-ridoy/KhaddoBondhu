@@ -5,14 +5,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-<<<<<<< HEAD
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import java.util.ArrayList;
-=======
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,20 +20,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
 
 public class MessageFragment extends Fragment implements UserAdapter.OnUserClickListener {
 
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
-<<<<<<< HEAD
-    private ArrayList<User> userList;
-=======
     private List<User> userList;
     private ProgressBar progressBar;
     private TextView emptyStateText;
     private FirebaseService firebaseService;
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
 
     public MessageFragment() {
         // Required empty public constructor
@@ -52,21 +39,6 @@ public class MessageFragment extends Fragment implements UserAdapter.OnUserClick
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
 
-<<<<<<< HEAD
-        recyclerView = view.findViewById(R.id.recyclerViewUsers);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // Sample data
-        userList = new ArrayList<>();
-        userList = new ArrayList<>();
-        userList.add(new User("1", "Ridoy", R.drawable.ic_person));
-        userList.add(new User("2", "Ayesha", R.drawable.ic_person));
-        userList.add(new User("3", "Rahim", R.drawable.ic_person));
-
-
-        userAdapter = new UserAdapter(userList, this);
-        recyclerView.setAdapter(userAdapter);
-=======
         // Initialize Firebase service
         firebaseService = new FirebaseService();
         userList = new ArrayList<>();
@@ -80,13 +52,10 @@ public class MessageFragment extends Fragment implements UserAdapter.OnUserClick
 
         // Load users
         loadUsers();
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
 
         return view;
     }
 
-<<<<<<< HEAD
-=======
     private void loadUsers() {
         progressBar.setVisibility(View.VISIBLE);
         emptyStateText.setVisibility(View.GONE);
@@ -151,7 +120,6 @@ public class MessageFragment extends Fragment implements UserAdapter.OnUserClick
         }
     }
 
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
     @Override
     public void onUserClick(User user) {
         Intent intent = new Intent(getContext(), ChatActivity.class);
@@ -159,8 +127,6 @@ public class MessageFragment extends Fragment implements UserAdapter.OnUserClick
         intent.putExtra("userName", user.getName());
         startActivity(intent);
     }
-<<<<<<< HEAD
-=======
 
     @Override
     public void onResume() {
@@ -168,5 +134,4 @@ public class MessageFragment extends Fragment implements UserAdapter.OnUserClick
         // Refresh users when returning to this fragment
         loadUsers();
     }
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
 }

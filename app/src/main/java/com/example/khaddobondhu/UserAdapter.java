@@ -5,16 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-<<<<<<< HEAD
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
-
-=======
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -26,65 +16,30 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private List<User> userList;
     private OnUserClickListener listener;
 
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
     public interface OnUserClickListener {
         void onUserClick(User user);
     }
 
-<<<<<<< HEAD
-    private ArrayList<User> users;
-    private OnUserClickListener listener;
-
-    public UserAdapter(ArrayList<User> users, OnUserClickListener listener) {
-        this.users = users;
-=======
     public UserAdapter(List<User> userList, OnUserClickListener listener) {
         this.userList = userList;
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
         this.listener = listener;
     }
 
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-<<<<<<< HEAD
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_user, parent, false);
-=======
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false);
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
         return new UserViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-<<<<<<< HEAD
-        User user = users.get(position);
-        holder.username.setText(user.getName());
-        holder.profileImage.setImageResource(user.getProfileImageResId());
-
-        holder.itemView.setOnClickListener(v -> listener.onUserClick(user));
-=======
         User user = userList.get(position);
         holder.bind(user);
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
     }
 
     @Override
     public int getItemCount() {
-<<<<<<< HEAD
-        return users.size();
-    }
-
-    public static class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView username;
-        ImageView profileImage;
-
-        public UserViewHolder(@NonNull View itemView) {
-            super(itemView);
-            username = itemView.findViewById(R.id.textViewUsername);
-            profileImage = itemView.findViewById(R.id.imageViewProfile);
-=======
         return userList.size();
     }
 
@@ -150,7 +105,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 userStatus.setText("Unknown");
                 userStatus.setTextColor(itemView.getContext().getResources().getColor(android.R.color.darker_gray));
             }
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
         }
     }
 }

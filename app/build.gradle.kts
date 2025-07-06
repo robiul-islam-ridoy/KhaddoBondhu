@@ -1,3 +1,12 @@
+import java.util.Properties
+import java.io.FileInputStream
+
+val properties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    properties.load(FileInputStream(localPropertiesFile))
+}
+
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
@@ -15,14 +24,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-<<<<<<< HEAD
-=======
         
         // Cloudinary credentials from local.properties
         buildConfigField("String", "CLOUDINARY_CLOUD_NAME", "\"${properties["CLOUDINARY_CLOUD_NAME"] ?: ""}\"")
         buildConfigField("String", "CLOUDINARY_API_KEY", "\"${properties["CLOUDINARY_API_KEY"] ?: ""}\"")
         buildConfigField("String", "CLOUDINARY_API_SECRET", "\"${properties["CLOUDINARY_API_SECRET"] ?: ""}\"")
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
+        
+        // Google Maps API key
+        buildConfigField("String", "MAPS_API_KEY", "\"${properties["MAPS_API_KEY"] ?: ""}\"")
     }
 
     buildTypes {
@@ -40,10 +49,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
-<<<<<<< HEAD
-=======
         buildConfig = true
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
     }
 }
 
@@ -63,18 +69,13 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
-<<<<<<< HEAD
+    implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-storage")
-    implementation("com.google.firebase:firebase-messaging")
-
-=======
-    implementation("com.google.firebase:firebase-messaging")
 
     // Cloudinary for free image hosting
     implementation("com.cloudinary:cloudinary-android:2.3.1")
     implementation("com.cloudinary:cloudinary-core:1.34.0")
 
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
     // Google Maps
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:21.1.0")

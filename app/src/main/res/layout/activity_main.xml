@@ -22,13 +22,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
-<<<<<<< HEAD
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-=======
     android:layout_width="match_parent"
     android:layout_height="match_parent"
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
         app:defaultNavHost="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:navGraph="@navigation/nav_graph" />

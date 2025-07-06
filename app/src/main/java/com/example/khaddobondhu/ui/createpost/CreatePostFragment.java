@@ -1,44 +1,5 @@
 package com.example.khaddobondhu.ui.createpost;
 
-<<<<<<< HEAD
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import com.example.khaddobondhu.databinding.FragmentCreatePostBinding;
-import com.google.android.material.snackbar.Snackbar;
-
-public class CreatePostFragment extends Fragment {
-    private FragmentCreatePostBinding binding;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentCreatePostBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        setupViews();
-        setupListeners();
-
-        return root;
-    }
-
-    private void setupViews() {
-        // TODO: Initialize views and set up any initial state
-    }
-
-    private void setupListeners() {
-        binding.buttonAddPhotos.setOnClickListener(v -> {
-            // TODO: Implement photo selection
-            Snackbar.make(binding.getRoot(), "Photo selection coming soon", Snackbar.LENGTH_SHORT).show();
-        });
-
-        binding.buttonSubmit.setOnClickListener(v -> {
-            if (validateInput()) {
-                // TODO: Implement post creation
-                Snackbar.make(binding.getRoot(), "Post creation coming soon", Snackbar.LENGTH_SHORT).show();
-=======
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -68,7 +29,7 @@ import java.util.List;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import java.io.IOException;
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import com.example.khaddobondhu.service.CloudinaryService;
 import com.google.firebase.Timestamp;
 
@@ -105,7 +66,7 @@ public class CreatePostFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_post, container, false);
 
-        // Initialize Firebase service with context for Cloudinary
+        // Initialize services
         firebaseService = new FirebaseService();
         cloudinaryService = new CloudinaryService(requireContext());
         selectedImages = new ArrayList<>();
@@ -288,40 +249,23 @@ public class CreatePostFragment extends Fragment {
                         errorMessage += ": " + task.getException().getMessage();
                     }
                     Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
-                    createFoodPostWithImages(new ArrayList<>());
+                    
+                    // Show dialog to continue without image or retry
+                    new AlertDialog.Builder(requireContext())
+                        .setTitle("Image Upload Failed")
+                        .setMessage("Would you like to create the post without an image?")
+                        .setPositiveButton("Continue", (dialog, which) -> {
+                            createFoodPostWithImages(new ArrayList<>());
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> {
+                            // User cancelled, do nothing
+                        })
+                        .show();
                 }
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
             }
         });
     }
 
-<<<<<<< HEAD
-    private boolean validateInput() {
-        boolean isValid = true;
-
-        if (binding.editTextTitle.getText().toString().trim().isEmpty()) {
-            binding.editTextTitle.setError("Title is required");
-            isValid = false;
-        }
-
-        if (binding.editTextDescription.getText().toString().trim().isEmpty()) {
-            binding.editTextDescription.setError("Description is required");
-            isValid = false;
-        }
-
-        if (binding.editTextQuantity.getText().toString().trim().isEmpty()) {
-            binding.editTextQuantity.setError("Quantity is required");
-            isValid = false;
-        }
-
-        return isValid;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-=======
     private void createFoodPostWithImages(List<String> imageUrls) {
         try {
             // Get form data
@@ -466,6 +410,5 @@ public class CreatePostFragment extends Fragment {
         postTypeSpinner.setText(postTypes[0], false);
         foodTypeSpinner.setText(foodTypes[0], false);
         quantityUnitSpinner.setText(quantityUnits[0], false);
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
     }
 } 
