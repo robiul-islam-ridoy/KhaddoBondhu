@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
@@ -24,4 +25,68 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>
+=======
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/imageViewProfile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/circle_background"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_person"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:text="User Name"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/textViewUserStatus"
+            app:layout_constraintStart_toEndOf="@id/imageViewProfile"
+            app:layout_constraintTop_toTopOf="@id/imageViewProfile" />
+
+        <TextView
+            android:id="@+id/textViewUserEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="user@example.com"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="?android:attr/textColorSecondary"
+            app:layout_constraintEnd_toStartOf="@id/textViewUserStatus"
+            app:layout_constraintStart_toStartOf="@id/textViewUserName"
+            app:layout_constraintTop_toBottomOf="@id/textViewUserName" />
+
+        <TextView
+            android:id="@+id/textViewUserStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Online"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textViewUserName" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
+>>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
 
