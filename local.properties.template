@@ -1,0 +1,20 @@
+## This file is a template for local.properties
+# Copy this file to local.properties and fill in your credentials
+# Do not commit local.properties to version control!
+
+# Location of the SDK. This is only used by Gradle.
+# For customization when using a Version Control System, please read the
+# header note.
+sdk.dir=C\:\\Android_sdk
+
+# Cloudinary Credentials
+# Get these from your Cloudinary dashboard: https://cloudinary.com/console
+CLOUDINARY_CLOUD_NAME=your_cloud_name_here
+CLOUDINARY_API_KEY=your_api_key_here
+CLOUDINARY_API_SECRET=your_api_secret_here
+
+# Instructions:
+# 1. Copy this file to local.properties
+# 2. Replace the placeholder values with your actual Cloudinary credentials
+# 3. Never commit local.properties to version control
+# 4. Keep your credentials secure and don't share them publicly 
