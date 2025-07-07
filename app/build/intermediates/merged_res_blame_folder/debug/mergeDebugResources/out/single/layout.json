@@ -1,0 +1,90 @@
+[
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/activity_edit_post.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_edit_post.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/dialog_filter.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/dialog_filter.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/activity_main.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/fragment_explore.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/fragment_explore.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/item_message_sent.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/item_message_sent.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/item_message_received.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/item_message_received.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/fragment_home.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/fragment_home.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/activity_post_detail.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_post_detail.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/item_user_post.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/item_user_post.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/fragment_profile.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/fragment_profile.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/activity_register.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_register.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/item_user.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/item_user.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/activity_login.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/activity_cloudinary_test.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_cloudinary_test.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/item_food_post.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/item_food_post.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/fragment_messages.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/fragment_messages.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/dialog_search.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/dialog_search.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/dialog_edit_post.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/dialog_edit_post.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/dialog_edit_profile.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/dialog_edit_profile.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/fragment_message.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/fragment_message.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/fragment_create_post.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/fragment_create_post.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-mergeDebugResources-59:/layout/activity_chat.xml",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_chat.xml"
+    }
+]

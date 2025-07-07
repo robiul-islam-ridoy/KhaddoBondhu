@@ -1,0 +1,322 @@
+[
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_home.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_home.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_activity_edit_post.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_edit_post.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_bg_post_type.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/bg_post_type.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_email.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_email.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/menu_bottom_nav_menu.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/menu/bottom_nav_menu.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_camera.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_camera.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_food_type.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_food_type.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_price.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_price.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_edit.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_edit.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_fragment_profile.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/fragment_profile.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_item_message_sent.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/item_message_sent.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_delete.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_delete.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_dialog_filter.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/dialog_filter.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_message.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_message.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_visibility.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_visibility.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_filter.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_filter.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_gradient_background.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/gradient_background.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_activity_post_detail.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_post_detail.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_fragment_messages.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/fragment_messages.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_request.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_request.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_edit_post.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_edit_post.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_quantity.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_quantity.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_arrow_back.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_arrow_back.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_lock.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_lock.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_item_user.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/item_user.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_activity_register.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_register.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_fragment_create_post.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/fragment_create_post.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_logout.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_logout.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_my_posts.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_my_posts.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_fragment_message.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/fragment_message.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_description.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_description.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_time.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_time.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_location.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_location.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_profile_picture_background.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/profile_picture_background.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_unit.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_unit.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_activity_chat.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_chat.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_item_message_received.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/item_message_received.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_item_food_post.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/item_food_post.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_dialog_edit_profile.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/dialog_edit_profile.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_fragment_home.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/fragment_home.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_dialog_edit_post.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/dialog_edit_post.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_phone.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_phone.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/xml_backup_rules.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_add_photo.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_add_photo.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/navigation_nav_graph.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/navigation/nav_graph.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_dialog_search.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/dialog_search.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_dialog_background.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/dialog_background.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_create_post.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_create_post.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_explore.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_explore.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/menu_main_menu.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/menu/main_menu.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_search.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_search.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_activity_login.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_item_user_post.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/item_user_post.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_share.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_share.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_add_circle.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_add_circle.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_person.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_person.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_circle_background.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/circle_background.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_activity_cloudinary_test.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_cloudinary_test.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/menu_profile_menu.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/menu/profile_menu.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_post_type.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_post_type.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_placeholder_food.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/placeholder_food.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_image_upload_background.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/image_upload_background.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/drawable_ic_title.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/drawable/ic_title.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_activity_main.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.khaddobondhu.app-debug-60:/layout_fragment_explore.xml.flat",
+        "source": "com.example.khaddobondhu.app-main-62:/layout/fragment_explore.xml"
+    }
+]

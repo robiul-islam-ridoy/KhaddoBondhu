@@ -1,0 +1,5 @@
+com.example.khaddobondhu.test.app-core-1.6.1-0 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\febff2b998e1146e6d06d3af73de8745\transformed\core-1.6.1\res
+com.example.khaddobondhu.test.app-androidTest-1 H:\Android\KhaddoBondhu - Final Copy\app\build\generated\res\resValues\androidTest\debug
+com.example.khaddobondhu.test.app-mergeDebugAndroidTestResources-2 H:\Android\KhaddoBondhu - Final Copy\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.example.khaddobondhu.test.app-mergeDebugAndroidTestResources-3 H:\Android\KhaddoBondhu - Final Copy\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.example.khaddobondhu.test.app-debugAndroidTest-4 H:\Android\KhaddoBondhu - Final Copy\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
