@@ -10,11 +10,11 @@ public final class BuildConfig {
   public static final int VERSION_CODE = 1;
   public static final String VERSION_NAME = "1.0";
   // Field from default config.
-  public static final String CLOUDINARY_API_KEY = "547337618552546";
+  public static final String CLOUDINARY_API_KEY = "";
   // Field from default config.
-  public static final String CLOUDINARY_API_SECRET = "vFS-odyChANLWpi6zwxpK_lo8HU";
+  public static final String CLOUDINARY_API_SECRET = "";
   // Field from default config.
-  public static final String CLOUDINARY_CLOUD_NAME = "dpwpkahkk";
+  public static final String CLOUDINARY_CLOUD_NAME = "";
   // Field from default config.
   public static final String MAPS_API_KEY = "";
 }

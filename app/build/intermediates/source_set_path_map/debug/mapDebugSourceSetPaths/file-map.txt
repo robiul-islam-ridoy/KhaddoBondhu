@@ -1,63 +1,63 @@
-com.example.khaddobondhu.app-firebase-messaging-23.4.1-0 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\03378a735623429411d4afab2afc31bb\transformed\firebase-messaging-23.4.1\res
-com.example.khaddobondhu.app-glide-4.16.0-1 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\05438f4c3633ccfe7daffc0d2feccc8f\transformed\glide-4.16.0\res
-com.example.khaddobondhu.app-firebase-common-20.4.2-2 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\10d56ebda4bf5ae89342e8b97c21bb9b\transformed\firebase-common-20.4.2\res
-com.example.khaddobondhu.app-lifecycle-runtime-ktx-2.7.0-3 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\10d86cb76a743385bb7b10be1e7190cd\transformed\lifecycle-runtime-ktx-2.7.0\res
-com.example.khaddobondhu.app-cloudinary-android-ui-2.3.1-4 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\1459318394283364defb51184df7d19b\transformed\cloudinary-android-ui-2.3.1\res
-com.example.khaddobondhu.app-annotation-experimental-1.4.0-5 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\1a36c37d432a9bd4e24b9057d61cee5f\transformed\annotation-experimental-1.4.0\res
-com.example.khaddobondhu.app-lifecycle-viewmodel-2.7.0-6 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\2266cfd5be75344aec51719a9dff237c\transformed\lifecycle-viewmodel-2.7.0\res
-com.example.khaddobondhu.app-core-ktx-1.13.0-7 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\24d004332c045cbf869846580b860249\transformed\core-ktx-1.13.0\res
-com.example.khaddobondhu.app-emoji2-1.3.0-8 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\2651de174542b3ba41ac424ac4a54740\transformed\emoji2-1.3.0\res
-com.example.khaddobondhu.app-core-1.13.0-9 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\26f567b013665d9dd0289eb2f8a4cbed\transformed\core-1.13.0\res
-com.example.khaddobondhu.app-lifecycle-livedata-2.7.0-10 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\292a15692f1cfeb75c835b7cdd5e82d7\transformed\lifecycle-livedata-2.7.0\res
-com.example.khaddobondhu.app-lifecycle-viewmodel-savedstate-2.7.0-11 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\29791ba7907282b8f8a9a492fa5d5027\transformed\lifecycle-viewmodel-savedstate-2.7.0\res
-com.example.khaddobondhu.app-lifecycle-livedata-core-ktx-2.7.0-12 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\29a3dd3db70072d22af8e9b0a6353886\transformed\lifecycle-livedata-core-ktx-2.7.0\res
-com.example.khaddobondhu.app-media-1.0.0-13 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\2ab3a6cee0d063120d6e00e1748775d5\transformed\media-1.0.0\res
-com.example.khaddobondhu.app-appcompat-resources-1.7.0-14 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\2da9142e3c0d96f52ca7e8f9eb6936a4\transformed\appcompat-resources-1.7.0\res
-com.example.khaddobondhu.app-lifecycle-viewmodel-ktx-2.7.0-15 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\369de1397aaebb14ee015ed395ffb9c7\transformed\lifecycle-viewmodel-ktx-2.7.0\res
-com.example.khaddobondhu.app-play-services-basement-18.3.0-16 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\3cf5c2968becee30e7f6ca57df45c345\transformed\play-services-basement-18.3.0\res
-com.example.khaddobondhu.app-navigation-fragment-2.7.7-17 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\3fdc980d623ca6364f61e82d80460af8\transformed\navigation-fragment-2.7.7\res
-com.example.khaddobondhu.app-startup-runtime-1.1.1-18 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\3ffb6d9eb3a9e355f5f1e7887eb42eea\transformed\startup-runtime-1.1.1\res
-com.example.khaddobondhu.app-profileinstaller-1.4.0-19 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\416edc4c309da10de799d25f858cbea3\transformed\profileinstaller-1.4.0\res
-com.example.khaddobondhu.app-play-services-base-18.1.0-20 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\523bdfd43cbc7d18385f145f20b6119b\transformed\play-services-base-18.1.0\res
-com.example.khaddobondhu.app-activity-ktx-1.10.1-21 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\58a9c9fdb9a4fbaacfd740131f9849ae\transformed\activity-ktx-1.10.1\res
-com.example.khaddobondhu.app-material-1.12.0-22 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\5c0e519ad3d3aca7e72540d43f1a36df\transformed\material-1.12.0\res
-com.example.khaddobondhu.app-cardview-1.0.0-23 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\5cde6d14852cb8e1e9ca7bb4c07e32e7\transformed\cardview-1.0.0\res
-com.example.khaddobondhu.app-drawee-2.6.0-24 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\649aee323aae23ca5cd550f77a06fc13\transformed\drawee-2.6.0\res
-com.example.khaddobondhu.app-navigation-common-2.7.7-25 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\656d6ba0200a8dc1875985846056f1f8\transformed\navigation-common-2.7.7\res
-com.example.khaddobondhu.app-coordinatorlayout-1.1.0-26 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\6d9026e89e97f59f28c534f3154f63fa\transformed\coordinatorlayout-1.1.0\res
-com.example.khaddobondhu.app-cloudinary-android-preprocess-2.3.1-27 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\72f9f944de11648d8f7e7cc7d6fde5fc\transformed\cloudinary-android-preprocess-2.3.1\res
-com.example.khaddobondhu.app-lifecycle-livedata-core-2.7.0-28 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\73be3d093a214254a923ed0aa9d93f46\transformed\lifecycle-livedata-core-2.7.0\res
-com.example.khaddobondhu.app-drawerlayout-1.1.1-29 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\7ba1073cc7c32aa2fdd4094793244783\transformed\drawerlayout-1.1.1\res
-com.example.khaddobondhu.app-navigation-ui-2.7.7-30 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\7e1dd84ea26a4e9d7faf7fc57d32c934\transformed\navigation-ui-2.7.7\res
-com.example.khaddobondhu.app-constraintlayout-2.2.1-31 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\865a3ad67a4c76e8218e92b167459f5b\transformed\constraintlayout-2.2.1\res
-com.example.khaddobondhu.app-appcompat-1.7.0-32 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\8968575b052b71da6de347d1d4dd36e4\transformed\appcompat-1.7.0\res
-com.example.khaddobondhu.app-viewpager2-1.1.0-beta02-33 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\8dbfb22927a9f919de12e585067ee5e4\transformed\viewpager2-1.1.0-beta02\res
-com.example.khaddobondhu.app-core-runtime-2.2.0-34 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\9540e6c1eaa99527b70ef91039e99f51\transformed\core-runtime-2.2.0\res
-com.example.khaddobondhu.app-emoji2-views-helper-1.3.0-35 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\9a721d975cf753dcf1d3858a12179ddb\transformed\emoji2-views-helper-1.3.0\res
-com.example.khaddobondhu.app-fragment-1.6.2-36 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\9b5ba4dbbd7860073414660f678e5217\transformed\fragment-1.6.2\res
-com.example.khaddobondhu.app-swiperefreshlayout-1.1.0-37 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\9d40ffb32e6a5d6e57774332cee0179c\transformed\swiperefreshlayout-1.1.0\res
-com.example.khaddobondhu.app-work-runtime-2.7.1-38 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\9d745809b42501eab3a3ec4867b81aa2\transformed\work-runtime-2.7.1\res
-com.example.khaddobondhu.app-transition-1.5.0-39 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\a1c0c9429b50fb1e59a90eec35a24f67\transformed\transition-1.5.0\res
-com.example.khaddobondhu.app-activity-1.10.1-40 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\aa0994a1ebb18926c28f65e03a37be1d\transformed\activity-1.10.1\res
-com.example.khaddobondhu.app-customview-poolingcontainer-1.0.0-41 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\af087c22dcc136b371a8ceb7ac247272\transformed\customview-poolingcontainer-1.0.0\res
-com.example.khaddobondhu.app-lifecycle-process-2.7.0-42 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\b57beaecf292cf4cb863fe916386822f\transformed\lifecycle-process-2.7.0\res
-com.example.khaddobondhu.app-browser-1.4.0-43 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\c152a2d8dc1e6da10396cb025e07855c\transformed\browser-1.4.0\res
-com.example.khaddobondhu.app-lifecycle-service-2.7.0-44 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\cee48c2bd14ba86a13d58ce2b65f6f24\transformed\lifecycle-service-2.7.0\res
-com.example.khaddobondhu.app-slidingpanelayout-1.2.0-45 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\da66c731d3c88c8c6b07ec5a88cb469b\transformed\slidingpanelayout-1.2.0\res
-com.example.khaddobondhu.app-window-1.0.0-46 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\dc3b99cb52b719026679e7b3a27e876f\transformed\window-1.0.0\res
-com.example.khaddobondhu.app-play-services-maps-18.2.0-47 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\dcdb93179a4b6e14ecbcdc6329a71fc3\transformed\play-services-maps-18.2.0\res
-com.example.khaddobondhu.app-savedstate-1.2.1-48 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\decb29f11021c8f553d849d78247d640\transformed\savedstate-1.2.1\res
-com.example.khaddobondhu.app-navigation-runtime-2.7.7-49 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\e1753ed25387ca9fb396e7703c095acc\transformed\navigation-runtime-2.7.7\res
-com.example.khaddobondhu.app-fragment-ktx-1.6.2-50 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\e7f6272c260a5c557ada26c78075e656\transformed\fragment-ktx-1.6.2\res
-com.example.khaddobondhu.app-lifecycle-runtime-2.7.0-51 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\eb47300eb6b917bcd0fa0683733aa273\transformed\lifecycle-runtime-2.7.0\res
-com.example.khaddobondhu.app-recyclerview-1.3.2-52 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\f2ae1193433b8753e03fcc6f631c4cd0\transformed\recyclerview-1.3.2\res
-com.example.khaddobondhu.app-core-viewtree-1.0.0-53 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\f5490d500aec5de44dd4571687638a93\transformed\core-viewtree-1.0.0\res
-com.example.khaddobondhu.app-savedstate-ktx-1.2.1-54 C:\Users\Mahbob Alam\.gradle\caches\8.11.1\transforms\fca8e197dcb453780a7956ae27d53cc6\transformed\savedstate-ktx-1.2.1\res
-com.example.khaddobondhu.app-pngs-55 H:\Android\KhaddoBondhu - Final Copy\app\build\generated\res\pngs\debug
-com.example.khaddobondhu.app-res-56 H:\Android\KhaddoBondhu - Final Copy\app\build\generated\res\processDebugGoogleServices
-com.example.khaddobondhu.app-resValues-57 H:\Android\KhaddoBondhu - Final Copy\app\build\generated\res\resValues\debug
-com.example.khaddobondhu.app-packageDebugResources-58 H:\Android\KhaddoBondhu - Final Copy\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-com.example.khaddobondhu.app-packageDebugResources-59 H:\Android\KhaddoBondhu - Final Copy\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-com.example.khaddobondhu.app-debug-60 H:\Android\KhaddoBondhu - Final Copy\app\build\intermediates\merged_res\debug\mergeDebugResources
-com.example.khaddobondhu.app-debug-61 H:\Android\KhaddoBondhu - Final Copy\app\src\debug\res
-com.example.khaddobondhu.app-main-62 H:\Android\KhaddoBondhu - Final Copy\app\src\main\res
+com.example.khaddobondhu.app-firebase-messaging-23.4.1-0 C:\Users\USER\.gradle\caches\8.11.1\transforms\03378a735623429411d4afab2afc31bb\transformed\firebase-messaging-23.4.1\res
+com.example.khaddobondhu.app-glide-4.16.0-1 C:\Users\USER\.gradle\caches\8.11.1\transforms\05438f4c3633ccfe7daffc0d2feccc8f\transformed\glide-4.16.0\res
+com.example.khaddobondhu.app-firebase-common-20.4.2-2 C:\Users\USER\.gradle\caches\8.11.1\transforms\10d56ebda4bf5ae89342e8b97c21bb9b\transformed\firebase-common-20.4.2\res
+com.example.khaddobondhu.app-lifecycle-runtime-ktx-2.7.0-3 C:\Users\USER\.gradle\caches\8.11.1\transforms\10d86cb76a743385bb7b10be1e7190cd\transformed\lifecycle-runtime-ktx-2.7.0\res
+com.example.khaddobondhu.app-cloudinary-android-ui-2.3.1-4 C:\Users\USER\.gradle\caches\8.11.1\transforms\1459318394283364defb51184df7d19b\transformed\cloudinary-android-ui-2.3.1\res
+com.example.khaddobondhu.app-annotation-experimental-1.4.0-5 C:\Users\USER\.gradle\caches\8.11.1\transforms\1a36c37d432a9bd4e24b9057d61cee5f\transformed\annotation-experimental-1.4.0\res
+com.example.khaddobondhu.app-lifecycle-viewmodel-2.7.0-6 C:\Users\USER\.gradle\caches\8.11.1\transforms\2266cfd5be75344aec51719a9dff237c\transformed\lifecycle-viewmodel-2.7.0\res
+com.example.khaddobondhu.app-core-ktx-1.13.0-7 C:\Users\USER\.gradle\caches\8.11.1\transforms\24d004332c045cbf869846580b860249\transformed\core-ktx-1.13.0\res
+com.example.khaddobondhu.app-emoji2-1.3.0-8 C:\Users\USER\.gradle\caches\8.11.1\transforms\2651de174542b3ba41ac424ac4a54740\transformed\emoji2-1.3.0\res
+com.example.khaddobondhu.app-core-1.13.0-9 C:\Users\USER\.gradle\caches\8.11.1\transforms\26f567b013665d9dd0289eb2f8a4cbed\transformed\core-1.13.0\res
+com.example.khaddobondhu.app-lifecycle-livedata-2.7.0-10 C:\Users\USER\.gradle\caches\8.11.1\transforms\292a15692f1cfeb75c835b7cdd5e82d7\transformed\lifecycle-livedata-2.7.0\res
+com.example.khaddobondhu.app-lifecycle-viewmodel-savedstate-2.7.0-11 C:\Users\USER\.gradle\caches\8.11.1\transforms\29791ba7907282b8f8a9a492fa5d5027\transformed\lifecycle-viewmodel-savedstate-2.7.0\res
+com.example.khaddobondhu.app-lifecycle-livedata-core-ktx-2.7.0-12 C:\Users\USER\.gradle\caches\8.11.1\transforms\29a3dd3db70072d22af8e9b0a6353886\transformed\lifecycle-livedata-core-ktx-2.7.0\res
+com.example.khaddobondhu.app-media-1.0.0-13 C:\Users\USER\.gradle\caches\8.11.1\transforms\2ab3a6cee0d063120d6e00e1748775d5\transformed\media-1.0.0\res
+com.example.khaddobondhu.app-appcompat-resources-1.7.0-14 C:\Users\USER\.gradle\caches\8.11.1\transforms\2da9142e3c0d96f52ca7e8f9eb6936a4\transformed\appcompat-resources-1.7.0\res
+com.example.khaddobondhu.app-lifecycle-viewmodel-ktx-2.7.0-15 C:\Users\USER\.gradle\caches\8.11.1\transforms\369de1397aaebb14ee015ed395ffb9c7\transformed\lifecycle-viewmodel-ktx-2.7.0\res
+com.example.khaddobondhu.app-play-services-basement-18.3.0-16 C:\Users\USER\.gradle\caches\8.11.1\transforms\3cf5c2968becee30e7f6ca57df45c345\transformed\play-services-basement-18.3.0\res
+com.example.khaddobondhu.app-navigation-fragment-2.7.7-17 C:\Users\USER\.gradle\caches\8.11.1\transforms\3fdc980d623ca6364f61e82d80460af8\transformed\navigation-fragment-2.7.7\res
+com.example.khaddobondhu.app-startup-runtime-1.1.1-18 C:\Users\USER\.gradle\caches\8.11.1\transforms\3ffb6d9eb3a9e355f5f1e7887eb42eea\transformed\startup-runtime-1.1.1\res
+com.example.khaddobondhu.app-profileinstaller-1.4.0-19 C:\Users\USER\.gradle\caches\8.11.1\transforms\416edc4c309da10de799d25f858cbea3\transformed\profileinstaller-1.4.0\res
+com.example.khaddobondhu.app-play-services-base-18.1.0-20 C:\Users\USER\.gradle\caches\8.11.1\transforms\523bdfd43cbc7d18385f145f20b6119b\transformed\play-services-base-18.1.0\res
+com.example.khaddobondhu.app-activity-ktx-1.10.1-21 C:\Users\USER\.gradle\caches\8.11.1\transforms\58a9c9fdb9a4fbaacfd740131f9849ae\transformed\activity-ktx-1.10.1\res
+com.example.khaddobondhu.app-material-1.12.0-22 C:\Users\USER\.gradle\caches\8.11.1\transforms\5c0e519ad3d3aca7e72540d43f1a36df\transformed\material-1.12.0\res
+com.example.khaddobondhu.app-cardview-1.0.0-23 C:\Users\USER\.gradle\caches\8.11.1\transforms\5cde6d14852cb8e1e9ca7bb4c07e32e7\transformed\cardview-1.0.0\res
+com.example.khaddobondhu.app-drawee-2.6.0-24 C:\Users\USER\.gradle\caches\8.11.1\transforms\649aee323aae23ca5cd550f77a06fc13\transformed\drawee-2.6.0\res
+com.example.khaddobondhu.app-navigation-common-2.7.7-25 C:\Users\USER\.gradle\caches\8.11.1\transforms\656d6ba0200a8dc1875985846056f1f8\transformed\navigation-common-2.7.7\res
+com.example.khaddobondhu.app-coordinatorlayout-1.1.0-26 C:\Users\USER\.gradle\caches\8.11.1\transforms\6d9026e89e97f59f28c534f3154f63fa\transformed\coordinatorlayout-1.1.0\res
+com.example.khaddobondhu.app-cloudinary-android-preprocess-2.3.1-27 C:\Users\USER\.gradle\caches\8.11.1\transforms\72f9f944de11648d8f7e7cc7d6fde5fc\transformed\cloudinary-android-preprocess-2.3.1\res
+com.example.khaddobondhu.app-lifecycle-livedata-core-2.7.0-28 C:\Users\USER\.gradle\caches\8.11.1\transforms\73be3d093a214254a923ed0aa9d93f46\transformed\lifecycle-livedata-core-2.7.0\res
+com.example.khaddobondhu.app-drawerlayout-1.1.1-29 C:\Users\USER\.gradle\caches\8.11.1\transforms\7ba1073cc7c32aa2fdd4094793244783\transformed\drawerlayout-1.1.1\res
+com.example.khaddobondhu.app-navigation-ui-2.7.7-30 C:\Users\USER\.gradle\caches\8.11.1\transforms\7e1dd84ea26a4e9d7faf7fc57d32c934\transformed\navigation-ui-2.7.7\res
+com.example.khaddobondhu.app-constraintlayout-2.2.1-31 C:\Users\USER\.gradle\caches\8.11.1\transforms\865a3ad67a4c76e8218e92b167459f5b\transformed\constraintlayout-2.2.1\res
+com.example.khaddobondhu.app-appcompat-1.7.0-32 C:\Users\USER\.gradle\caches\8.11.1\transforms\8968575b052b71da6de347d1d4dd36e4\transformed\appcompat-1.7.0\res
+com.example.khaddobondhu.app-viewpager2-1.1.0-beta02-33 C:\Users\USER\.gradle\caches\8.11.1\transforms\8dbfb22927a9f919de12e585067ee5e4\transformed\viewpager2-1.1.0-beta02\res
+com.example.khaddobondhu.app-core-runtime-2.2.0-34 C:\Users\USER\.gradle\caches\8.11.1\transforms\9540e6c1eaa99527b70ef91039e99f51\transformed\core-runtime-2.2.0\res
+com.example.khaddobondhu.app-emoji2-views-helper-1.3.0-35 C:\Users\USER\.gradle\caches\8.11.1\transforms\9a721d975cf753dcf1d3858a12179ddb\transformed\emoji2-views-helper-1.3.0\res
+com.example.khaddobondhu.app-fragment-1.6.2-36 C:\Users\USER\.gradle\caches\8.11.1\transforms\9b5ba4dbbd7860073414660f678e5217\transformed\fragment-1.6.2\res
+com.example.khaddobondhu.app-swiperefreshlayout-1.1.0-37 C:\Users\USER\.gradle\caches\8.11.1\transforms\9d40ffb32e6a5d6e57774332cee0179c\transformed\swiperefreshlayout-1.1.0\res
+com.example.khaddobondhu.app-work-runtime-2.7.1-38 C:\Users\USER\.gradle\caches\8.11.1\transforms\9d745809b42501eab3a3ec4867b81aa2\transformed\work-runtime-2.7.1\res
+com.example.khaddobondhu.app-transition-1.5.0-39 C:\Users\USER\.gradle\caches\8.11.1\transforms\a1c0c9429b50fb1e59a90eec35a24f67\transformed\transition-1.5.0\res
+com.example.khaddobondhu.app-activity-1.10.1-40 C:\Users\USER\.gradle\caches\8.11.1\transforms\aa0994a1ebb18926c28f65e03a37be1d\transformed\activity-1.10.1\res
+com.example.khaddobondhu.app-customview-poolingcontainer-1.0.0-41 C:\Users\USER\.gradle\caches\8.11.1\transforms\af087c22dcc136b371a8ceb7ac247272\transformed\customview-poolingcontainer-1.0.0\res
+com.example.khaddobondhu.app-lifecycle-process-2.7.0-42 C:\Users\USER\.gradle\caches\8.11.1\transforms\b57beaecf292cf4cb863fe916386822f\transformed\lifecycle-process-2.7.0\res
+com.example.khaddobondhu.app-browser-1.4.0-43 C:\Users\USER\.gradle\caches\8.11.1\transforms\c152a2d8dc1e6da10396cb025e07855c\transformed\browser-1.4.0\res
+com.example.khaddobondhu.app-lifecycle-service-2.7.0-44 C:\Users\USER\.gradle\caches\8.11.1\transforms\cee48c2bd14ba86a13d58ce2b65f6f24\transformed\lifecycle-service-2.7.0\res
+com.example.khaddobondhu.app-slidingpanelayout-1.2.0-45 C:\Users\USER\.gradle\caches\8.11.1\transforms\da66c731d3c88c8c6b07ec5a88cb469b\transformed\slidingpanelayout-1.2.0\res
+com.example.khaddobondhu.app-window-1.0.0-46 C:\Users\USER\.gradle\caches\8.11.1\transforms\dc3b99cb52b719026679e7b3a27e876f\transformed\window-1.0.0\res
+com.example.khaddobondhu.app-play-services-maps-18.2.0-47 C:\Users\USER\.gradle\caches\8.11.1\transforms\dcdb93179a4b6e14ecbcdc6329a71fc3\transformed\play-services-maps-18.2.0\res
+com.example.khaddobondhu.app-savedstate-1.2.1-48 C:\Users\USER\.gradle\caches\8.11.1\transforms\decb29f11021c8f553d849d78247d640\transformed\savedstate-1.2.1\res
+com.example.khaddobondhu.app-navigation-runtime-2.7.7-49 C:\Users\USER\.gradle\caches\8.11.1\transforms\e1753ed25387ca9fb396e7703c095acc\transformed\navigation-runtime-2.7.7\res
+com.example.khaddobondhu.app-fragment-ktx-1.6.2-50 C:\Users\USER\.gradle\caches\8.11.1\transforms\e7f6272c260a5c557ada26c78075e656\transformed\fragment-ktx-1.6.2\res
+com.example.khaddobondhu.app-lifecycle-runtime-2.7.0-51 C:\Users\USER\.gradle\caches\8.11.1\transforms\eb47300eb6b917bcd0fa0683733aa273\transformed\lifecycle-runtime-2.7.0\res
+com.example.khaddobondhu.app-recyclerview-1.3.2-52 C:\Users\USER\.gradle\caches\8.11.1\transforms\f2ae1193433b8753e03fcc6f631c4cd0\transformed\recyclerview-1.3.2\res
+com.example.khaddobondhu.app-core-viewtree-1.0.0-53 C:\Users\USER\.gradle\caches\8.11.1\transforms\f5490d500aec5de44dd4571687638a93\transformed\core-viewtree-1.0.0\res
+com.example.khaddobondhu.app-savedstate-ktx-1.2.1-54 C:\Users\USER\.gradle\caches\8.11.1\transforms\fca8e197dcb453780a7956ae27d53cc6\transformed\savedstate-ktx-1.2.1\res
+com.example.khaddobondhu.app-pngs-55 C:\Users\USER\StudioProjects\KhaddoBondhu\app\build\generated\res\pngs\debug
+com.example.khaddobondhu.app-res-56 C:\Users\USER\StudioProjects\KhaddoBondhu\app\build\generated\res\processDebugGoogleServices
+com.example.khaddobondhu.app-resValues-57 C:\Users\USER\StudioProjects\KhaddoBondhu\app\build\generated\res\resValues\debug
+com.example.khaddobondhu.app-packageDebugResources-58 C:\Users\USER\StudioProjects\KhaddoBondhu\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.example.khaddobondhu.app-packageDebugResources-59 C:\Users\USER\StudioProjects\KhaddoBondhu\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.example.khaddobondhu.app-debug-60 C:\Users\USER\StudioProjects\KhaddoBondhu\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.example.khaddobondhu.app-debug-61 C:\Users\USER\StudioProjects\KhaddoBondhu\app\src\debug\res
+com.example.khaddobondhu.app-main-62 C:\Users\USER\StudioProjects\KhaddoBondhu\app\src\main\res
