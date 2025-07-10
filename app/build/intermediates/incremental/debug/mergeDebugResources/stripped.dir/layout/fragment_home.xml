@@ -43,5 +43,4 @@
             app:srcCompat="@drawable/ic_filter" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout> 
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
