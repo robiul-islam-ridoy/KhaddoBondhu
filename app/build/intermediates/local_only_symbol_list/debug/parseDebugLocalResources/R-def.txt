@@ -142,7 +142,6 @@ id postImageView
 id postTypeSpinner
 id postTypeTextView
 id priceInput
-id priceSpinner
 id priceTextView
 id profilePictureImageView
 id progressBar

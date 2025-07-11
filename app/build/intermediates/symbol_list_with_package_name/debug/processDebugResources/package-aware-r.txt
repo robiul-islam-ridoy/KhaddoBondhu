@@ -3823,7 +3823,6 @@ id postTypeSpinner
 id postTypeTextView
 id pressed
 id priceInput
-id priceSpinner
 id priceTextView
 id profilePictureImageView
 id progressBar

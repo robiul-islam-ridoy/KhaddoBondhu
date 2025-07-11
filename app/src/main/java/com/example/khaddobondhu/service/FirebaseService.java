@@ -332,66 +332,55 @@ public class FirebaseService {
     public List<FoodPost> getSearchResults() {
         return searchResults;
     }
-    
-    public void filterFoodPosts(String postType, String foodType, String priceFilter, String location, Callback callback) {
+
+    public void filterFoodPosts(String postType, String foodType, int maxPrice, String location, Callback callback) {
         db.collection("food_posts")
-            .get()
-            .addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    filteredResults.clear();
-                    for (DocumentSnapshot doc : task.getResult()) {
-                        FoodPost post = doc.toObject(FoodPost.class);
-                        if (post != null) {
-                            post.setId(doc.getId());
-                            
-                            boolean matchesFilter = true;
-                            
-                            // Filter by post type
-                            if (!"All Types".equals(postType) && !post.getPostType().equals(postType)) {
-                                matchesFilter = false;
-                            }
-                            
-                            // Filter by food type
-                            if (!"All Foods".equals(foodType) && !post.getFoodType().equals(foodType)) {
-                                matchesFilter = false;
-                            }
-                            
-                            // Filter by price
-                            if (!"Any Price".equals(priceFilter)) {
-                                switch (priceFilter) {
-                                    case "Free Only":
-                                        if (post.getPrice() > 0) matchesFilter = false;
-                                        break;
-                                    case "Under ৳50":
-                                        if (post.getPrice() >= 50) matchesFilter = false;
-                                        break;
-                                    case "Under ৳100":
-                                        if (post.getPrice() >= 100) matchesFilter = false;
-                                        break;
-                                    case "Under ৳200":
-                                        if (post.getPrice() >= 200) matchesFilter = false;
-                                        break;
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        filteredResults.clear();
+                        for (DocumentSnapshot doc : task.getResult()) {
+                            FoodPost post = doc.toObject(FoodPost.class);
+                            if (post != null) {
+                                post.setId(doc.getId());
+
+                                boolean matchesFilter = true;
+
+                                // Post Type Filter
+                                if (!"All Types".equals(postType) && !post.getPostType().equalsIgnoreCase(postType)) {
+                                    matchesFilter = false;
+                                }
+
+                                // Food Type Filter
+                                if (!"All Foods".equals(foodType) && !post.getFoodType().equalsIgnoreCase(foodType)) {
+                                    matchesFilter = false;
+                                }
+
+                                // Price Filter
+                                if (post.getPrice() > maxPrice) {
+                                    matchesFilter = false;
+                                }
+
+                                // Location Filter
+                                if (location != null && !location.trim().isEmpty()) {
+                                    if (!post.getPickupLocation().toLowerCase().contains(location.toLowerCase().trim())) {
+                                        matchesFilter = false;
+                                    }
+                                }
+
+                                if (matchesFilter) {
+                                    filteredResults.add(post);
                                 }
                             }
-                            
-                            // Filter by location
-                            if (location != null && !location.trim().isEmpty() && 
-                                !post.getPickupLocation().toLowerCase().contains(location.toLowerCase().trim())) {
-                                matchesFilter = false;
-                            }
-                            
-                            if (matchesFilter) {
-                                filteredResults.add(post);
-                            }
                         }
+                        callback.onSuccess();
+                    } else {
+                        callback.onError("Filter failed: " + task.getException().getMessage());
                     }
-                    callback.onSuccess();
-                } else {
-                    callback.onError("Filter failed: " + task.getException().getMessage());
-                }
-            });
+                });
     }
-    
+
+
     public List<FoodPost> getFilteredResults() {
         return filteredResults;
     }

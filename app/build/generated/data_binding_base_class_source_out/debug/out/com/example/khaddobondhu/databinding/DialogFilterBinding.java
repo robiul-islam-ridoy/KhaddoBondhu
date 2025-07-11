@@ -4,6 +4,7 @@ package com.example.khaddobondhu.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import androidx.annotation.NonNull;
@@ -30,16 +31,16 @@ public final class DialogFilterBinding implements ViewBinding {
   public final Spinner postTypeSpinner;
 
   @NonNull
-  public final Spinner priceSpinner;
+  public final EditText priceInput;
 
   private DialogFilterBinding(@NonNull LinearLayout rootView, @NonNull Spinner foodTypeSpinner,
       @NonNull TextInputEditText locationInput, @NonNull Spinner postTypeSpinner,
-      @NonNull Spinner priceSpinner) {
+      @NonNull EditText priceInput) {
     this.rootView = rootView;
     this.foodTypeSpinner = foodTypeSpinner;
     this.locationInput = locationInput;
     this.postTypeSpinner = postTypeSpinner;
-    this.priceSpinner = priceSpinner;
+    this.priceInput = priceInput;
   }
 
   @Override
@@ -87,14 +88,14 @@ public final class DialogFilterBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.priceSpinner;
-      Spinner priceSpinner = ViewBindings.findChildViewById(rootView, id);
-      if (priceSpinner == null) {
+      id = R.id.priceInput;
+      EditText priceInput = ViewBindings.findChildViewById(rootView, id);
+      if (priceInput == null) {
         break missingId;
       }
 
       return new DialogFilterBinding((LinearLayout) rootView, foodTypeSpinner, locationInput,
-          postTypeSpinner, priceSpinner);
+          postTypeSpinner, priceInput);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

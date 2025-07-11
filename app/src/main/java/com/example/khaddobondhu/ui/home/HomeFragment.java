@@ -162,7 +162,7 @@ public class HomeFragment extends Fragment {
         View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_filter, null);
         Spinner postTypeSpinner = dialogView.findViewById(R.id.postTypeSpinner);
         Spinner foodTypeSpinner = dialogView.findViewById(R.id.foodTypeSpinner);
-        Spinner priceSpinner = dialogView.findViewById(R.id.priceSpinner);
+        EditText priceInput = dialogView.findViewById(R.id.priceInput);
         EditText locationInput = dialogView.findViewById(R.id.locationInput);
         
         // Setup spinners
@@ -177,23 +177,21 @@ public class HomeFragment extends Fragment {
             new String[]{"All Foods", "Rice", "Curry", "Snacks", "Fruits", "Vegetables", "Bread", "Dessert", "Other"});
         foodTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         foodTypeSpinner.setAdapter(foodTypeAdapter);
-        
-        ArrayAdapter<String> priceAdapter = new ArrayAdapter<>(requireContext(), 
-            android.R.layout.simple_spinner_item, 
-            new String[]{"Any Price", "Free Only", "Under ৳50", "Under ৳100", "Under ৳200"});
-        priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        priceSpinner.setAdapter(priceAdapter);
-        
+
+
+
+
         new AlertDialog.Builder(requireContext())
             .setTitle("Filter Posts")
             .setView(dialogView)
             .setPositiveButton("Apply Filter", (dialog, which) -> {
                 String postType = postTypeSpinner.getSelectedItem().toString();
                 String foodType = foodTypeSpinner.getSelectedItem().toString();
-                String priceFilter = priceSpinner.getSelectedItem().toString();
+                String priceFilter = priceInput.getText().toString().trim();
+                int maxPrice = priceFilter.isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(priceFilter);
                 String location = locationInput.getText().toString().trim();
                 
-                applyFilter(postType, foodType, priceFilter, location);
+                applyFilter(postType, foodType, maxPrice, location);
             })
             .setNegativeButton("Clear Filter", (dialog, which) -> {
                 clearFilter();
@@ -232,10 +230,10 @@ public class HomeFragment extends Fragment {
         });
     }
     
-    private void applyFilter(String postType, String foodType, String priceFilter, String location) {
+    private void applyFilter(String postType, String foodType, int maxPrice, String location) {
         progressBar.setVisibility(View.VISIBLE);
         
-        firebaseService.filterFoodPosts(postType, foodType, priceFilter, location, new FirebaseService.Callback() {
+        firebaseService.filterFoodPosts(postType, foodType, maxPrice, location, new FirebaseService.Callback() {
             @Override
             public void onSuccess() {
                 requireActivity().runOnUiThread(() -> {
