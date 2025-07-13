@@ -72,4 +72,4 @@ A mobile application that connects people with surplus food (from homes, restaur
 
 ## License
 
-Who the hell needs the license? It's a free project for everyone.
+This project is licensed under the MIT License.
