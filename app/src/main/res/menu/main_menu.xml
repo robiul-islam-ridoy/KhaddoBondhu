@@ -9,12 +9,6 @@
         app:showAsAction="ifRoom" />
         
     <item
-        android:id="@+id/action_filter"
-        android:title="Filter"
-        android:icon="@drawable/ic_filter"
-        app:showAsAction="ifRoom" />
-        
-    <item
         android:id="@+id/action_logout"
         android:title="Logout"
         android:icon="@drawable/ic_logout"

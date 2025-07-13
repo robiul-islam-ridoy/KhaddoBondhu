@@ -38,11 +38,31 @@
         android:textStyle="bold"
         android:layout_marginBottom="8dp" />
 
-    <Spinner
-        android:id="@+id/priceSpinner"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <EditText
+            android:id="@+id/minPriceInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:hint="Min price (৳)"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/maxPriceInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:hint="Max price (৳)"
+            android:inputType="number" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
