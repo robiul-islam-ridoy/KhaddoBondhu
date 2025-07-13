@@ -13,7 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-<<<<<<< HEAD
-=======
 app/google-services.json
->>>>>>> 1ea8b2d (Backend Development Progress: Complete Firebase integration, Cloudinary image upload, user authentication, post management, and profile features)
