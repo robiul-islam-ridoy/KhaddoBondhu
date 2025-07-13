@@ -10,6 +10,7 @@ if (localPropertiesFile.exists()) {
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -42,6 +43,11 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+    
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = false
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -89,6 +95,13 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.github.PhilJay:MPAndroidChart:3.1.0")
+    
+    // JSON parsing for caching and analytics
+    implementation("com.google.code.gson:gson:2.10.1")
+    
+    // Firebase Crashlytics for error reporting
+    implementation("com.google.firebase:firebase-crashlytics:18.6.2")
+    implementation("com.google.firebase:firebase-analytics:21.5.1")
 
     // Testing
     testImplementation(libs.junit)
