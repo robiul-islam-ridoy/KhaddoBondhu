@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.model.Message;
 import com.example.khaddobondhu.model.User;
+import com.example.khaddobondhu.utils.SecurityUtils;
+import com.example.khaddobondhu.utils.ErrorHandler;
+import com.example.khaddobondhu.utils.CacheManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -188,6 +192,21 @@ public class FirebaseService {
             return;
         }
 
+        // Security validation
+        SecurityUtils.ValidationResult validation = SecurityUtils.validateFoodPost(foodPost);
+        if (!validation.isValid()) {
+            Log.e(TAG, "Food post validation failed: " + validation.getMessage());
+            if (context != null) {
+                ErrorHandler.handleValidationError("Food Post", validation.getMessage(), context);
+            }
+            return;
+        }
+
+        // Sanitize inputs
+        foodPost.setTitle(SecurityUtils.sanitizeInput(foodPost.getTitle()));
+        foodPost.setDescription(SecurityUtils.sanitizeInput(foodPost.getDescription()));
+        foodPost.setPickupLocation(SecurityUtils.sanitizeInput(foodPost.getPickupLocation()));
+
         Map<String, Object> postData = new HashMap<>();
         postData.put("userId", foodPost.getUserId());
         postData.put("title", foodPost.getTitle());
@@ -208,10 +227,33 @@ public class FirebaseService {
     }
     
     public void getFoodPosts(OnCompleteListener<QuerySnapshot> listener) {
-        // Use a simple query without complex filters to avoid index requirements
-        db.collection("food_posts")
-            .get()
-            .addOnCompleteListener(listener);
+        getFoodPostsPaginated(0, 20, listener);
+    }
+    
+    public void getFoodPostsPaginated(int page, int limit, OnCompleteListener<QuerySnapshot> listener) {
+        Query query = postsRef.whereEqualTo("isActive", true)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .limit(limit);
+        
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Cache the results
+                if (context != null) {
+                    CacheManager cacheManager = new CacheManager(context);
+                    List<FoodPost> posts = new ArrayList<>();
+                    for (DocumentSnapshot doc : task.getResult()) {
+                        FoodPost post = doc.toObject(FoodPost.class);
+                        if (post != null) {
+                            post.setId(doc.getId());
+                            posts.add(post);
+                            cacheManager.cacheFoodPost(doc.getId(), post);
+                        }
+                    }
+                    cacheManager.setLastUpdateTime(System.currentTimeMillis());
+                }
+            }
+            listener.onComplete(task);
+        });
     }
     
     public void getFoodPostsByUser(String userId, OnCompleteListener<QuerySnapshot> listener) {
