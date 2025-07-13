@@ -67,10 +67,8 @@ public class HomeFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(this::loadFoodPosts);
         
         // Setup filter button
-        fabFilter.setOnClickListener(v -> {
-            // TODO: Implement filter functionality
-            Toast.makeText(requireContext(), "Filter feature coming soon!", Toast.LENGTH_SHORT).show();
-        });
+        fabFilter.setOnClickListener(v -> showFilterDialog());
+
 
         return view;
     }
