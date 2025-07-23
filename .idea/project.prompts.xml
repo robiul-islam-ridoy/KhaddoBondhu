@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PromptTemplates">
+    <option name="prompts">
+      <list>
+        <PromptTemplate>
+          <option name="enabled" value="true" />
+          <option name="name" value="khaddoBondhu" />
+          <option name="text" value="how to impliment user name to the post&#10;" />
+        </PromptTemplate>
+      </list>
+    </option>
+  </component>
+</project>
