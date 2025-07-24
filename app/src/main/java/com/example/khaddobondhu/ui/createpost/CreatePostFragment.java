@@ -1,3 +1,4 @@
+
 package com.example.khaddobondhu.ui.createpost;
 
 import android.app.DatePickerDialog;
@@ -434,5 +435,4 @@ public class CreatePostFragment extends Fragment {
         foodTypeSpinner.setText(foodTypes[0], false);
         quantityUnitSpinner.setText(quantityUnits[0], false);
     }
-
 } 
