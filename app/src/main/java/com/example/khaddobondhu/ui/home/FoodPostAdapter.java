@@ -1,3 +1,4 @@
+
 package com.example.khaddobondhu.ui.home;
 
 import android.content.Context;
@@ -62,7 +63,10 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         
         // Set post type
         holder.postTypeTextView.setText(post.getPostType());
-        
+
+        // Set seller name
+        holder.sellerNameTextView.setText(post.getUserName());
+
         // Set description
         holder.descriptionTextView.setText(post.getDescription());
         
@@ -144,6 +148,7 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         TextView titleTextView;
         TextView priceTextView;
         TextView postTypeTextView;
+        TextView sellerNameTextView;
         TextView descriptionTextView;
         TextView quantityTextView;
         TextView timeLeftTextView;
@@ -156,6 +161,7 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
             titleTextView = itemView.findViewById(R.id.titleTextView);
             priceTextView = itemView.findViewById(R.id.priceTextView);
             postTypeTextView = itemView.findViewById(R.id.postTypeTextView);
+            sellerNameTextView = itemView.findViewById(R.id.sellerNameTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             quantityTextView = itemView.findViewById(R.id.quantityTextView);
             timeLeftTextView = itemView.findViewById(R.id.timeLeftTextView);

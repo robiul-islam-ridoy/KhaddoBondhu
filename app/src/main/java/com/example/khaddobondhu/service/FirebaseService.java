@@ -1,3 +1,4 @@
+
 package com.example.khaddobondhu.service;
 
 import android.content.Context;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -125,7 +127,28 @@ public class FirebaseService {
         FirebaseUser user = getCurrentUser();
         return user != null ? user.getUid() : null;
     }
-    
+
+    public void getUserNameById(String userId, OnCompleteListener<String> listener) {
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                        String name = task.getResult().getString("name");
+                        listener.onComplete(Tasks.forResult(name));
+                    } else {
+                        listener.onComplete(Tasks.forResult(null));
+                    }
+
+                    Log.d("FIREBASE", "Fetching user: " + userId);
+                    Log.d("FIREBASE", "Document exists: " + task.getResult().exists());
+                    Log.d("FIREBASE", "User name = " + task.getResult().getString("name"));
+
+                });
+
+    }
+
     public void getUserProfile(String userId, Callback callback) {
         if (db == null) {
             callback.onError("Firestore not initialized");
