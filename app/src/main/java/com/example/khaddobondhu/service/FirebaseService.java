@@ -232,6 +232,7 @@ public class FirebaseService {
 
         Map<String, Object> postData = new HashMap<>();
         postData.put("userId", foodPost.getUserId());
+        postData.put("userName", foodPost.getUserName());
         postData.put("title", foodPost.getTitle());
         postData.put("description", foodPost.getDescription());
         postData.put("postType", foodPost.getPostType());
