@@ -144,6 +144,50 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- User Type Selection -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="I am a:"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupUserType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/radioIndividual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:checked="true"
+                        android:text="Individual - Regular user who shares or receives food"
+                        android:textAppearance="?attr/textAppearanceBody2" />
+
+                    <RadioButton
+                        android:id="@+id/radioRestaurant"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Restaurant - Donate or sell surplus food"
+                        android:textAppearance="?attr/textAppearanceBody2" />
+
+                    <RadioButton
+                        android:id="@+id/radioNGO"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="NGO/Charity - Help distribute food to those in need"
+                        android:textAppearance="?attr/textAppearanceBody2" />
+
+                </RadioGroup>
+
                 <!-- Password Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/passwordLayout"

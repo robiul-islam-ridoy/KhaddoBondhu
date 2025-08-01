@@ -111,6 +111,7 @@ public class FirebaseService {
         userData.put("name", user.getName());
         userData.put("email", user.getEmail());
         userData.put("phoneNumber", user.getPhoneNumber());
+        userData.put("userType", user.getUserType()); // Add user type to database
         userData.put("description", user.getDescription());
         userData.put("totalPosts", user.getTotalPosts());
         userData.put("totalDonations", user.getTotalDonations());
@@ -376,18 +377,18 @@ public class FirebaseService {
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     searchResults.clear();
-                    for (DocumentSnapshot doc : task.getResult()) {
-                        FoodPost post = doc.toObject(FoodPost.class);
-                        if (post != null) {
-                            post.setId(doc.getId());
-                            // Search in title, description, and location
-                            if (post.getTitle().toLowerCase().contains(searchQuery) ||
-                                post.getDescription().toLowerCase().contains(searchQuery) ||
-                                post.getPickupLocation().toLowerCase().contains(searchQuery)) {
-                                searchResults.add(post);
+                                            for (DocumentSnapshot doc : task.getResult()) {
+                            FoodPost post = doc.toObject(FoodPost.class);
+                            if (post != null) {
+                                post.setId(doc.getId());
+                                // Search in title, description, and location
+                                if (post.getTitle().toLowerCase().contains(searchQuery) ||
+                                    post.getDescription().toLowerCase().contains(searchQuery) ||
+                                    post.getPickupLocation().toLowerCase().contains(searchQuery)) {
+                                    searchResults.add(post);
+                                }
                             }
                         }
-                    }
                     callback.onSuccess();
                 } else {
                     callback.onError("Search failed: " + task.getException().getMessage());
@@ -654,6 +655,7 @@ public class FirebaseService {
                     currentUserPhone = doc.getString("phoneNumber");
                     currentUserBio = doc.getString("description");
                     currentUserProfilePictureUrl = doc.getString("profilePictureUrl");
+                    currentUserType = doc.getString("userType");
                     callback.onSuccess();
                 } else {
                     callback.onError("Failed to load user profile");
@@ -667,6 +669,7 @@ public class FirebaseService {
     private String currentUserPhone;
     private String currentUserBio;
     private String currentUserProfilePictureUrl;
+    private String currentUserType;
     
     public String getCurrentUserName() {
         return currentUserName != null ? currentUserName : "User";
@@ -686,6 +689,10 @@ public class FirebaseService {
 
     public String getCurrentUserProfilePictureUrl() {
         return currentUserProfilePictureUrl;
+    }
+
+    public String getCurrentUserType() {
+        return currentUserType != null ? currentUserType : "INDIVIDUAL";
     }
 
     // Get post statistics
@@ -724,4 +731,6 @@ public class FirebaseService {
     public int getCurrentPostRequests() {
         return currentPostRequests;
     }
+    
+
 } 

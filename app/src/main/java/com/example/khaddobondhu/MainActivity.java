@@ -2,6 +2,7 @@ package com.example.khaddobondhu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.example.khaddobondhu.auth.LoginActivity;
 import com.example.khaddobondhu.databinding.ActivityMainBinding;
+import com.example.khaddobondhu.service.FirebaseService;
 import com.example.khaddobondhu.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private NavController navController;
     private AppBarConfiguration appBarConfiguration;
     private FirebaseAuth auth;
+    private FirebaseService firebaseService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +33,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Initialize Firebase Auth
+        // Initialize Firebase Auth and Service
         auth = FirebaseAuth.getInstance();
+        firebaseService = new FirebaseService();
         
         // Check if user is signed in
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -40,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
             startLoginActivity();
             return;
         }
+        
+        // Load current user profile data
+        loadCurrentUserProfile();
 
         setSupportActionBar(binding.toolbar);
 
@@ -147,4 +154,23 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+    
+    private void loadCurrentUserProfile() {
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            firebaseService.getUserProfileData(currentUser.getUid(), new FirebaseService.Callback() {
+                @Override
+                public void onSuccess() {
+                    // User profile data loaded successfully
+                }
+                
+                @Override
+                public void onError(String error) {
+                    // Handle error silently for now
+                }
+            });
+        }
+    }
+    
+
 }

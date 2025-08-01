@@ -22,6 +22,7 @@ import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.service.FirebaseService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import androidx.annotation.NonNull;
 import java.util.ArrayList;
@@ -329,6 +330,7 @@ public class CreatePostFragment extends Fragment {
                         FoodPost foodPost = new FoodPost();
                         foodPost.setUserId(userId);
                         foodPost.setUserName(userName);
+
                         foodPost.setTitle(title);
                         foodPost.setDescription(description);
                         foodPost.setPostType(postType);
@@ -435,4 +437,6 @@ public class CreatePostFragment extends Fragment {
         foodTypeSpinner.setText(foodTypes[0], false);
         quantityUnitSpinner.setText(quantityUnits[0], false);
     }
+    
+
 } 

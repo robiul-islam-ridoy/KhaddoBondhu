@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.ui.post.PostDetailActivity;
+import com.example.khaddobondhu.utils.UserRoleUtils;
+import com.example.khaddobondhu.service.FirebaseService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -22,10 +24,12 @@ import java.util.Locale;
 public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHolder> {
     private List<FoodPost> foodPosts;
     private Context context;
+    private FirebaseService firebaseService;
 
     public FoodPostAdapter(Context context, List<FoodPost> foodPosts) {
         this.context = context;
         this.foodPosts = foodPosts;
+        this.firebaseService = new FirebaseService();
     }
 
     @NonNull
@@ -66,6 +70,9 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
 
         // Set seller name
         holder.sellerNameTextView.setText(post.getUserName());
+        
+        // Set user role badge - fetch from user table
+        fetchUserTypeAndSetBadge(post.getUserId(), holder.userRoleBadgeTextView);
 
         // Set description
         holder.descriptionTextView.setText(post.getDescription());
@@ -142,6 +149,45 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
             return "Just now";
         }
     }
+    
+    private void fetchUserTypeAndSetBadge(String userId, TextView badgeTextView) {
+        if (userId == null || userId.isEmpty()) {
+            // Set default badge if no user ID
+            badgeTextView.setText(UserRoleUtils.getUserTypeDisplayName("INDIVIDUAL"));
+            badgeTextView.setBackgroundResource(UserRoleUtils.getUserTypeBadgeDrawable("INDIVIDUAL"));
+            badgeTextView.setVisibility(View.VISIBLE);
+            return;
+        }
+        
+        firebaseService.getUserProfileData(userId, new FirebaseService.Callback() {
+            @Override
+            public void onSuccess() {
+                String userType = firebaseService.getCurrentUserType();
+                final String finalUserType = (userType == null || userType.isEmpty()) ? "INDIVIDUAL" : userType;
+                
+                // Update UI on main thread
+                if (context != null) {
+                    ((android.app.Activity) context).runOnUiThread(() -> {
+                        badgeTextView.setText(UserRoleUtils.getUserTypeDisplayName(finalUserType));
+                        badgeTextView.setBackgroundResource(UserRoleUtils.getUserTypeBadgeDrawable(finalUserType));
+                        badgeTextView.setVisibility(View.VISIBLE);
+                    });
+                }
+            }
+            
+            @Override
+            public void onError(String error) {
+                // Set default badge on error
+                if (context != null) {
+                    ((android.app.Activity) context).runOnUiThread(() -> {
+                        badgeTextView.setText(UserRoleUtils.getUserTypeDisplayName("INDIVIDUAL"));
+                        badgeTextView.setBackgroundResource(UserRoleUtils.getUserTypeBadgeDrawable("INDIVIDUAL"));
+                        badgeTextView.setVisibility(View.VISIBLE);
+                    });
+                }
+            }
+        });
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
@@ -154,6 +200,7 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         TextView timeLeftTextView;
         TextView distanceTextView;
         TextView expiryTextView;
+        TextView userRoleBadgeTextView;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -167,6 +214,7 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
             timeLeftTextView = itemView.findViewById(R.id.timeLeftTextView);
             distanceTextView = itemView.findViewById(R.id.distanceTextView);
             expiryTextView = itemView.findViewById(R.id.expiryTextView);
+            userRoleBadgeTextView = itemView.findViewById(R.id.userRoleBadgeTextView);
         }
     }
 } 
