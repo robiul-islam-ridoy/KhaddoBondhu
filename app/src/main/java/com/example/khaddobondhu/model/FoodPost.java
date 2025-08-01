@@ -35,6 +35,8 @@ public class FoodPost {
         this.isActive = true;
         this.views = 0;
         this.requests = 0;
+        this.allowContact = true;
+        this.isVerified = false;
     }
 
     // Constructor with all fields
@@ -86,6 +88,7 @@ public class FoodPost {
     public String getContactEmail() { return contactEmail; }
     public boolean isAllowContact() { return allowContact; }
 
+
     // Setters
     public void setId(String id) { this.id = id; }
     public void setUserId(String userId) { this.userId = userId; }
@@ -109,6 +112,7 @@ public class FoodPost {
     public void setContactPhone(String contactPhone) { this.contactPhone = contactPhone; }
     public void setContactEmail(String contactEmail) { this.contactEmail = contactEmail; }
     public void setAllowContact(boolean allowContact) { this.allowContact = allowContact; }
+
 
     // Helper methods
     public String getFormattedPrice() {

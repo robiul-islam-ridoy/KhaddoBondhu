@@ -11,6 +11,7 @@ import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.databinding.ActivityRegisterBinding;
 import com.example.khaddobondhu.model.User;
 import com.example.khaddobondhu.service.FirebaseService;
+import com.example.khaddobondhu.utils.UserRoleUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -46,6 +47,9 @@ public class RegisterActivity extends AppCompatActivity {
         String password = binding.editTextPassword.getText().toString().trim();
         String confirmPassword = binding.editTextConfirmPassword.getText().toString().trim();
         String phone = binding.editTextPhone.getText().toString().trim();
+        
+        // Get selected user type
+        String userType = getUserSelectedType();
 
         // Validate inputs
         if (TextUtils.isEmpty(name)) {
@@ -93,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                     // Registration successful, create user profile
                     FirebaseUser firebaseUser = auth.getCurrentUser();
                     if (firebaseUser != null) {
-                        createUserProfile(firebaseUser, name, email, phone);
+                        createUserProfile(firebaseUser, name, email, phone, userType);
                     }
                 } else {
                     // Registration failed
@@ -123,12 +127,13 @@ public class RegisterActivity extends AppCompatActivity {
             });
     }
 
-    private void createUserProfile(FirebaseUser firebaseUser, String name, String email, String phone) {
+    private void createUserProfile(FirebaseUser firebaseUser, String name, String email, String phone, String userType) {
         User user = new User();
         user.setId(firebaseUser.getUid());
         user.setName(name);
         user.setEmail(email);
         user.setPhoneNumber(phone);
+        user.setUserType(userType);
         user.setDescription("Welcome to KhaddoBondhu! Share and discover food in your community.");
         user.setTotalPosts(0);
         user.setTotalDonations(0);
@@ -169,5 +174,15 @@ public class RegisterActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+    
+    private String getUserSelectedType() {
+        if (binding.radioRestaurant.isChecked()) {
+            return UserRoleUtils.getAllUserTypes()[1]; // RESTAURANT
+        } else if (binding.radioNGO.isChecked()) {
+            return UserRoleUtils.getAllUserTypes()[2]; // NGO
+        } else {
+            return UserRoleUtils.getAllUserTypes()[0]; // INDIVIDUAL (default)
+        }
     }
 } 

@@ -27,7 +27,15 @@ public class User {
     private String profilePictureUrl;
 
     // Default constructor for Firebase
-    public User() {}
+    public User() {
+        this.userType = "INDIVIDUAL"; // Default user type
+        this.rating = 0;
+        this.totalRatings = 0;
+        this.totalPosts = 0;
+        this.totalDonations = 0;
+        this.totalReceived = 0;
+        this.isVerified = false;
+    }
 
     public User(String id, String name, String email, String phone, String bio, String profilePictureUrl) {
         this.id = id;
