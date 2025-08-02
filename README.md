@@ -2,12 +2,18 @@
 
 A mobile application that connects people with surplus food (from homes, restaurants, or events) to those in need. Users can list or request nearby leftover food, helping reduce food waste and fight hunger in the community.
 
+## 🌟 Project Overview
+
+KhaddoBondhu is an Android application built with Java that serves as a bridge between food donors and recipients. The app features a modern Material Design interface with real-time search capabilities, user role management, and seamless food sharing functionality.
+
 ## Setup Instructions
 
 ### Prerequisites
-- Android Studio
+- Android Studio (latest version)
+- Java Development Kit (JDK) 8 or higher
 - Firebase Project
 - Cloudinary Account
+- Google Maps API Key
 
 ### Environment Setup
 
@@ -18,23 +24,27 @@ A mobile application that connects people with surplus food (from homes, restaur
    ```
 
 2. **Configure Firebase**
-   - Create a Firebase project
+   - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
    - Download `google-services.json` and place it in the `app/` directory
    - Enable Authentication, Firestore, and Storage in Firebase Console
+   - Configure Authentication methods (Email/Password, Anonymous)
 
 3. **Configure Cloudinary**
-   - Create a Cloudinary account
+   - Create a Cloudinary account at [Cloudinary](https://cloudinary.com/)
    - Copy `local.properties.template` to `local.properties`
    - Fill in your Cloudinary credentials:
    ```properties
+   sdk.dir=C\:\\Android_sdk
    CLOUDINARY_CLOUD_NAME=your_cloud_name
    CLOUDINARY_API_KEY=your_api_key
    CLOUDINARY_API_SECRET=your_api_secret
+   MAPS_API_KEY=your_google_maps_api_key
    ```
 
 4. **Build and Run**
    ```bash
    ./gradlew build
+   ./gradlew installDebug
    ```
 
 ## Security Notes
@@ -42,34 +52,115 @@ A mobile application that connects people with surplus food (from homes, restaur
 - Never commit `local.properties` or `google-services.json` to version control
 - These files are already in `.gitignore`
 - Use environment variables for sensitive data in production
+- Implement proper input validation and sanitization
 
 ## Features
 
-- ✅ User Authentication (Email/Password + Anonymous)
-- ✅ Food Post Management (Create, Edit, Delete)
-- ✅ Image Upload with Cloudinary
-- ✅ Real-time Database with Firestore
-- ✅ User Profile Management
-- ✅ Search and Filter Posts
-- ✅ Post Statistics and Analytics
-- ✅ Modern Material Design UI
+### Core Features
+- ✅ **User Authentication**: Email/Password + Anonymous authentication
+- ✅ **Food Post Management**: Create, edit, and delete food posts
+- ✅ **Image Upload**: Cloudinary integration for efficient image storage
+- ✅ **Real-time Database**: Firestore for live data synchronization
+- ✅ **User Profile Management**: Comprehensive user profiles with statistics
+- ✅ **Post Statistics**: Analytics and insights for food posts
+- ✅ **Modern UI**: Material Design Components throughout the app
+
+### 🆕 Enhanced Search & Discovery (v2.0)
+- ✅ **Advanced User Search**: Search through all users (Individuals, Restaurants, NGOs)
+- ✅ **Real-time Search**: Instant search results as you type (after 2 characters)
+- ✅ **Smart Filtering**: Multi-choice filter by user types (Individual, Restaurant, NGO)
+- ✅ **Large Card Display**: Beautiful large cards for search results with user details
+- ✅ **Smooth Scrolling**: Optimized scrolling for both search results and default content
+- ✅ **Pull-to-Refresh**: Refresh content by pulling down (only in content area)
+- ✅ **Search Results Count**: Shows number of results found with search query
+- ✅ **Empty State Handling**: Proper messaging when no results are found
+
+### User Interface Improvements
+- ✅ **Slim Search Bar**: Modern, compact search interface with rounded corners
+- ✅ **Icon Visibility**: Clear filter and search icons with proper tinting
+- ✅ **Responsive Layout**: Proper space allocation between search and content
+- ✅ **Performance Optimized**: Enhanced RecyclerView configuration for smooth scrolling
+- ✅ **Layout Restructuring**: FrameLayout implementation for proper content switching
 
 ## Tech Stack
 
 - **Language:** Java
-- **Backend:** Firebase (Auth, Firestore)
+- **Backend:** Firebase (Authentication, Firestore, Storage)
 - **Image Storage:** Cloudinary
-- **UI:** Material Design Components
+- **UI Framework:** Material Design Components
 - **Image Loading:** Glide
 - **Maps:** Google Maps API
+- **Search:** Custom search implementation with real-time filtering
+- **Build System:** Gradle
+
+
+### Search Functionality Implementation
+### Key Technical Improvements
+
+1. **Layout Restructuring**: 
+   - Used FrameLayout to properly manage search results vs default content
+   - Eliminated space competition between different content areas
+
+2. **Enhanced Scrolling**: 
+   - Fixed scrolling issues and optimized RecyclerView performance
+   - Added `setHasFixedSize(false)` and `setItemViewCacheSize(20)`
+
+3. **Real-time Search**: 
+   - Implemented TextWatcher for instant search results
+   - Triggers search after 2 characters for optimal performance
+
+4. **Filter System**: 
+   - Multi-choice dialog for filtering by user types
+   - Supports Individual, Restaurant, and NGO filtering
+
+5. **UI/UX Enhancements**: 
+   - Slim search bar with proper icon visibility
+   - Smooth transitions between search and default content
+   - Proper empty state handling
+
+The application has been thoroughly tested for:
+- Search functionality with various query types
+- Filter system with multiple user types
+- Scrolling performance on different screen sizes
+- Pull-to-refresh functionality
+- UI responsiveness and layout stability
 
 ## Contributing
 
-1. Create a feature branch
-2. Make your changes
-3. Test thoroughly
-4. Submit a pull request
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Test thoroughly
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
+
+### Development Guidelines
+- Follow Java coding conventions
+- Use meaningful commit messages
+- Test on multiple Android versions
+- Ensure proper error handling
+- Document new features
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Team
+
+- **Mahbob Alam** - Lead Developer, Project Maintainer
+- **Robiul Islam Ridoy** - Lead Developer, Project Maintainer
+- **Shafayet Islam** - Developer, Project Planner
+
+## 🙏 Acknowledgments
+
+- Firebase for backend services
+- Cloudinary for image storage
+- Material Design for UI components
+- The open-source community for various libraries
+
+---
+
+**Made with ❤️ for reducing food waste and helping communities**
