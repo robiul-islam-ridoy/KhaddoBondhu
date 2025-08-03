@@ -29,6 +29,7 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
     private Context context;
     private FirebaseService firebaseService;
     private OnPostActionListener actionListener;
+    private boolean isReadOnly; // New parameter to control button visibility
 
     public interface OnPostActionListener {
         void onEditPost(FoodPost post);
@@ -36,9 +37,14 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
     }
 
     public UserPostAdapter(Context context, List<FoodPost> userPosts, OnPostActionListener actionListener) {
+        this(context, userPosts, actionListener, false); // Default to editable (main profile page)
+    }
+
+    public UserPostAdapter(Context context, List<FoodPost> userPosts, OnPostActionListener actionListener, boolean isReadOnly) {
         this.context = context;
         this.userPosts = userPosts;
         this.actionListener = actionListener;
+        this.isReadOnly = isReadOnly;
         this.firebaseService = new FirebaseService();
     }
 
@@ -130,9 +136,25 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
             context.startActivity(intent);
         });
         
-        // Hide edit and delete buttons for read-only view
-        holder.editButton.setVisibility(View.GONE);
-        holder.deleteButton.setVisibility(View.GONE);
+        // Conditionally show/hide edit and delete buttons based on read-only mode
+        if (isReadOnly) {
+            // Hide edit and delete buttons for read-only view (user profile view)
+            holder.editButton.setVisibility(View.GONE);
+            holder.deleteButton.setVisibility(View.GONE);
+        } else {
+            // Show edit and delete buttons for editable view (main profile page)
+            holder.editButton.setVisibility(View.VISIBLE);
+            holder.deleteButton.setVisibility(View.VISIBLE);
+            
+            // Set click listeners for edit and delete buttons
+            holder.editButton.setOnClickListener(v -> {
+                Intent intent = new Intent(context, com.example.khaddobondhu.ui.post.EditPostActivity.class);
+                intent.putExtra("post_id", post.getId());
+                context.startActivity(intent);
+            });
+            
+            holder.deleteButton.setOnClickListener(v -> showDeleteConfirmation(post));
+        }
     }
 
     @Override
