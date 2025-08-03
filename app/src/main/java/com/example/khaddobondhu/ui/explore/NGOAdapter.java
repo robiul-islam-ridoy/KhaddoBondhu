@@ -17,10 +17,19 @@ import java.util.List;
 public class NGOAdapter extends RecyclerView.Adapter<NGOAdapter.ViewHolder> {
     private List<User> ngos;
     private Context context;
+    private OnUserClickListener listener;
+
+    public interface OnUserClickListener {
+        void onUserClick(User user);
+    }
 
     public NGOAdapter(Context context, List<User> ngos) {
         this.context = context;
         this.ngos = ngos;
+    }
+
+    public void setOnUserClickListener(OnUserClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -66,9 +75,9 @@ public class NGOAdapter extends RecyclerView.Adapter<NGOAdapter.ViewHolder> {
         
         // Set click listener
         holder.itemView.setOnClickListener(v -> {
-            // TODO: Navigate to NGO profile or posts
-            // For now, just show a toast
-            android.widget.Toast.makeText(context, "Viewing " + ngo.getName(), android.widget.Toast.LENGTH_SHORT).show();
+            if (listener != null) {
+                listener.onUserClick(ngo);
+            }
         });
     }
 

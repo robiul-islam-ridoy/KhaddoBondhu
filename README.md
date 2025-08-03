@@ -4,7 +4,7 @@ A mobile application that connects people with surplus food (from homes, restaur
 
 ## 🌟 Project Overview
 
-KhaddoBondhu is an Android application built with Java that serves as a bridge between food donors and recipients. The app features a modern Material Design interface with real-time search capabilities, user role management, and seamless food sharing functionality.
+KhaddoBondhu is an Android application built with Java that serves as a bridge between food donors and recipients. The app features a modern Material Design interface with real-time search capabilities, user role management, seamless food sharing functionality, and comprehensive user profile viewing.
 
 ## Setup Instructions
 
@@ -75,12 +75,24 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - ✅ **Search Results Count**: Shows number of results found with search query
 - ✅ **Empty State Handling**: Proper messaging when no results are found
 
+### 🆕 User Profile View System (v2.1)
+- ✅ **Read-Only Profile View**: View any user's profile without editing capabilities
+- ✅ **Dynamic Posts Loading**: Load and display user's actual posts from Firebase
+- ✅ **Circular Profile Pictures**: Perfect circular profile images with proper styling
+- ✅ **User Type Badges**: Display user type (Individual, Restaurant, NGO) with colored badges
+- ✅ **Dynamic Statistics**: Real-time stats showing posts count, total views, and ratings
+- ✅ **Clickable Posts**: View detailed information of any post by clicking on it
+- ✅ **View-Only Interface**: No edit or delete buttons - purely for viewing
+- ✅ **Responsive Design**: Matches the main profile page design exactly
+- ✅ **Comprehensive User Info**: Display name, email, phone, bio, and user type
+
 ### User Interface Improvements
 - ✅ **Slim Search Bar**: Modern, compact search interface with rounded corners
 - ✅ **Icon Visibility**: Clear filter and search icons with proper tinting
 - ✅ **Responsive Layout**: Proper space allocation between search and content
 - ✅ **Performance Optimized**: Enhanced RecyclerView configuration for smooth scrolling
 - ✅ **Layout Restructuring**: FrameLayout implementation for proper content switching
+- ✅ **Profile Picture Styling**: Circular images with proper borders and backgrounds
 
 ## Tech Stack
 
@@ -93,8 +105,15 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
+## Recent Updates (v2.1)
 
-### Search Functionality Implementation
+### User Profile View Implementation
+1. **New Activity**: `UserProfileViewActivity` for read-only profile viewing
+2. **Enhanced Firebase Service**: Added methods for fetching user data and posts by user ID
+3. **Dynamic Content Loading**: Real-time loading of user posts and statistics
+4. **Circular Image Implementation**: Perfect circular profile pictures with proper styling
+5. **View-Only Interface**: Removed edit/delete functionality for external profile viewing
+
 ### Key Technical Improvements
 
 1. **Layout Restructuring**: 
@@ -118,12 +137,20 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
    - Smooth transitions between search and default content
    - Proper empty state handling
 
+6. **Profile View System**:
+   - Circular profile pictures with proper background styling
+   - Dynamic posts loading with comprehensive error handling
+   - Real-time statistics calculation from actual post data
+   - Seamless navigation between explore and profile views
+
 The application has been thoroughly tested for:
 - Search functionality with various query types
 - Filter system with multiple user types
 - Scrolling performance on different screen sizes
 - Pull-to-refresh functionality
 - UI responsiveness and layout stability
+- User profile viewing and post interaction
+- Circular image rendering and styling
 
 ## Contributing
 
