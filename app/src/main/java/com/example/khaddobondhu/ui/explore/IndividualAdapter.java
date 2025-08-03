@@ -17,10 +17,19 @@ import java.util.List;
 public class IndividualAdapter extends RecyclerView.Adapter<IndividualAdapter.ViewHolder> {
     private List<User> individuals;
     private Context context;
+    private OnUserClickListener listener;
+
+    public interface OnUserClickListener {
+        void onUserClick(User user);
+    }
 
     public IndividualAdapter(Context context, List<User> individuals) {
         this.context = context;
         this.individuals = individuals;
+    }
+
+    public void setOnUserClickListener(OnUserClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -66,9 +75,9 @@ public class IndividualAdapter extends RecyclerView.Adapter<IndividualAdapter.Vi
         
         // Set click listener
         holder.itemView.setOnClickListener(v -> {
-            // TODO: Navigate to individual profile or posts
-            // For now, just show a toast
-            android.widget.Toast.makeText(context, "Viewing " + individual.getName(), android.widget.Toast.LENGTH_SHORT).show();
+            if (listener != null) {
+                listener.onUserClick(individual);
+            }
         });
     }
 

@@ -17,10 +17,19 @@ import java.util.List;
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
     private List<User> restaurants;
     private Context context;
+    private OnUserClickListener listener;
+
+    public interface OnUserClickListener {
+        void onUserClick(User user);
+    }
 
     public RestaurantAdapter(Context context, List<User> restaurants) {
         this.context = context;
         this.restaurants = restaurants;
+    }
+
+    public void setOnUserClickListener(OnUserClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -66,9 +75,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         
         // Set click listener
         holder.itemView.setOnClickListener(v -> {
-            // TODO: Navigate to restaurant profile or posts
-            // For now, just show a toast
-            android.widget.Toast.makeText(context, "Viewing " + restaurant.getName(), android.widget.Toast.LENGTH_SHORT).show();
+            if (listener != null) {
+                listener.onUserClick(restaurant);
+            }
         });
     }
 

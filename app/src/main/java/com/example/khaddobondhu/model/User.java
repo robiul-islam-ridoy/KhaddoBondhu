@@ -98,6 +98,7 @@ public class User {
 
     // Setters
     public void setId(String id) { this.id = id; }
+    public void setUid(String uid) { this.id = uid; } // Alias for setId for Firebase compatibility
     public void setName(String name) { this.name = name; }
     public void setEmail(String email) { this.email = email; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }

@@ -731,6 +731,123 @@ public class FirebaseService {
     public int getCurrentPostRequests() {
         return currentPostRequests;
     }
-    
+
+    // Interface for user fetch callbacks
+    public interface OnUserFetchListener {
+        void onSuccess(User user);
+        void onError(Exception e);
+    }
+
+    // Interface for posts fetch callbacks
+    public interface OnPostsFetchListener {
+        void onSuccess(List<FoodPost> posts);
+        void onError(Exception e);
+    }
+
+    // Get user by ID
+    public void getUserById(String userId, OnUserFetchListener listener) {
+        if (userId == null || userId.isEmpty()) {
+            listener.onError(new IllegalArgumentException("User ID cannot be null or empty"));
+            return;
+        }
+
+        usersRef.document(userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                        DocumentSnapshot doc = task.getResult();
+                        User user = doc.toObject(User.class);
+                        if (user != null) {
+                            user.setId(doc.getId());
+                            listener.onSuccess(user);
+                        } else {
+                            listener.onError(new Exception("Failed to parse user data"));
+                        }
+                    } else {
+                        String error = "User not found";
+                        if (task.getException() != null) {
+                            error += ": " + task.getException().getMessage();
+                        }
+                        listener.onError(new Exception(error));
+                    }
+                });
+    }
+
+    // Get posts by user ID
+    public void getPostsByUserId(String userId, OnPostsFetchListener listener) {
+        if (userId == null || userId.isEmpty()) {
+            listener.onError(new IllegalArgumentException("User ID cannot be null or empty"));
+            return;
+        }
+
+        Log.d(TAG, "Fetching posts for user ID: " + userId);
+        
+        // Try different field names that might be used for user ID
+        postsRef.whereEqualTo("userId", userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        List<FoodPost> posts = new ArrayList<>();
+                        Log.d(TAG, "Query successful, found " + task.getResult().size() + " documents for userId: " + userId);
+                        
+                        for (DocumentSnapshot doc : task.getResult()) {
+                            Log.d(TAG, "Processing document: " + doc.getId());
+                            Log.d(TAG, "Document userId field: " + doc.getString("userId"));
+                            
+                            FoodPost post = doc.toObject(FoodPost.class);
+                            if (post != null) {
+                                post.setId(doc.getId());
+                                posts.add(post);
+                                Log.d(TAG, "Successfully added post: " + post.getTitle() + " (ID: " + doc.getId() + ")");
+                            } else {
+                                Log.w(TAG, "Failed to parse post document: " + doc.getId());
+                            }
+                        }
+                        Log.d(TAG, "Successfully parsed " + posts.size() + " posts");
+                        listener.onSuccess(posts);
+                    } else {
+                        Log.w(TAG, "First query failed, trying alternative field names");
+                        // Try alternative field names
+                        tryAlternativeUserFields(userId, listener);
+                    }
+                });
+    }
+
+    private void tryAlternativeUserFields(String userId, OnPostsFetchListener listener) {
+        // Try with different field names
+        postsRef.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        List<FoodPost> posts = new ArrayList<>();
+                        Log.d(TAG, "Alternative query successful, checking " + task.getResult().size() + " documents");
+                        
+                        for (DocumentSnapshot doc : task.getResult()) {
+                            String docUserId = doc.getString("userId");
+                            String docCreatorId = doc.getString("creatorId");
+                            String docAuthorId = doc.getString("authorId");
+                            
+                            Log.d(TAG, "Document " + doc.getId() + " - userId: " + docUserId + ", creatorId: " + docCreatorId + ", authorId: " + docAuthorId);
+                            
+                            if (userId.equals(docUserId) || userId.equals(docCreatorId) || userId.equals(docAuthorId)) {
+                                FoodPost post = doc.toObject(FoodPost.class);
+                                if (post != null) {
+                                    post.setId(doc.getId());
+                                    posts.add(post);
+                                    Log.d(TAG, "Found matching post: " + post.getTitle());
+                                }
+                            }
+                        }
+                        Log.d(TAG, "Found " + posts.size() + " posts with alternative field matching");
+                        listener.onSuccess(posts);
+                    } else {
+                        String error = "Failed to load user posts";
+                        if (task.getException() != null) {
+                            error += ": " + task.getException().getMessage();
+                        }
+                        Log.e(TAG, error);
+                        listener.onError(new Exception(error));
+                    }
+                });
+    }
 
 } 

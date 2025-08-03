@@ -1,5 +1,6 @@
 package com.example.khaddobondhu.ui.explore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,6 +30,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.example.khaddobondhu.ui.profile.UserProfileViewActivity;
 
 public class ExploreFragment extends Fragment {
     // Search related views
@@ -130,10 +132,25 @@ public class ExploreFragment extends Fragment {
         searchResultsAdapter = new SearchResultsAdapter(requireContext(), searchResults);
         searchResultsRecyclerView.setAdapter(searchResultsAdapter);
         
-        // Set click listener for search results
+        // Set click listeners for all adapters
+        restaurantAdapter.setOnUserClickListener(user -> {
+            Intent intent = UserProfileViewActivity.newIntent(requireContext(), user.getId(), user.getName());
+            startActivity(intent);
+        });
+        
+        ngoAdapter.setOnUserClickListener(user -> {
+            Intent intent = UserProfileViewActivity.newIntent(requireContext(), user.getId(), user.getName());
+            startActivity(intent);
+        });
+        
+        individualAdapter.setOnUserClickListener(user -> {
+            Intent intent = UserProfileViewActivity.newIntent(requireContext(), user.getId(), user.getName());
+            startActivity(intent);
+        });
+        
         searchResultsAdapter.setOnUserClickListener(user -> {
-            // TODO: Navigate to user profile or posts
-            Toast.makeText(requireContext(), "Viewing " + user.getName(), Toast.LENGTH_SHORT).show();
+            Intent intent = UserProfileViewActivity.newIntent(requireContext(), user.getId(), user.getName());
+            startActivity(intent);
         });
     }
 
