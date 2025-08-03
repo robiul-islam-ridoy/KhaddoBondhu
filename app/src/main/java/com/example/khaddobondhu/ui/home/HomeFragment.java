@@ -267,6 +267,13 @@ public class HomeFragment extends Fragment {
     }
     
     private void clearFilter() {
-        loadFoodPosts(); // Reload all posts
+        loadFoodPosts();
+    }
+    
+    // Public method to refresh data when navigating to this fragment
+    public void refreshData() {
+        if (isAdded() && !isDetached()) {
+            loadFoodPosts();
+        }
     }
 } 

@@ -16,6 +16,9 @@ import com.example.khaddobondhu.auth.LoginActivity;
 import com.example.khaddobondhu.databinding.ActivityMainBinding;
 import com.example.khaddobondhu.service.FirebaseService;
 import com.example.khaddobondhu.ui.home.HomeFragment;
+import com.example.khaddobondhu.ui.explore.ExploreFragment;
+import com.example.khaddobondhu.ui.profile.ProfileFragment;
+import com.example.khaddobondhu.MessageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -68,9 +71,21 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
         
-        // Listen for navigation changes to update toolbar
+        // Listen for navigation changes to update toolbar and trigger refresh
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             invalidateOptionsMenu(); // This will call onCreateOptionsMenu again
+            
+            // Trigger refresh when navigating to different fragments
+            int destinationId = destination.getId();
+            if (destinationId == R.id.navigation_home) {
+                refreshHomeFragment();
+            } else if (destinationId == R.id.navigation_explore) {
+                refreshExploreFragment();
+            } else if (destinationId == R.id.navigation_messages) {
+                refreshMessagesFragment();
+            } else if (destinationId == R.id.navigation_profile) {
+                refreshProfileFragment();
+            }
         });
     }
 
@@ -161,16 +176,48 @@ public class MainActivity extends AppCompatActivity {
             firebaseService.getUserProfileData(currentUser.getUid(), new FirebaseService.Callback() {
                 @Override
                 public void onSuccess() {
-                    // User profile data loaded successfully
+                    // Profile loaded successfully
                 }
-                
+
                 @Override
                 public void onError(String error) {
-                    // Handle error silently for now
+                    Log.e("MainActivity", "Error loading profile: " + error);
                 }
             });
         }
     }
     
+    // Refresh methods for each fragment
+    private void refreshHomeFragment() {
+        HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager()
+                .findFragmentByTag("f0"); // Default tag for first fragment
+        if (homeFragment != null && homeFragment.isVisible()) {
+            homeFragment.refreshData();
+        }
+    }
+    
+    private void refreshExploreFragment() {
+        ExploreFragment exploreFragment = (ExploreFragment) getSupportFragmentManager()
+                .findFragmentByTag("f1"); // Tag for second fragment
+        if (exploreFragment != null && exploreFragment.isVisible()) {
+            exploreFragment.refreshData();
+        }
+    }
+    
+    private void refreshMessagesFragment() {
+        MessageFragment messageFragment = (MessageFragment) getSupportFragmentManager()
+                .findFragmentByTag("f3"); // Tag for fourth fragment
+        if (messageFragment != null && messageFragment.isVisible()) {
+            messageFragment.refreshData();
+        }
+    }
+    
+    private void refreshProfileFragment() {
+        ProfileFragment profileFragment = (ProfileFragment) getSupportFragmentManager()
+                .findFragmentByTag("f4"); // Tag for fifth fragment
+        if (profileFragment != null && profileFragment.isVisible()) {
+            profileFragment.refreshData();
+        }
+    }
 
 }
