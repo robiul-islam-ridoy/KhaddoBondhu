@@ -125,7 +125,7 @@ public class UserProfileViewActivity extends AppCompatActivity {
                 // Read-only view - no deleting allowed
                 Toast.makeText(UserProfileViewActivity.this, "This is a read-only view", Toast.LENGTH_SHORT).show();
             }
-        });
+        }, true); // Set to read-only mode
         recyclerViewPosts.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewPosts.setAdapter(adapter);
     }
