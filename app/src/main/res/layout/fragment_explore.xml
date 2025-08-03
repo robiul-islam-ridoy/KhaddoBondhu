@@ -106,7 +106,7 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <!-- Search Results RecyclerView -->
+        <!-- Search Results RecyclerView (takes full priority when visible) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchResultsRecyclerView"
             android:layout_width="match_parent"
@@ -116,14 +116,18 @@
             android:paddingTop="8dp"
             android:paddingBottom="16dp"
             android:scrollbars="vertical"
-            android:nestedScrollingEnabled="true"
-            android:overScrollMode="never" />
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="always"
+            android:descendantFocusability="beforeDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
 
-        <!-- SwipeRefreshLayout only wraps the scrollable content -->
+        <!-- Default Content with SwipeRefreshLayout (only visible when not searching) -->
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="visible">
 
             <!-- Default Content (when not searching) -->
             <ScrollView

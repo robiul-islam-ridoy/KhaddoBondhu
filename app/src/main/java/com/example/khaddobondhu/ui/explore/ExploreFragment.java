@@ -129,6 +129,9 @@ public class ExploreFragment extends Fragment {
         searchResultsRecyclerView.setLayoutManager(searchLayoutManager);
         searchResultsRecyclerView.setHasFixedSize(false);
         searchResultsRecyclerView.setItemViewCacheSize(20);
+        searchResultsRecyclerView.setNestedScrollingEnabled(false);
+        searchResultsRecyclerView.setFocusable(true);
+        searchResultsRecyclerView.setFocusableInTouchMode(true);
         searchResultsAdapter = new SearchResultsAdapter(requireContext(), searchResults);
         searchResultsRecyclerView.setAdapter(searchResultsAdapter);
         
@@ -266,7 +269,7 @@ public class ExploreFragment extends Fragment {
             // Show search results
             searchResultsCount.setVisibility(View.VISIBLE);
             searchResultsRecyclerView.setVisibility(View.VISIBLE);
-            defaultContentScrollView.setVisibility(View.GONE);
+            swipeRefreshLayout.setVisibility(View.GONE);
             
             // Update results count
             int count = searchResults.size();
@@ -288,26 +291,11 @@ public class ExploreFragment extends Fragment {
                 searchResultsRecyclerView.invalidate();
             });
             
-            // Show empty state if no results
-            if (count == 0) {
-                String emptyText = "No users found";
-                if (!currentSearchQuery.isEmpty()) {
-                    emptyText += " for: " + currentSearchQuery;
-                }
-                if (!selectedUserTypes.isEmpty()) {
-                    emptyText += " with selected filters";
-                }
-                emptyStateTextView.setText(emptyText);
-                emptyStateTextView.setVisibility(View.VISIBLE);
-            } else {
-                emptyStateTextView.setVisibility(View.GONE);
-            }
         } else {
             // Show default content
             searchResultsCount.setVisibility(View.GONE);
             searchResultsRecyclerView.setVisibility(View.GONE);
-            defaultContentScrollView.setVisibility(View.VISIBLE);
-            emptyStateTextView.setVisibility(View.GONE);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -364,6 +352,9 @@ public class ExploreFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(true);
         }
         
+        // Get current user ID to filter out from results
+        String currentUserId = firebaseService.getCurrentUserId();
+        
         firebaseService.getAllUsers(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -384,6 +375,12 @@ public class ExploreFragment extends Fragment {
                         User user = document.toObject(User.class);
                         if (user != null) {
                             user.setId(document.getId());
+                            
+                            // Skip the currently logged-in user
+                            if (currentUserId != null && currentUserId.equals(user.getId())) {
+                                continue;
+                            }
+                            
                             allUsers.add(user);
                             
                             String userType = user.getUserType();
@@ -450,6 +447,13 @@ public class ExploreFragment extends Fragment {
             emptyStateTextView.setVisibility(View.VISIBLE);
         } else {
             emptyStateTextView.setVisibility(View.GONE);
+        }
+    }
+    
+    // Public method to refresh data when navigating to this fragment
+    public void refreshData() {
+        if (isAdded() && !isDetached()) {
+            loadUsers();
         }
     }
 } 

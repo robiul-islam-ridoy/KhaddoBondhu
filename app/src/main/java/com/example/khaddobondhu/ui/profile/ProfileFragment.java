@@ -474,4 +474,12 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
         selectedImageUri = null; // Clear after use
         return uri;
     }
+    
+    // Public method to refresh data when navigating to this fragment
+    public void refreshData() {
+        if (isAdded() && !isDetached()) {
+            loadUserProfile();
+            loadUserPosts();
+        }
+    }
 } 

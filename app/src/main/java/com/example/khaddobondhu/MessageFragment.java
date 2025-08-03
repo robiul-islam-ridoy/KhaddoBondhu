@@ -131,7 +131,14 @@ public class MessageFragment extends Fragment implements UserAdapter.OnUserClick
     @Override
     public void onResume() {
         super.onResume();
-        // Refresh users when returning to this fragment
+        // Reload users when returning to the fragment
         loadUsers();
+    }
+    
+    // Public method to refresh data when navigating to this fragment
+    public void refreshData() {
+        if (isAdded() && !isDetached()) {
+            loadUsers();
+        }
     }
 }
