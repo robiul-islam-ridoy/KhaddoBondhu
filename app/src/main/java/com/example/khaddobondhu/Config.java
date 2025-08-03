@@ -29,7 +29,7 @@ public class Config {
     public static final String USER_TYPE_NGO_DESC = "Non-profit organization helping the community";
     
     // Firebase Configuration
-    public static final String FIREBASE_PROJECT_ID = "khaddobondhu-86011";
+    public static final String FIREBASE_PROJECT_ID = "test-49640";
     
     // App Configuration
     public static final String APP_NAME = "KhaddoBondhu";
