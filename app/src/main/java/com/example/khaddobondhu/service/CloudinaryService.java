@@ -276,6 +276,119 @@ public class CloudinaryService {
         });
     }
 
+    public void deleteImage(String imageUrl, OnCompleteListener<Boolean> listener) {
+        executorService.execute(() -> {
+            try {
+                // Check if Cloudinary is initialized
+                if (cloudinary == null) {
+                    Log.e(TAG, "Cloudinary is not initialized. Cannot delete image.");
+                    throw new RuntimeException("Cloudinary is not initialized. Please check your credentials.");
+                }
+
+                // Extract public_id from URL
+                String publicId = extractPublicIdFromUrl(imageUrl);
+                if (publicId == null) {
+                    Log.w(TAG, "Could not extract public_id from URL: " + imageUrl);
+                    // Return success even if we can't delete (URL might be external)
+                    listener.onComplete(createSuccessTask(true));
+                    return;
+                }
+
+                Log.d(TAG, "Deleting image with public_id: " + publicId);
+                
+                // Delete the image
+                Map<String, Object> result = cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+                String resultStatus = (String) result.get("result");
+                
+                boolean success = "ok".equals(resultStatus);
+                Log.d(TAG, "Image deletion result: " + resultStatus + " (success: " + success + ")");
+                
+                // Return result on main thread
+                listener.onComplete(createSuccessTask(success));
+                
+            } catch (Exception e) {
+                Log.e(TAG, "Error deleting image from Cloudinary", e);
+                listener.onComplete(createFailureTask(e));
+            }
+        });
+    }
+
+    private String extractPublicIdFromUrl(String imageUrl) {
+        try {
+            // Cloudinary URLs typically look like: https://res.cloudinary.com/cloud_name/image/upload/v1234567890/folder/filename.jpg
+            if (imageUrl == null || !imageUrl.contains("cloudinary.com")) {
+                return null;
+            }
+            
+            // Extract the part after /upload/
+            String[] parts = imageUrl.split("/upload/");
+            if (parts.length < 2) {
+                return null;
+            }
+            
+            String afterUpload = parts[1];
+            
+            // Remove version prefix if present (v1234567890/)
+            if (afterUpload.startsWith("v")) {
+                int slashIndex = afterUpload.indexOf("/");
+                if (slashIndex > 0) {
+                    afterUpload = afterUpload.substring(slashIndex + 1);
+                }
+            }
+            
+            // Remove file extension
+            int lastDotIndex = afterUpload.lastIndexOf(".");
+            if (lastDotIndex > 0) {
+                afterUpload = afterUpload.substring(0, lastDotIndex);
+            }
+            
+            return afterUpload;
+        } catch (Exception e) {
+            Log.e(TAG, "Error extracting public_id from URL: " + imageUrl, e);
+            return null;
+        }
+    }
+
+    private Task<Boolean> createSuccessTask(boolean result) {
+        return new Task<Boolean>() {
+            @Override public boolean isComplete() { return true; }
+            @Override public boolean isSuccessful() { return true; }
+            @Override public boolean isCanceled() { return false; }
+            @Override public Boolean getResult() { return result; }
+            @Override public Exception getException() { return null; }
+            @Override public <X extends Throwable> Boolean getResult(Class<X> aClass) throws X { return result; }
+            @Override public Task<Boolean> addOnSuccessListener(java.util.concurrent.Executor executor, com.google.android.gms.tasks.OnSuccessListener<? super Boolean> listener) { return this; }
+            @Override public Task<Boolean> addOnFailureListener(java.util.concurrent.Executor executor, com.google.android.gms.tasks.OnFailureListener listener) { return this; }
+            @Override public Task<Boolean> addOnCompleteListener(java.util.concurrent.Executor executor, OnCompleteListener<Boolean> listener) { return this; }
+            @Override public Task<Boolean> addOnSuccessListener(android.app.Activity activity, com.google.android.gms.tasks.OnSuccessListener<? super Boolean> listener) { return this; }
+            @Override public Task<Boolean> addOnFailureListener(android.app.Activity activity, com.google.android.gms.tasks.OnFailureListener listener) { return this; }
+            @Override public Task<Boolean> addOnCompleteListener(android.app.Activity activity, OnCompleteListener<Boolean> listener) { return this; }
+            @Override public Task<Boolean> addOnSuccessListener(com.google.android.gms.tasks.OnSuccessListener<? super Boolean> listener) { return this; }
+            @Override public Task<Boolean> addOnFailureListener(com.google.android.gms.tasks.OnFailureListener listener) { return this; }
+            @Override public Task<Boolean> addOnCompleteListener(OnCompleteListener<Boolean> listener) { return this; }
+        };
+    }
+
+    private Task<Boolean> createFailureTask(Exception exception) {
+        return new Task<Boolean>() {
+            @Override public boolean isComplete() { return true; }
+            @Override public boolean isSuccessful() { return false; }
+            @Override public boolean isCanceled() { return false; }
+            @Override public Boolean getResult() { return null; }
+            @Override public Exception getException() { return exception; }
+            @Override public <X extends Throwable> Boolean getResult(Class<X> aClass) throws X { throw (X) exception; }
+            @Override public Task<Boolean> addOnSuccessListener(java.util.concurrent.Executor executor, com.google.android.gms.tasks.OnSuccessListener<? super Boolean> listener) { return this; }
+            @Override public Task<Boolean> addOnFailureListener(java.util.concurrent.Executor executor, com.google.android.gms.tasks.OnFailureListener listener) { return this; }
+            @Override public Task<Boolean> addOnCompleteListener(java.util.concurrent.Executor executor, OnCompleteListener<Boolean> listener) { return this; }
+            @Override public Task<Boolean> addOnSuccessListener(android.app.Activity activity, com.google.android.gms.tasks.OnSuccessListener<? super Boolean> listener) { return this; }
+            @Override public Task<Boolean> addOnFailureListener(android.app.Activity activity, com.google.android.gms.tasks.OnFailureListener listener) { return this; }
+            @Override public Task<Boolean> addOnCompleteListener(android.app.Activity activity, OnCompleteListener<Boolean> listener) { return this; }
+            @Override public Task<Boolean> addOnSuccessListener(com.google.android.gms.tasks.OnSuccessListener<? super Boolean> listener) { return this; }
+            @Override public Task<Boolean> addOnFailureListener(com.google.android.gms.tasks.OnFailureListener listener) { return this; }
+            @Override public Task<Boolean> addOnCompleteListener(OnCompleteListener<Boolean> listener) { return this; }
+        };
+    }
+
     public void shutdown() {
         if (executorService != null && !executorService.isShutdown()) {
             executorService.shutdown();

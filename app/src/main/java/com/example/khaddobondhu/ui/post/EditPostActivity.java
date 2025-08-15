@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -307,6 +308,24 @@ public class EditPostActivity extends AppCompatActivity {
                 if (task.isSuccessful() && task.getResult() != null) {
                     String imageUrl = task.getResult();
                     List<String> imageUrls = Arrays.asList(imageUrl);
+                    
+                    // Delete old image if it exists and is different
+                    if (currentPost.getImageUrls() != null && !currentPost.getImageUrls().isEmpty()) {
+                        String oldImageUrl = currentPost.getImageUrls().get(0);
+                        if (!oldImageUrl.equals(imageUrl)) {
+                            cloudinaryService.deleteImage(oldImageUrl, new OnCompleteListener<Boolean>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Boolean> deleteTask) {
+                                    if (deleteTask.isSuccessful() && deleteTask.getResult()) {
+                                        Log.d("EditPostActivity", "Old post image deleted successfully");
+                                    } else {
+                                        Log.w("EditPostActivity", "Failed to delete old post image: " + (deleteTask.getException() != null ? deleteTask.getException().getMessage() : "Unknown error"));
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    
                     updatePostWithData(title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate, imageUrls);
                 } else {
                     runOnUiThread(() -> {

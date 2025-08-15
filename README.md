@@ -105,7 +105,15 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v2.6)
+## Recent Updates (v2.9)
+
+### 🖼️ Comprehensive Image Preview System (v2.9)
+1. **Universal Image Preview**: Complete image preview functionality across the entire app
+2. **Fixed Close Button**: Working X button in image preview for proper navigation
+3. **Original Size Display**: Images show at their natural size with centerInside scale type
+4. **Explore Page Integration**: All profile pictures in explore page now previewable
+5. **User Profile View Enhancement**: Profile pictures in UserProfileViewActivity now clickable
+6. **Consistent Experience**: Same preview system used everywhere for uniformity
 
 ### 📸 Profile Photo Preview & Enhancement (v2.6)
 1. **Immediate Photo Preview**: Profile photo preview appears instantly when user selects a new image
@@ -143,6 +151,31 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 5. **View-Only Interface**: Removed edit/delete functionality for external profile viewing
 
 ### Key Technical Improvements
+
+#### 🖼️ Comprehensive Image Preview System (v2.9)
+1. **Universal Image Preview Implementation**: 
+   - Added image preview functionality to all explore page adapters (SearchResultsAdapter, RestaurantAdapter, NGOAdapter, IndividualAdapter)
+   - Enhanced UserProfileViewActivity with image preview capability
+   - Fixed close button functionality in ImagePreviewActivity
+   - Changed image scale type to centerInside for original size display
+
+2. **Explore Page Integration**: 
+   - All user profile pictures in explore page are now clickable for preview
+   - Smart handling: only adds click listeners when images exist
+   - Proper titles showing user name + "Profile Picture" for context
+   - Consistent preview experience across all user types (Restaurant, NGO, Individual)
+
+3. **User Profile View Enhancement**: 
+   - Profile pictures in UserProfileViewActivity now support image preview
+   - Added ImagePreviewActivity import and click listener implementation
+   - Proper error handling when no profile picture is available
+   - Maintains read-only functionality while adding preview capability
+
+4. **Image Preview Activity Improvements**: 
+   - Fixed close button (X) click listener for proper navigation
+   - Changed scaleType from fitCenter to centerInside for original size display
+   - Maintains zoom and pan functionality with proper gesture handling
+   - Consistent black background with white close button for professional appearance
 
 #### 📸 Profile Photo Preview & Enhancement (v2.6)
 1. **Direct ImageView Reference Implementation**: 
@@ -265,6 +298,14 @@ The application has been thoroughly tested for:
 - ImageView reference management and memory cleanup
 - Visual design consistency with padding and styling
 - Immediate preview response and user feedback
+- **Universal image preview functionality across all app sections**
+- **Close button functionality in image preview**
+- **Original size image display with proper scaling**
+- **Explore page profile picture preview functionality**
+- **UserProfileViewActivity image preview integration**
+- **Consistent image preview experience across all user types**
+- **Proper error handling for missing images**
+- **Image preview navigation and gesture handling**
 
 ## Contributing
 

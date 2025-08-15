@@ -38,6 +38,7 @@ import com.example.khaddobondhu.model.User;
 import com.example.khaddobondhu.service.CloudinaryService;
 import com.example.khaddobondhu.service.FirebaseService;
 import com.example.khaddobondhu.auth.LoginActivity;
+import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.Timestamp;
 import java.util.Arrays;
@@ -204,10 +205,28 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
             public void onComplete(com.google.android.gms.tasks.Task<String> task) {
                 if (task.isSuccessful() && task.getResult() != null) {
                     String imageUrl = task.getResult();
+                    
+                    // Get current profile picture URL for deletion
+                    String currentProfilePic = firebaseService.getCurrentUserProfilePictureUrl();
+                    
                     // Update profile on main thread
                     requireActivity().runOnUiThread(() -> {
                         firebaseService.updateUserProfile(name, phone, bio, imageUrl, new FirebaseService.Callback() {
                             public void onSuccess() {
+                                // Delete old profile picture if it exists and is different
+                                if (currentProfilePic != null && !currentProfilePic.isEmpty() && !currentProfilePic.equals(imageUrl)) {
+                                    cloudinaryService.deleteImage(currentProfilePic, new com.google.android.gms.tasks.OnCompleteListener<Boolean>() {
+                                        @Override
+                                        public void onComplete(com.google.android.gms.tasks.Task<Boolean> deleteTask) {
+                                            if (deleteTask.isSuccessful() && deleteTask.getResult()) {
+                                                Log.d("ProfileFragment", "Old profile picture deleted successfully");
+                                            } else {
+                                                Log.w("ProfileFragment", "Failed to delete old profile picture: " + (deleteTask.getException() != null ? deleteTask.getException().getMessage() : "Unknown error"));
+                                            }
+                                        }
+                                    });
+                                }
+                                
                                 requireActivity().runOnUiThread(() -> {
                                     dialog.dismiss();
                                     loadUserProfile();
@@ -323,6 +342,17 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
                             .error(R.drawable.ic_person)
                             .circleCrop()
                             .into(binding.profilePictureImageView);
+                        
+                        // Add click listener for full preview
+                        binding.profilePictureImageView.setOnClickListener(v -> {
+                            Intent intent = new Intent(requireContext(), ImagePreviewActivity.class);
+                            intent.putExtra("image_url", userProfilePic);
+                            intent.putExtra("image_title", "Profile Picture");
+                            startActivity(intent);
+                        });
+                    } else {
+                        // Remove click listener if no image
+                        binding.profilePictureImageView.setOnClickListener(null);
                     }
                 });
             }
@@ -397,6 +427,44 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
     @Override
     public void onDeletePost(FoodPost post) {
         binding.progressBar.setVisibility(View.VISIBLE);
+        
+        // Delete images first if they exist
+        if (post.getImageUrls() != null && !post.getImageUrls().isEmpty()) {
+            deletePostImages(post.getImageUrls(), () -> {
+                // After images are deleted, delete the post
+                deletePostFromFirebase(post);
+            });
+        } else {
+            // No images to delete, just delete the post
+            deletePostFromFirebase(post);
+        }
+    }
+    
+    private void deletePostImages(List<String> imageUrls, Runnable onComplete) {
+        final int[] deletedCount = {0};
+        final int totalImages = imageUrls.size();
+        
+        for (String imageUrl : imageUrls) {
+            cloudinaryService.deleteImage(imageUrl, new com.google.android.gms.tasks.OnCompleteListener<Boolean>() {
+                @Override
+                public void onComplete(com.google.android.gms.tasks.Task<Boolean> task) {
+                    deletedCount[0]++;
+                    if (task.isSuccessful() && task.getResult()) {
+                        Log.d("ProfileFragment", "Post image deleted successfully: " + imageUrl);
+                    } else {
+                        Log.w("ProfileFragment", "Failed to delete post image: " + imageUrl);
+                    }
+                    
+                    // Check if all images have been processed
+                    if (deletedCount[0] >= totalImages) {
+                        onComplete.run();
+                    }
+                }
+            });
+        }
+    }
+    
+    private void deletePostFromFirebase(FoodPost post) {
         firebaseService.deleteFoodPost(post.getId(), task -> {
             requireActivity().runOnUiThread(() -> {
                 binding.progressBar.setVisibility(View.GONE);

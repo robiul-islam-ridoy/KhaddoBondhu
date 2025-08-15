@@ -8,9 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import android.content.Intent;
 import com.bumptech.glide.Glide;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.model.User;
+import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
 import com.example.khaddobondhu.utils.UserRoleUtils;
 import java.util.List;
 
@@ -63,14 +65,25 @@ public class NGOAdapter extends RecyclerView.Adapter<NGOAdapter.ViewHolder> {
         
         // Load user image
         if (ngo.getProfilePictureUrl() != null && !ngo.getProfilePictureUrl().isEmpty()) {
+            String imageUrl = ngo.getProfilePictureUrl();
             Glide.with(context)
-                    .load(ngo.getProfilePictureUrl())
+                    .load(imageUrl)
                     .placeholder(R.drawable.placeholder_food)
                     .error(R.drawable.placeholder_food)
                     .centerCrop()
                     .into(holder.userImageView);
+            
+            // Add click listener for image preview
+            holder.userImageView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ImagePreviewActivity.class);
+                intent.putExtra("image_url", imageUrl);
+                intent.putExtra("image_title", ngo.getName() + "'s Profile Picture");
+                context.startActivity(intent);
+            });
         } else {
             holder.userImageView.setImageResource(R.drawable.placeholder_food);
+            // Remove click listener if no image
+            holder.userImageView.setOnClickListener(null);
         }
         
         // Set click listener

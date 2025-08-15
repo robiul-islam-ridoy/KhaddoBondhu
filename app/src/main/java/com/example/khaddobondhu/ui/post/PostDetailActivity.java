@@ -12,6 +12,7 @@ import com.example.khaddobondhu.databinding.ActivityPostDetailBinding;
 import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.model.Message;
 import com.example.khaddobondhu.service.FirebaseService;
+import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -142,8 +143,18 @@ public class PostDetailActivity extends AppCompatActivity {
                 .error(R.drawable.placeholder_food)
                 .centerCrop()
                 .into(binding.imageViewFood);
+            
+            // Add click listener for image preview
+            binding.imageViewFood.setOnClickListener(v -> {
+                Intent intent = new Intent(this, ImagePreviewActivity.class);
+                intent.putExtra("image_url", imageUrl);
+                intent.putExtra("image_title", foodPost.getTitle());
+                startActivity(intent);
+            });
         } else {
             binding.imageViewFood.setImageResource(R.drawable.placeholder_food);
+            // Remove click listener if no image
+            binding.imageViewFood.setOnClickListener(null);
         }
 
         // Show contact buttons for all post types

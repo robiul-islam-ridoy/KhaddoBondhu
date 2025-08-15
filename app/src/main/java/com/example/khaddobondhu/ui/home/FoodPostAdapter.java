@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.ui.post.PostDetailActivity;
+import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
 import com.example.khaddobondhu.utils.UserRoleUtils;
 import com.example.khaddobondhu.service.FirebaseService;
 import java.text.SimpleDateFormat;
@@ -101,14 +102,25 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         
         // Load image
         if (post.getImageUrls() != null && !post.getImageUrls().isEmpty()) {
+            String imageUrl = post.getImageUrls().get(0);
             Glide.with(context)
-                    .load(post.getImageUrls().get(0))
+                    .load(imageUrl)
                     .placeholder(R.drawable.placeholder_food)
                     .error(R.drawable.placeholder_food)
                     .centerCrop()
                     .into(holder.imageView);
+            
+            // Add click listener for image preview
+            holder.imageView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ImagePreviewActivity.class);
+                intent.putExtra("image_url", imageUrl);
+                intent.putExtra("image_title", post.getTitle());
+                context.startActivity(intent);
+            });
         } else {
             holder.imageView.setImageResource(R.drawable.placeholder_food);
+            // Remove click listener if no image
+            holder.imageView.setOnClickListener(null);
         }
         
         // Set click listener

@@ -46,6 +46,7 @@
         <activity android:name=".ui.post.PostDetailActivity" />
         <activity android:name=".ui.post.EditPostActivity" />
         <activity android:name=".ui.profile.UserProfileViewActivity" />
+        <activity android:name=".ui.image.ImagePreviewActivity" />
     
         
         <!-- Notification Service -->
