@@ -7,9 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -90,24 +87,15 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
         binding.buttonEditProfile.setOnClickListener(v -> {
             showEditProfileDialog();
         });
+        
+        binding.buttonLogout.setOnClickListener(v -> {
+            logout();
+        });
     }
     
 
     
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.profile_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_logout) {
-            logout();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    // Removed onCreateOptionsMenu and onOptionsItemSelected to eliminate 3-dot menu
     
     private void logout() {
         new AlertDialog.Builder(requireContext())

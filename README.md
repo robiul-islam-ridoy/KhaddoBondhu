@@ -88,7 +88,7 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 
 ### 🆕 Beautiful Image Collage System (v3.0)
 - ✅ **Dynamic Image Collages**: Automatic collage layout based on number of images (1, 2, 3, 4+)
-- ✅ **Smart Layout Management**: 
+- ✅ **Smart Layout Management**:
   - **1 image**: Full-size single image display
   - **2 images**: Side-by-side layout with margins
   - **3 images**: 2 on top, 1 on bottom with proper spacing
@@ -98,6 +98,25 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - ✅ **Performance Optimized**: Efficient image loading with Glide and proper memory management
 - ✅ **Visual Polish**: Small margins between images for professional appearance
 - ✅ **Responsive Design**: Collages adapt to different screen sizes and orientations
+
+### 🆕 Editable Image Collage System (v3.1)
+- ✅ **Post Edit Enhancement**: Editable image collages in post edit screen
+- ✅ **Individual Image Removal**: Click any image to remove with confirmation dialog
+- ✅ **Add New Images**: Floating action button (+) to add more images (max 4)
+- ✅ **Mixed Image Support**: Handle both existing URLs and new URIs simultaneously
+- ✅ **Immediate Preview**: New images appear instantly in collage when selected
+- ✅ **Smart Save System**: Properly manages image uploads, deletions, and updates
+- ✅ **Visual Feedback**: Red X buttons on images for clear removal indication
+- ✅ **Confirmation Dialogs**: Prevents accidental image deletion
+- ✅ **Proper Index Management**: Correct handling of image positions and removals
+
+### 🆕 Streamlined Logout System (v3.2)
+- ✅ **Removed 3-Dot Menu**: Cleaned up top toolbar by removing 3-dot menu from entire app
+- ✅ **Profile-Based Logout**: Logout button added to user profile page next to Edit Profile button
+- ✅ **Logout Icon**: Professional logout icon with consistent Material Design styling
+- ✅ **Confirmation Dialog**: Prevents accidental logout with confirmation prompt
+- ✅ **Clean Navigation**: Users navigate to Profile tab → tap Logout button → confirm → logout
+- ✅ **Consistent UI**: Logout button matches Edit Profile button design and layout
 
 ### User Interface Improvements
 - ✅ **Slim Search Bar**: Modern, compact search interface with rounded corners
@@ -118,7 +137,71 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v3.0)
+## Recent Updates (v3.2)
+
+### 🚪 Streamlined Logout System (v3.2)
+1. **3-Dot Menu Removal**: 
+   - Removed `onCreateOptionsMenu()` and `onOptionsItemSelected()` methods from MainActivity
+   - Eliminated menu inflation and handling from ProfileFragment
+   - Deleted unused menu files (`main_menu.xml`, `profile_menu.xml`)
+   - Cleaned up unused imports (Menu, MenuInflater, MenuItem)
+
+2. **Profile-Based Logout Implementation**: 
+   - Added logout button to ProfileFragment layout next to Edit Profile button
+   - Implemented side-by-side button layout with equal weight and proper margins
+   - Used existing `ic_logout.xml` drawable for consistent iconography
+   - Added click listener for logout functionality with confirmation dialog
+
+3. **Enhanced User Experience**: 
+   - **Clean Interface**: Removed cluttered 3-dot menu from top toolbar
+   - **Intuitive Navigation**: Users naturally go to Profile tab for account actions
+   - **Visual Consistency**: Logout button matches Edit Profile button styling
+   - **Safety First**: Confirmation dialog prevents accidental logout
+   - **Professional Design**: Material Design buttons with proper spacing and icons
+
+4. **Technical Improvements**: 
+   - **Code Cleanup**: Removed unused menu-related code and resources
+   - **Memory Optimization**: Eliminated unnecessary menu inflation overhead
+   - **Maintainability**: Simplified navigation structure and user flow
+   - **Consistency**: Unified logout experience across the entire application
+
+### 🖼️ Editable Image Collage System (v3.1)
+1. **EditableImageCollageView Implementation**: 
+   - Created `EditableImageCollageView` extending FrameLayout for editable collage functionality
+   - Enhanced with `OnImageRemoveListener` interface for both existing and new image removal
+   - Supports mixed image types (URLs for existing, URIs for new images)
+   - Proper index management for accurate image removal
+
+2. **Post Edit Enhancement**: 
+   - Updated `EditPostActivity` to use `EditableImageCollageView` instead of single ImageView
+   - Implemented separate lists for `currentImageUrls`, `newImageUris`, and `imagesToDelete`
+   - Added floating action button (+) for adding new images with 4-image limit
+   - Enhanced UI with "Tap images to remove • Tap + to add more" instruction text
+
+3. **Smart Image Management**: 
+   - **Existing Images**: Loaded from Firebase and displayed as collages
+   - **New Images**: Selected from gallery and immediately previewed in collage
+   - **Removal System**: Individual image removal with confirmation dialogs
+   - **Mixed Display**: Both existing and new images shown together seamlessly
+
+4. **Enhanced User Experience**: 
+   - Immediate preview when new images are selected
+   - Red X buttons on images for clear visual feedback
+   - Confirmation dialogs prevent accidental deletions
+   - Proper navigation - stays in edit mode when removing images
+   - Re-selection capability after removing wrong images
+
+5. **Robust Save System**: 
+   - **Delete Phase**: Removes deleted images from Cloudinary
+   - **Upload Phase**: Uploads new images to Cloudinary
+   - **Update Phase**: Updates post data with final combined image list
+   - **Error Handling**: Proper error management and user feedback
+
+6. **Visual Enhancements**: 
+   - Created `view_editable_image_collage.xml` with remove button overlays
+   - Added `circle_red_background.xml` for red circular remove buttons
+   - Created `ic_add.xml` and `ic_close.xml` vector drawables
+   - Updated `activity_edit_post.xml` with new collage view and improved layout
 
 ### 🖼️ Beautiful Image Collage System (v3.0)
 1. **Custom ImageCollageView**: Created a reusable custom view for dynamic image collage layouts
@@ -127,15 +210,15 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
    - Main feed (FoodPostAdapter)
    - Post detail view (PostDetailActivity)
    - User profile posts (UserPostAdapter)
-4. **Enhanced User Experience**: 
+4. **Enhanced User Experience**:
    - Click any collage to view images in full screen
    - Single images open in ImagePreviewActivity
    - Multiple images open in ImageCarouselActivity
-5. **Visual Improvements**: 
+5. **Visual Improvements**:
    - Small 2dp margins between images for clean separation
    - Proper overlay for 4+ images showing additional count
    - Consistent styling across all collage layouts
-6. **Performance & Reliability**: 
+6. **Performance & Reliability**:
    - Replaced complex GridLayout with reliable LinearLayout approach
    - Fixed crash issues with proper layout management
    - Optimized image loading with Glide integration
@@ -186,148 +269,148 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 ### Key Technical Improvements
 
 #### 🖼️ Beautiful Image Collage System (v3.0)
-1. **Custom View Implementation**: 
+1. **Custom View Implementation**:
    - Created `ImageCollageView` extending FrameLayout for reusable collage functionality
    - Implemented dynamic layout switching based on image count
    - Used LinearLayout approach for reliable performance and crash prevention
 
-2. **Smart Layout Management**: 
+2. **Smart Layout Management**:
    - **Single Image**: Full-size display with proper scaling
    - **Two Images**: Side-by-side layout with 2dp margins for clean separation
    - **Three Images**: 2 on top, 1 on bottom layout with proper spacing
    - **Four+ Images**: 2x2 grid with overlay showing additional image count
 
-3. **Universal Integration**: 
+3. **Universal Integration**:
    - Updated `FoodPostAdapter` to use ImageCollageView instead of single ImageView
    - Modified `PostDetailActivity` for collage display in detail view
    - Enhanced `UserPostAdapter` for profile post collages
    - Updated all relevant layout files (`item_food_post.xml`, `activity_post_detail.xml`, `item_user_post.xml`)
 
-4. **Enhanced User Interaction**: 
+4. **Enhanced User Interaction**:
    - Click listeners for opening image previews or carousels
    - Single images open in `ImagePreviewActivity` for full-screen viewing
    - Multiple images open in `ImageCarouselActivity` for swipeable gallery
    - Proper title and image URL passing for context
 
-5. **Performance & Reliability**: 
+5. **Performance & Reliability**:
    - Fixed crash issues by replacing complex GridLayout with LinearLayout approach
    - Optimized image loading with Glide integration and proper error handling
    - Memory-efficient layout management with proper view visibility control
    - Responsive design that adapts to different screen sizes
 
 #### 🖼️ Comprehensive Image Preview System (v2.9)
-1. **Universal Image Preview Implementation**: 
+1. **Universal Image Preview Implementation**:
    - Added image preview functionality to all explore page adapters (SearchResultsAdapter, RestaurantAdapter, NGOAdapter, IndividualAdapter)
    - Enhanced UserProfileViewActivity with image preview capability
    - Fixed close button functionality in ImagePreviewActivity
    - Changed image scale type to centerInside for original size display
 
-2. **Explore Page Integration**: 
+2. **Explore Page Integration**:
    - All user profile pictures in explore page are now clickable for preview
    - Smart handling: only adds click listeners when images exist
    - Proper titles showing user name + "Profile Picture" for context
    - Consistent preview experience across all user types (Restaurant, NGO, Individual)
 
-3. **User Profile View Enhancement**: 
+3. **User Profile View Enhancement**:
    - Profile pictures in UserProfileViewActivity now support image preview
    - Added ImagePreviewActivity import and click listener implementation
    - Proper error handling when no profile picture is available
    - Maintains read-only functionality while adding preview capability
 
-4. **Image Preview Activity Improvements**: 
+4. **Image Preview Activity Improvements**:
    - Fixed close button (X) click listener for proper navigation
    - Changed scaleType from fitCenter to centerInside for original size display
    - Maintains zoom and pan functionality with proper gesture handling
    - Consistent black background with white close button for professional appearance
 
 #### 📸 Profile Photo Preview & Enhancement (v2.6)
-1. **Direct ImageView Reference Implementation**: 
+1. **Direct ImageView Reference Implementation**:
    - Store `currentDialogImageView` reference when dialog is created
    - Direct update approach eliminates complex view finding methods
    - Reliable preview functionality with immediate visual feedback
 
-2. **Enhanced Visual Design**: 
+2. **Enhanced Visual Design**:
    - Added 3dp padding to profile picture ImageView in edit dialog
    - Improved visual appearance with subtle spacing
    - Maintains professional circular crop styling
 
-3. **Memory Management & Performance**: 
+3. **Memory Management & Performance**:
    - Dialog dismiss listener clears ImageView reference
    - Prevents memory leaks and stale references
    - Optimized preview update performance
 
-4. **User Experience Improvements**: 
+4. **User Experience Improvements**:
    - Instant preview when user selects a new profile photo
    - No need to save first to see how the photo looks
    - Professional and intuitive editing workflow
 
 #### 🔍 Explore Page Name-Only Search (v2.4)
-1. **Simplified Search Implementation**: 
+1. **Simplified Search Implementation**:
    - Modified `matchesSearch()` method to search only by user names
    - Removed search in description, email, and user type fields
    - Cleaner, more focused search results
 
-2. **Advanced Filtering Logic**: 
+2. **Advanced Filtering Logic**:
    - When no user type is selected: Search only by name across all users
    - When user type is selected: Filter by user type AND search by name within filtered set
    - Combined filtering through `matchesSearch()` + `matchesFilter()` methods
 
-3. **Enhanced User Experience**: 
+3. **Enhanced User Experience**:
    - Search hint already shows "Search Here by name"
    - Results count shows appropriate filtering information
    - Maintains existing filter dialog functionality
 
 #### 🔍 Smart Search & Filter System (v2.3)
-1. **Context-Aware Filter Implementation**: 
+1. **Context-Aware Filter Implementation**:
    - Dynamic filter options based on selected post category (All Posts, Sell Posts, Donation Posts, Request Posts)
    - Automatic hiding of irrelevant filter options (post type filter hidden for specific categories)
    - Price range filter hidden for donation and request posts (free items)
    - Filter labels properly hidden when corresponding inputs are hidden
 
-2. **Manual Search Control**: 
+2. **Manual Search Control**:
    - Removed automatic search on text change
    - Search triggered only on Enter key press or search icon click
    - Improved user control over search timing and performance
 
-3. **Clean Interface Design**: 
+3. **Clean Interface Design**:
    - Removed search icon from toolbar (top bar)
    - Kept main search bar on home page for user convenience
    - Streamlined navigation with category-based post browsing
 
 #### 🎨 UI/UX Theme Enhancements (v2.2)
-1. **Gradient Toolbar Implementation**: 
+1. **Gradient Toolbar Implementation**:
    - Created `toolbar_gradient_background.xml` with beautiful aqua/blue gradient
    - Applied gradient backgrounds to all activity toolbars (Main, PostDetail, EditPost, Chat, UserProfileView)
    - Updated color scheme to match gradient theme throughout the app
 
-2. **Static App Branding**: 
+2. **Static App Branding**:
    - Removed dynamic page titles and implemented consistent "KhaddoBondhu" branding
    - Created `ToolbarTitleStyle` with modern typography (22sp, bold, centered)
    - Eliminated duplicate app names in toolbars
 
-3. **Enhanced Navigation**: 
+3. **Enhanced Navigation**:
    - Updated bottom navigation with gradient-colored selected items
    - Created `BottomNavigationStyle` and `bottom_nav_color.xml` for consistent theming
    - Improved visual feedback for active navigation items
 
 #### Layout & Performance Improvements (v2.1)
-1. **Layout Restructuring**: 
+1. **Layout Restructuring**:
    - Used FrameLayout to properly manage search results vs default content
    - Eliminated space competition between different content areas
 
-2. **Enhanced Scrolling**: 
+2. **Enhanced Scrolling**:
    - Fixed scrolling issues and optimized RecyclerView performance
    - Added `setHasFixedSize(false)` and `setItemViewCacheSize(20)`
 
-3. **Real-time Search**: 
+3. **Real-time Search**:
    - Implemented TextWatcher for instant search results
    - Triggers search after 2 characters for optimal performance
 
-4. **Filter System**: 
+4. **Filter System**:
    - Multi-choice dialog for filtering by user types
    - Supports Individual, Restaurant, and NGO filtering
 
-5. **UI/UX Enhancements**: 
+5. **UI/UX Enhancements**:
    - Slim search bar with proper icon visibility
    - Smooth transitions between search and default content
    - Proper empty state handling
@@ -374,6 +457,22 @@ The application has been thoroughly tested for:
 - **Performance optimization and crash prevention**
 - **Visual polish with proper margins and spacing**
 - **Universal collage implementation across all food post displays**
+- **Editable image collage functionality in post edit screen**
+- **Individual image removal with proper index management**
+- **Mixed image type support (URLs and URIs)**
+- **Immediate preview for newly selected images**
+- **Confirmation dialogs for image removal**
+- **Proper navigation handling during image removal**
+- **Re-selection capability after removing images**
+- **Robust save system with proper image management**
+- **Visual feedback with red X buttons on images**
+- **Floating action button for adding new images**
+- **Maximum image limit enforcement (4 images)**
+- **3-dot menu removal from top toolbar**
+- **Profile-based logout button implementation**
+- **Logout confirmation dialog functionality**
+- **Clean navigation flow for logout process**
+- **Consistent button styling and layout**
 
 ## Contributing
 
