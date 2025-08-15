@@ -22,6 +22,7 @@ import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.model.User;
 import com.example.khaddobondhu.service.FirebaseService;
+import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
 import com.example.khaddobondhu.utils.UserRoleUtils;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -196,21 +197,27 @@ public class UserProfileViewActivity extends AppCompatActivity {
         // Load profile picture
         Log.d(TAG, "Loading profile picture. URL: " + user.getProfilePictureUrl());
         if (user.getProfilePictureUrl() != null && !user.getProfilePictureUrl().isEmpty()) {
-//            Glide.with(this)
-//                    .load(user.getProfilePictureUrl())
-//                    .placeholder(R.drawable.ic_person)
-//                    .error(R.drawable.ic_person)
-//                    .centerCrop()
-//                    .into((android.widget.ImageView) profilePictureImageView);
+            String imageUrl = user.getProfilePictureUrl();
             Glide.with(this)
-                    .load(user.getProfilePictureUrl())
+                    .load(imageUrl)
                     .placeholder(R.drawable.ic_person)
                     .error(R.drawable.ic_person)
                     .circleCrop()
                     .into(profilePictureImageView);
+            
+            // Add click listener for image preview
+            profilePictureImageView.setOnClickListener(v -> {
+                Intent intent = new Intent(this, ImagePreviewActivity.class);
+                intent.putExtra("image_url", imageUrl);
+                intent.putExtra("image_title", user.getName() + "'s Profile Picture");
+                startActivity(intent);
+            });
+            
             Log.d(TAG, "Profile picture loaded from URL");
         } else {
-            ((android.widget.ImageView) profilePictureImageView).setImageResource(R.drawable.ic_person);
+            profilePictureImageView.setImageResource(R.drawable.ic_person);
+            // Remove click listener if no image
+            profilePictureImageView.setOnClickListener(null);
             Log.d(TAG, "Profile picture set to default icon");
         }
 
