@@ -94,6 +94,31 @@ public class FirebaseService {
         return currentUser != null;
     }
     
+    public void testUserAuthentication(Callback callback) {
+        if (getCurrentUser() == null) {
+            callback.onError("No authenticated user");
+            return;
+        }
+        
+        Log.d(TAG, "Testing user authentication:");
+        Log.d(TAG, "User ID: " + getCurrentUser().getUid());
+        Log.d(TAG, "User Email: " + getCurrentUser().getEmail());
+        Log.d(TAG, "User Display Name: " + getCurrentUser().getDisplayName());
+        Log.d(TAG, "User is Email Verified: " + getCurrentUser().isEmailVerified());
+        
+        // Test if user can read from users collection
+        usersRef.document(getCurrentUser().getUid()).get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "User can read their own profile");
+                    callback.onSuccess();
+                } else {
+                    Log.e(TAG, "User cannot read their own profile: " + task.getException().getMessage());
+                    callback.onError("Cannot read user profile: " + task.getException().getMessage());
+                }
+            });
+    }
+    
     public void signOut() {
         auth.signOut();
         currentUser = null;
@@ -216,6 +241,9 @@ public class FirebaseService {
             return;
         }
 
+        Log.d(TAG, "Creating food post for user: " + getCurrentUser().getUid());
+        Log.d(TAG, "User email: " + getCurrentUser().getEmail());
+
         // Security validation
         SecurityUtils.ValidationResult validation = SecurityUtils.validateFoodPost(foodPost);
         if (!validation.isValid()) {
@@ -246,9 +274,19 @@ public class FirebaseService {
         postData.put("createdAt", com.google.firebase.Timestamp.now());
         postData.put("isActive", true);
 
+        Log.d(TAG, "Attempting to create post with data: " + postData.toString());
+
         db.collection("food_posts")
             .add(postData)
-            .addOnCompleteListener(listener);
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Post created successfully with ID: " + task.getResult().getId());
+                } else {
+                    Log.e(TAG, "Failed to create post: " + task.getException().getMessage());
+                    Log.e(TAG, "Exception type: " + task.getException().getClass().getSimpleName());
+                }
+                listener.onComplete(task);
+            });
     }
     
     public void getFoodPosts(OnCompleteListener<QuerySnapshot> listener) {

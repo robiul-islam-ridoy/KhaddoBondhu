@@ -73,6 +73,20 @@ public class CreatePostFragment extends Fragment {
         firebaseService = new FirebaseService();
         cloudinaryService = new CloudinaryService(requireContext());
         selectedImages = new ArrayList<>();
+        
+        // Test user authentication
+        firebaseService.testUserAuthentication(new FirebaseService.Callback() {
+            @Override
+            public void onSuccess() {
+                Log.d("CREATE_POST", "User authentication test passed");
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("CREATE_POST", "User authentication test failed: " + error);
+                Toast.makeText(getContext(), "Auth test failed: " + error, Toast.LENGTH_LONG).show();
+            }
+        });
 
         // Initialize views
         initializeViews(view);

@@ -6,6 +6,7 @@
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/postTypeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Post Type"
@@ -32,6 +33,7 @@
         android:layout_marginBottom="16dp" />
 
     <TextView
+        android:id="@+id/priceRangeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Price Range"
