@@ -102,11 +102,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_logout) {
             showLogoutConfirmation();
             return true;
-        } else if (id == R.id.action_test_cloudinary) {
-            // Temporary test button
-            Intent intent = new Intent(this, CloudinaryTestActivity.class);
-            startActivity(intent);
-            return true;
+
         }
         
         return super.onOptionsItemSelected(item);

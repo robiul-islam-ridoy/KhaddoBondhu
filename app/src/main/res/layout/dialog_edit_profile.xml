@@ -53,7 +53,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_person"
                 android:scaleType="centerCrop"
-                android:padding="24dp" />
+                android:padding="3dp" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/changePictureButton"

@@ -105,9 +105,16 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v2.4)
+## Recent Updates (v2.6)
 
-### 🔍 Explore Page Name-Only Search
+### 📸 Profile Photo Preview & Enhancement (v2.6)
+1. **Immediate Photo Preview**: Profile photo preview appears instantly when user selects a new image
+2. **Enhanced Visual Design**: Added 3dp padding for cleaner profile picture appearance
+3. **Reliable Preview System**: Direct ImageView reference approach for consistent functionality
+4. **Memory Management**: Proper cleanup when dialog is dismissed to prevent memory leaks
+5. **Improved User Experience**: Instant visual feedback with professional circular crop
+
+### 🔍 Explore Page Name-Only Search (v2.4)
 1. **Name-Based Search**: Explore page now searches only by user names by default
 2. **Advanced Filtering**: When user types are selected, search combines name + user type filtering
 3. **Simplified Search Logic**: Removed search in description, email, and user type fields
@@ -136,6 +143,27 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 5. **View-Only Interface**: Removed edit/delete functionality for external profile viewing
 
 ### Key Technical Improvements
+
+#### 📸 Profile Photo Preview & Enhancement (v2.6)
+1. **Direct ImageView Reference Implementation**: 
+   - Store `currentDialogImageView` reference when dialog is created
+   - Direct update approach eliminates complex view finding methods
+   - Reliable preview functionality with immediate visual feedback
+
+2. **Enhanced Visual Design**: 
+   - Added 3dp padding to profile picture ImageView in edit dialog
+   - Improved visual appearance with subtle spacing
+   - Maintains professional circular crop styling
+
+3. **Memory Management & Performance**: 
+   - Dialog dismiss listener clears ImageView reference
+   - Prevents memory leaks and stale references
+   - Optimized preview update performance
+
+4. **User Experience Improvements**: 
+   - Instant preview when user selects a new profile photo
+   - No need to save first to see how the photo looks
+   - Professional and intuitive editing workflow
 
 #### 🔍 Explore Page Name-Only Search (v2.4)
 1. **Simplified Search Implementation**: 
@@ -233,6 +261,10 @@ The application has been thoroughly tested for:
 - Name-only search functionality on explore page
 - Advanced filtering with user type selection
 - Combined search and filter logic validation
+- Profile photo preview functionality in edit dialog
+- ImageView reference management and memory cleanup
+- Visual design consistency with padding and styling
+- Immediate preview response and user feedback
 
 ## Contributing
 

@@ -63,6 +63,7 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
     private static final int REQUEST_IMAGE_PICK = 1001;
     private CloudinaryService cloudinaryService;
     private static Uri selectedImageUri = null;
+    private ImageView currentDialogImageView = null;
 
     @Nullable
     @Override
@@ -135,6 +136,9 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
         FloatingActionButton changePictureButton = dialogView.findViewById(R.id.changePictureButton);
         Button cancelButton = dialogView.findViewById(R.id.cancelButton);
         Button saveButton = dialogView.findViewById(R.id.saveButton);
+        
+        // Store reference to the dialog's ImageView for preview updates
+        currentDialogImageView = profilePictureImageView;
 
         // Pre-fill current data
         nameInput.setText(firebaseService.getCurrentUserName());
@@ -188,6 +192,11 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
         });
 
         dialog.show();
+        
+        // Clear the reference when dialog is dismissed
+        dialog.setOnDismissListener(dialogInterface -> {
+            currentDialogImageView = null;
+        });
     }
 
     private void updateProfileWithImage(String name, String phone, String bio, String imagePath, AlertDialog dialog, Button saveButton) {
@@ -424,47 +433,24 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
             if (selectedImageUri != null) {
-                // Store the selected image path for later use
-                // This will be used in the save button click handlers
-                // For now, we'll just show a preview
-                ImageView imageView = null;
-                
-                // Find the current dialog's image view
-                if (getActivity() != null) {
-                    View currentFocus = getActivity().getCurrentFocus();
-                    if (currentFocus != null) {
-                        ViewParent parent = currentFocus.getParent();
-                        while (parent != null) {
-                            if (parent instanceof ViewGroup) {
-                                ViewGroup viewGroup = (ViewGroup) parent;
-                                ImageView foundImageView = viewGroup.findViewById(R.id.profilePictureImageView);
-                                if (foundImageView != null) {
-                                    imageView = foundImageView;
-                                    break;
-                                }
-                                foundImageView = viewGroup.findViewById(R.id.postImageView);
-                                if (foundImageView != null) {
-                                    imageView = foundImageView;
-                                    break;
-                                }
-                            }
-                            parent = parent.getParent();
-                        }
-                    }
-                }
-                
-                if (imageView != null) {
-                    Glide.with(this)
-                        .load(selectedImageUri)
-                        .placeholder(R.drawable.placeholder_food)
-                        .error(R.drawable.placeholder_food)
-                        .into(imageView);
-                }
-                
-                // Store the selected image path in a way that can be accessed by the save button
-                // We'll use a static variable for simplicity
+                // Store the selected image URI for later use
                 ProfileFragment.selectedImageUri = selectedImageUri;
+                
+                // Show preview in the current dialog
+                showImagePreviewInDialog(selectedImageUri);
             }
+        }
+    }
+    
+    private void showImagePreviewInDialog(Uri imageUri) {
+        // Update the dialog's ImageView directly using the stored reference
+        if (currentDialogImageView != null) {
+            Glide.with(this)
+                .load(imageUri)
+                .placeholder(R.drawable.ic_person)
+                .error(R.drawable.ic_person)
+                .circleCrop()
+                .into(currentDialogImageView);
         }
     }
     
