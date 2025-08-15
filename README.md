@@ -102,7 +102,7 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 ### 🆕 Editable Image Collage System (v3.1)
 - ✅ **Post Edit Enhancement**: Editable image collages in post edit screen
 - ✅ **Individual Image Removal**: Click any image to remove with confirmation dialog
-- ✅ **Add New Images**: Floating action button (+) to add more images (max 10)
+- ✅ **Add New Images**: Floating action button (+) to add more images (max 4)
 - ✅ **Mixed Image Support**: Handle both existing URLs and new URIs simultaneously
 - ✅ **Immediate Preview**: New images appear instantly in collage when selected
 - ✅ **Smart Save System**: Properly manages image uploads, deletions, and updates
@@ -141,7 +141,7 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 2. **Post Edit Enhancement**: 
    - Updated `EditPostActivity` to use `EditableImageCollageView` instead of single ImageView
    - Implemented separate lists for `currentImageUrls`, `newImageUris`, and `imagesToDelete`
-   - Added floating action button (+) for adding new images with 10-image limit
+   - Added floating action button (+) for adding new images with 4-image limit
    - Enhanced UI with "Tap images to remove • Tap + to add more" instruction text
 
 3. **Smart Image Management**: 
@@ -433,7 +433,7 @@ The application has been thoroughly tested for:
 - **Robust save system with proper image management**
 - **Visual feedback with red X buttons on images**
 - **Floating action button for adding new images**
-- **Maximum image limit enforcement (10 images)**
+- **Maximum image limit enforcement (4 images)**
 
 ## Contributing
 
