@@ -7,27 +7,27 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.khaddobondhu.ui.home.HomeFragment"
-        android:label="@string/title_home" />
+        android:label="@string/app_name" />
 
     <fragment
         android:id="@+id/navigation_explore"
         android:name="com.example.khaddobondhu.ui.explore.ExploreFragment"
-        android:label="@string/title_explore" />
+        android:label="@string/app_name" />
 
     <fragment
         android:id="@+id/navigation_create_post"
         android:name="com.example.khaddobondhu.ui.createpost.CreatePostFragment"
-        android:label="@string/title_create_post" />
+        android:label="@string/app_name" />
 
     <fragment
         android:id="@+id/navigation_messages"
         android:name="com.example.khaddobondhu.ui.messages.MessagesFragment"
-        android:label="@string/title_messages" />
+        android:label="@string/app_name" />
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.example.khaddobondhu.ui.profile.ProfileFragment"
-        android:label="@string/title_profile" />
+        android:label="@string/app_name" />
 
     <fragment
         android:id="@+id/navigation_login"

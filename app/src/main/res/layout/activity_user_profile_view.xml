@@ -14,10 +14,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@drawable/toolbar_gradient_background"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="User Profile"
-            app:titleTextColor="@android:color/white" />
+            app:title="@string/app_name"
+            app:titleTextColor="@android:color/white"
+            app:titleTextAppearance="@style/ToolbarTitleStyle" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
