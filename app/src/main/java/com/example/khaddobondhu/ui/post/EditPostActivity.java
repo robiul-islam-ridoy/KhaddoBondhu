@@ -165,8 +165,8 @@ public class EditPostActivity extends AppCompatActivity {
     }
     
     private void addNewImage(Uri imageUri) {
-        if (currentImageUrls.size() + newImageUris.size() >= 10) {
-            Toast.makeText(this, "Maximum 10 images allowed", Toast.LENGTH_SHORT).show();
+        if (currentImageUrls.size() + newImageUris.size() >= 4) {
+            Toast.makeText(this, "Maximum 4 images allowed", Toast.LENGTH_SHORT).show();
             return;
         }
         
