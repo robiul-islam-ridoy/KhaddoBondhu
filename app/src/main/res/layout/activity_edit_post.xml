@@ -43,7 +43,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Post Image"
+                    android:text="Post Images"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary"
@@ -55,20 +55,18 @@
                     android:background="@drawable/image_upload_background"
                     android:layout_marginBottom="16dp">
 
-                    <ImageView
-                        android:id="@+id/postImageView"
+                    <com.example.khaddobondhu.ui.view.EditableImageCollageView
+                        android:id="@+id/imageCollageView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/placeholder_food"
-                        android:scaleType="centerCrop" />
+                        android:layout_height="match_parent" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/changeImageButton"
+                        android:id="@+id/addImageButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|end"
                         android:layout_margin="12dp"
-                        android:src="@drawable/ic_camera"
+                        android:src="@drawable/ic_add"
                         app:fabSize="mini"
                         app:backgroundTint="@color/primary_color"
                         app:tint="@android:color/white" />
@@ -78,7 +76,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tap to change image"
+                    android:text="Tap images to remove • Tap + to add more"
                     android:textSize="14sp"
                     android:textColor="@color/text_secondary" />
 
@@ -114,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:minLines="3"
-                    android:maxLines="6" />
+                    android:maxLines="5" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,7 +157,7 @@
 
             </LinearLayout>
 
-            <!-- Price and Quantity Row -->
+            <!-- Price, Quantity and Unit Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -200,54 +198,27 @@
 
             </LinearLayout>
 
-            <!-- Quantity Unit and Expiry Row -->
-            <LinearLayout
+            <!-- Quantity Unit -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:hint="Quantity Unit"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
+                <AutoCompleteTextView
+                    android:id="@+id/quantityUnitSpinner"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:hint="Unit"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                    android:inputType="none" />
 
-                    <AutoCompleteTextView
-                        android:id="@+id/quantityUnitSpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:hint="Expiry Date"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/expiryDateEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        android:focusable="false"
-                        android:clickable="true" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Location -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="16dp"
                 android:hint="Pickup Location"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -259,17 +230,34 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Expiry Date -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:hint="Expiry Date &amp; Time"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/expiryDateEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <!-- Save Button -->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/saveButton"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:text="Save Changes"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:background="@drawable/gradient_background"
-                android:textColor="@android:color/white"
-                android:elevation="4dp" />
+                app:cornerRadius="8dp"
+                app:backgroundTint="@color/primary_color" />
 
             <!-- Progress Bar -->
             <ProgressBar
