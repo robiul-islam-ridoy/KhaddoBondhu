@@ -110,6 +110,14 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - ✅ **Confirmation Dialogs**: Prevents accidental image deletion
 - ✅ **Proper Index Management**: Correct handling of image positions and removals
 
+### 🆕 Streamlined Logout System (v3.2)
+- ✅ **Removed 3-Dot Menu**: Cleaned up top toolbar by removing 3-dot menu from entire app
+- ✅ **Profile-Based Logout**: Logout button added to user profile page next to Edit Profile button
+- ✅ **Logout Icon**: Professional logout icon with consistent Material Design styling
+- ✅ **Confirmation Dialog**: Prevents accidental logout with confirmation prompt
+- ✅ **Clean Navigation**: Users navigate to Profile tab → tap Logout button → confirm → logout
+- ✅ **Consistent UI**: Logout button matches Edit Profile button design and layout
+
 ### User Interface Improvements
 - ✅ **Slim Search Bar**: Modern, compact search interface with rounded corners
 - ✅ **Icon Visibility**: Clear filter and search icons with proper tinting
@@ -129,7 +137,33 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v3.1)
+## Recent Updates (v3.2)
+
+### 🚪 Streamlined Logout System (v3.2)
+1. **3-Dot Menu Removal**: 
+   - Removed `onCreateOptionsMenu()` and `onOptionsItemSelected()` methods from MainActivity
+   - Eliminated menu inflation and handling from ProfileFragment
+   - Deleted unused menu files (`main_menu.xml`, `profile_menu.xml`)
+   - Cleaned up unused imports (Menu, MenuInflater, MenuItem)
+
+2. **Profile-Based Logout Implementation**: 
+   - Added logout button to ProfileFragment layout next to Edit Profile button
+   - Implemented side-by-side button layout with equal weight and proper margins
+   - Used existing `ic_logout.xml` drawable for consistent iconography
+   - Added click listener for logout functionality with confirmation dialog
+
+3. **Enhanced User Experience**: 
+   - **Clean Interface**: Removed cluttered 3-dot menu from top toolbar
+   - **Intuitive Navigation**: Users naturally go to Profile tab for account actions
+   - **Visual Consistency**: Logout button matches Edit Profile button styling
+   - **Safety First**: Confirmation dialog prevents accidental logout
+   - **Professional Design**: Material Design buttons with proper spacing and icons
+
+4. **Technical Improvements**: 
+   - **Code Cleanup**: Removed unused menu-related code and resources
+   - **Memory Optimization**: Eliminated unnecessary menu inflation overhead
+   - **Maintainability**: Simplified navigation structure and user flow
+   - **Consistency**: Unified logout experience across the entire application
 
 ### 🖼️ Editable Image Collage System (v3.1)
 1. **EditableImageCollageView Implementation**: 
@@ -434,6 +468,11 @@ The application has been thoroughly tested for:
 - **Visual feedback with red X buttons on images**
 - **Floating action button for adding new images**
 - **Maximum image limit enforcement (4 images)**
+- **3-dot menu removal from top toolbar**
+- **Profile-based logout button implementation**
+- **Logout confirmation dialog functionality**
+- **Clean navigation flow for logout process**
+- **Consistent button styling and layout**
 
 ## Contributing
 
