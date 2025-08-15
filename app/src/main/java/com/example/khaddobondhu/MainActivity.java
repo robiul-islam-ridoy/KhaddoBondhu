@@ -3,8 +3,6 @@ package com.example.khaddobondhu;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -89,37 +87,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        
-        if (id == R.id.action_logout) {
-            showLogoutConfirmation();
-            return true;
-
-        }
-        
-        return super.onOptionsItemSelected(item);
-    }
+    // Removed onCreateOptionsMenu and onOptionsItemSelected to eliminate 3-dot menu
     
 
     
-    private void showLogoutConfirmation() {
-        new AlertDialog.Builder(this)
-            .setTitle("Logout")
-            .setMessage("Are you sure you want to logout?")
-            .setPositiveButton("Logout", (dialog, which) -> {
-                logout();
-            })
-            .setNegativeButton("Cancel", null)
-            .show();
-    }
+
 
     private void startLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
