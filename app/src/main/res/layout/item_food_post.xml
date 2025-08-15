@@ -17,7 +17,8 @@
         <com.example.khaddobondhu.ui.view.ImageCollageView
             android:id="@+id/imageCollageView"
             android:layout_width="120dp"
-            android:layout_height="120dp" />
+            android:layout_height="120dp"
+            android:layout_gravity="center"/>
 
         <!-- Content Container -->
         <LinearLayout
@@ -40,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Food Title"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
                     android:maxLines="2"
@@ -81,13 +82,29 @@
                 android:gravity="center_vertical"
                 android:layout_marginTop="8dp">
 
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/profile_picture_background">
+
+                    <ImageView
+                        android:id="@+id/profilePictureImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_person"
+                        android:scaleType="centerCrop"
+                        android:padding="2dp" />
+                </FrameLayout>
+
                 <TextView
                     android:id="@+id/sellerNameTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Seller Name"
-                    android:textSize="14sp"
+                    android:paddingLeft="10dp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
                     android:maxLines="1"
@@ -165,14 +182,17 @@
             <!-- Expiry Info -->
             <TextView
                 android:id="@+id/expiryTextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Expires: 2 days left"
-                android:textSize="12sp"
+                android:layout_weight="1"
+                android:textSize="12dp"
+                android:layout_gravity="center_vertical"
+                android:drawableStart="@drawable/ic_expired"
+                android:drawablePadding="4dp"
                 android:textColor="@android:color/holo_red_dark"
                 android:layout_marginTop="4dp"
-                android:visibility="gone" />
-
+                android:visibility="visible"/>
         </LinearLayout>
 
     </LinearLayout>
