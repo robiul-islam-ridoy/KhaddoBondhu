@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.navigation_profile
         ).build();
 
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        // Don't use NavigationUI for title updates - keep static title
         NavigationUI.setupWithNavController(navView, navController);
         
         // Listen for navigation changes to update toolbar and trigger refresh

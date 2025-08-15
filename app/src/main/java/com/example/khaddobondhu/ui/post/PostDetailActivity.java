@@ -52,7 +52,7 @@ public class PostDetailActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Post Details");
+            getSupportActionBar().setTitle(R.string.app_name);
         }
     }
 

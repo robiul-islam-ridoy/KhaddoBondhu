@@ -64,13 +64,17 @@ public class ChatActivity extends AppCompatActivity {
             currentUser.getUid() + "_" + receiverId : receiverId + "_" + currentUser.getUid();
 
         // Initialize views
-        chatHeader = findViewById(R.id.textViewChatHeader);
         editTextMessage = findViewById(R.id.editTextMessage);
         buttonSend = findViewById(R.id.buttonSend);
         recyclerViewMessages = findViewById(R.id.recyclerViewMessages);
 
-        // Setup UI
-        chatHeader.setText("Chatting with " + receiverName);
+        // Setup toolbar
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.app_name);
+        }
         
         // Setup RecyclerView
         messages = new ArrayList<>();

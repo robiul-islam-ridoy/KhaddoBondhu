@@ -105,9 +105,16 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v2.1)
+## Recent Updates (v2.2)
 
-### User Profile View Implementation
+### 🎨 UI/UX Theme Transformation
+1. **Beautiful Gradient Toolbars**: Implemented stunning aqua/blue gradient backgrounds across all app screens
+2. **Static App Branding**: Replaced dynamic page titles with consistent "KhaddoBondhu" branding
+3. **Centered Logo Design**: Modern, centered app name with professional typography
+4. **Enhanced Bottom Navigation**: Gradient-colored selected items for better visual feedback
+5. **Consistent Design Language**: Unified gradient theme matching login/signup page aesthetics
+
+### User Profile View Implementation (v2.1)
 1. **New Activity**: `UserProfileViewActivity` for read-only profile viewing
 2. **Enhanced Firebase Service**: Added methods for fetching user data and posts by user ID
 3. **Dynamic Content Loading**: Real-time loading of user posts and statistics
@@ -116,6 +123,23 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 
 ### Key Technical Improvements
 
+#### 🎨 UI/UX Theme Enhancements (v2.2)
+1. **Gradient Toolbar Implementation**: 
+   - Created `toolbar_gradient_background.xml` with beautiful aqua/blue gradient
+   - Applied gradient backgrounds to all activity toolbars (Main, PostDetail, EditPost, Chat, UserProfileView)
+   - Updated color scheme to match gradient theme throughout the app
+
+2. **Static App Branding**: 
+   - Removed dynamic page titles and implemented consistent "KhaddoBondhu" branding
+   - Created `ToolbarTitleStyle` with modern typography (22sp, bold, centered)
+   - Eliminated duplicate app names in toolbars
+
+3. **Enhanced Navigation**: 
+   - Updated bottom navigation with gradient-colored selected items
+   - Created `BottomNavigationStyle` and `bottom_nav_color.xml` for consistent theming
+   - Improved visual feedback for active navigation items
+
+#### Layout & Performance Improvements (v2.1)
 1. **Layout Restructuring**: 
    - Used FrameLayout to properly manage search results vs default content
    - Eliminated space competition between different content areas
@@ -151,6 +175,10 @@ The application has been thoroughly tested for:
 - UI responsiveness and layout stability
 - User profile viewing and post interaction
 - Circular image rendering and styling
+- Gradient toolbar rendering across all activities
+- Static app branding consistency
+- Bottom navigation theming and interactions
+- Color scheme consistency throughout the app
 
 ## Contributing
 

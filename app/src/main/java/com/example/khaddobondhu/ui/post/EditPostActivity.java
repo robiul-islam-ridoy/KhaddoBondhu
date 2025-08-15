@@ -101,7 +101,7 @@ public class EditPostActivity extends AppCompatActivity {
         setSupportActionBar(findViewById(R.id.toolbar));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Edit Post");
+            getSupportActionBar().setTitle(R.string.app_name);
         }
         
         // Setup spinners

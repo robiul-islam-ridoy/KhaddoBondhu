@@ -108,7 +108,7 @@ public class UserProfileViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(userName != null ? userName : "User Profile");
+            getSupportActionBar().setTitle(R.string.app_name);
         }
     }
 
@@ -214,9 +214,9 @@ public class UserProfileViewActivity extends AppCompatActivity {
             Log.d(TAG, "Profile picture set to default icon");
         }
 
-        // Update toolbar title
+        // Keep static app name in toolbar
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(user.getName() != null ? user.getName() : "User Profile");
+            getSupportActionBar().setTitle(R.string.app_name);
         }
     }
 
