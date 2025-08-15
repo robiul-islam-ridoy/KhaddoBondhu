@@ -220,27 +220,8 @@ public class ExploreFragment extends Fragment {
         
         String searchQuery = query.toLowerCase();
         
-        // Search in name
-        if (user.getName() != null && user.getName().toLowerCase().contains(searchQuery)) {
-            return true;
-        }
-        
-        // Search in description
-        if (user.getDescription() != null && user.getDescription().toLowerCase().contains(searchQuery)) {
-            return true;
-        }
-        
-        // Search in user type
-        if (user.getUserType() != null && user.getUserType().toLowerCase().contains(searchQuery)) {
-            return true;
-        }
-        
-        // Search in email
-        if (user.getEmail() != null && user.getEmail().toLowerCase().contains(searchQuery)) {
-            return true;
-        }
-        
-        return false;
+        // Search only by name
+        return user.getName() != null && user.getName().toLowerCase().contains(searchQuery);
     }
 
     private boolean matchesFilter(User user) {
