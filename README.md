@@ -105,9 +105,16 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v2.2)
+## Recent Updates (v2.3)
 
-### 🎨 UI/UX Theme Transformation
+### 🔍 Smart Search & Filter System
+1. **Context-Aware Filtering**: Dynamic filter options based on post type selection
+2. **Manual Search Control**: Search triggered only on Enter key or search icon click (no auto-search)
+3. **Clean Home Interface**: Removed toolbar search icon, kept main search bar on home page
+4. **Intelligent Filter Hiding**: Automatically hides irrelevant filter options based on post type
+5. **Enhanced User Experience**: Streamlined navigation with category-based post browsing
+
+### 🎨 UI/UX Theme Transformation (v2.2)
 1. **Beautiful Gradient Toolbars**: Implemented stunning aqua/blue gradient backgrounds across all app screens
 2. **Static App Branding**: Replaced dynamic page titles with consistent "KhaddoBondhu" branding
 3. **Centered Logo Design**: Modern, centered app name with professional typography
@@ -122,6 +129,23 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 5. **View-Only Interface**: Removed edit/delete functionality for external profile viewing
 
 ### Key Technical Improvements
+
+#### 🔍 Smart Search & Filter System (v2.3)
+1. **Context-Aware Filter Implementation**: 
+   - Dynamic filter options based on selected post category (All Posts, Sell Posts, Donation Posts, Request Posts)
+   - Automatic hiding of irrelevant filter options (post type filter hidden for specific categories)
+   - Price range filter hidden for donation and request posts (free items)
+   - Filter labels properly hidden when corresponding inputs are hidden
+
+2. **Manual Search Control**: 
+   - Removed automatic search on text change
+   - Search triggered only on Enter key press or search icon click
+   - Improved user control over search timing and performance
+
+3. **Clean Interface Design**: 
+   - Removed search icon from toolbar (top bar)
+   - Kept main search bar on home page for user convenience
+   - Streamlined navigation with category-based post browsing
 
 #### 🎨 UI/UX Theme Enhancements (v2.2)
 1. **Gradient Toolbar Implementation**: 
@@ -179,6 +203,10 @@ The application has been thoroughly tested for:
 - Static app branding consistency
 - Bottom navigation theming and interactions
 - Color scheme consistency throughout the app
+- Context-aware filtering based on post categories
+- Manual search control and performance
+- Filter label visibility management
+- Category-based post browsing and navigation
 
 ## Contributing
 

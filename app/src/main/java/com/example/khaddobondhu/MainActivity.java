@@ -92,19 +92,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        
-        // Show search only on home page
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        
-        if (navController != null) {
-            int currentDestination = navController.getCurrentDestination().getId();
-            if (currentDestination == R.id.navigation_home) {
-                searchItem.setVisible(true);
-            } else {
-                searchItem.setVisible(false);
-            }
-        }
-        
         return true;
     }
 
@@ -112,10 +99,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         
-        if (id == R.id.action_search) {
-            showSearchDialog();
-            return true;
-        } else if (id == R.id.action_logout) {
+        if (id == R.id.action_logout) {
             showLogoutConfirmation();
             return true;
         } else if (id == R.id.action_test_cloudinary) {
@@ -128,17 +112,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     
-    private void showSearchDialog() {
-        // Get current fragment
-        HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment)
-                .getChildFragmentManager()
-                .getFragments().get(0);
-        
-        if (homeFragment != null && homeFragment instanceof HomeFragment) {
-            homeFragment.showSearchDialog();
-        }
-    }
+
     
     private void showLogoutConfirmation() {
         new AlertDialog.Builder(this)

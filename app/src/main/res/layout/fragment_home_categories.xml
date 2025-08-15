@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFFDF8">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="ExtraText">
+
+        <!-- Welcome Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/toolbar_gradient_background"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Share Food, Save Lives"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose what you want to explore today"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:alpha="0.9"
+                android:gravity="center"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- Search Bar -->
+        <EditText
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_background"
+            android:drawableRight="@android:drawable/ic_menu_search"
+            android:drawablePadding="8dp"
+            android:hint="Search food items or posts..."
+            android:padding="12dp"
+            android:layout_margin="16dp" />
+        
+        <!-- Category -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:columnCount="2"
+            android:rowCount="2"
+            android:alignmentMode="alignMargins"
+            android:rowOrderPreserved="false"
+            android:useDefaultMargins="true">
+
+            <!-- All Posts -->
+            <LinearLayout
+                android:id="@+id/cardAllPosts"
+                style="@style/HomeCardStyle"
+                android:background="#FFEBCD">
+
+                <ImageView android:src="@drawable/all_post" style="@style/CardIcon" />
+
+                <TextView
+                    style="@style/CardTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All Posts"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    style="@style/CardDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:text="Browse all available food items" />
+            </LinearLayout>
+
+            <!-- Donation Posts -->
+            <LinearLayout
+                android:id="@+id/cardDonationPosts"
+                style="@style/HomeCardStyle"
+                android:background="#DFF5E3">
+
+                <ImageView android:src="@drawable/donation" style="@style/CardIcon" />
+
+                <TextView
+                    style="@style/CardTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Donation Post"
+                    android:textAlignment="center" />
+
+                <TextView
+                    style="@style/CardDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:text="Food Share For Free." />
+            </LinearLayout>
+
+            <!-- Sell Posts -->
+            <LinearLayout
+                android:id="@+id/cardSellPosts"
+                style="@style/HomeCardStyle"
+                android:background="#FFF1E6">
+
+                <ImageView android:src="@drawable/cart" style="@style/CardIcon" />
+                <TextView
+                    style="@style/CardTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sell Posts"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    style="@style/CardDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:text="Food available for sell" />
+            </LinearLayout>
+
+            <!-- Requests -->
+            <LinearLayout
+                android:id="@+id/cardRequests"
+                style="@style/HomeCardStyle"
+                android:background="#E0F3F4">
+
+                <ImageView android:src="@drawable/requests" style="@style/CardIcon" />
+                <TextView
+                    style="@style/CardTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Requests"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    style="@style/CardDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:text="See who requested in your post" />
+            </LinearLayout>
+        </GridLayout>
+
+    </LinearLayout>
+</ScrollView>
