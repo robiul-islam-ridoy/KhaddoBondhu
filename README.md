@@ -4,7 +4,7 @@ A mobile application that connects people with surplus food (from homes, restaur
 
 ## 🌟 Project Overview
 
-KhaddoBondhu is an Android application built with Java that serves as a bridge between food donors and recipients. The app features a modern Material Design interface with real-time search capabilities, user role management, seamless food sharing functionality, and comprehensive user profile viewing.
+KhaddoBondhu is an Android application built with Java that serves as a bridge between food donors and recipients. The app features a modern Material Design interface with real-time search capabilities, user role management, seamless food sharing functionality, comprehensive user profile viewing, and beautiful image collage displays.
 
 ## Setup Instructions
 
@@ -86,6 +86,19 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - ✅ **Responsive Design**: Matches the main profile page design exactly
 - ✅ **Comprehensive User Info**: Display name, email, phone, bio, and user type
 
+### 🆕 Beautiful Image Collage System (v3.0)
+- ✅ **Dynamic Image Collages**: Automatic collage layout based on number of images (1, 2, 3, 4+)
+- ✅ **Smart Layout Management**: 
+  - **1 image**: Full-size single image display
+  - **2 images**: Side-by-side layout with margins
+  - **3 images**: 2 on top, 1 on bottom with proper spacing
+  - **4+ images**: 2x2 grid with overlay showing additional count
+- ✅ **Universal Implementation**: Image collages work everywhere food posts are displayed
+- ✅ **Click-to-View**: Tap any collage to open full image preview or carousel
+- ✅ **Performance Optimized**: Efficient image loading with Glide and proper memory management
+- ✅ **Visual Polish**: Small margins between images for professional appearance
+- ✅ **Responsive Design**: Collages adapt to different screen sizes and orientations
+
 ### User Interface Improvements
 - ✅ **Slim Search Bar**: Modern, compact search interface with rounded corners
 - ✅ **Icon Visibility**: Clear filter and search icons with proper tinting
@@ -105,7 +118,27 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v2.9)
+## Recent Updates (v3.0)
+
+### 🖼️ Beautiful Image Collage System (v3.0)
+1. **Custom ImageCollageView**: Created a reusable custom view for dynamic image collage layouts
+2. **Smart Layout Detection**: Automatically detects number of images and applies appropriate layout
+3. **Universal Integration**: Implemented across all food post displays:
+   - Main feed (FoodPostAdapter)
+   - Post detail view (PostDetailActivity)
+   - User profile posts (UserPostAdapter)
+4. **Enhanced User Experience**: 
+   - Click any collage to view images in full screen
+   - Single images open in ImagePreviewActivity
+   - Multiple images open in ImageCarouselActivity
+5. **Visual Improvements**: 
+   - Small 2dp margins between images for clean separation
+   - Proper overlay for 4+ images showing additional count
+   - Consistent styling across all collage layouts
+6. **Performance & Reliability**: 
+   - Replaced complex GridLayout with reliable LinearLayout approach
+   - Fixed crash issues with proper layout management
+   - Optimized image loading with Glide integration
 
 ### 🖼️ Comprehensive Image Preview System (v2.9)
 1. **Universal Image Preview**: Complete image preview functionality across the entire app
@@ -151,6 +184,36 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 5. **View-Only Interface**: Removed edit/delete functionality for external profile viewing
 
 ### Key Technical Improvements
+
+#### 🖼️ Beautiful Image Collage System (v3.0)
+1. **Custom View Implementation**: 
+   - Created `ImageCollageView` extending FrameLayout for reusable collage functionality
+   - Implemented dynamic layout switching based on image count
+   - Used LinearLayout approach for reliable performance and crash prevention
+
+2. **Smart Layout Management**: 
+   - **Single Image**: Full-size display with proper scaling
+   - **Two Images**: Side-by-side layout with 2dp margins for clean separation
+   - **Three Images**: 2 on top, 1 on bottom layout with proper spacing
+   - **Four+ Images**: 2x2 grid with overlay showing additional image count
+
+3. **Universal Integration**: 
+   - Updated `FoodPostAdapter` to use ImageCollageView instead of single ImageView
+   - Modified `PostDetailActivity` for collage display in detail view
+   - Enhanced `UserPostAdapter` for profile post collages
+   - Updated all relevant layout files (`item_food_post.xml`, `activity_post_detail.xml`, `item_user_post.xml`)
+
+4. **Enhanced User Interaction**: 
+   - Click listeners for opening image previews or carousels
+   - Single images open in `ImagePreviewActivity` for full-screen viewing
+   - Multiple images open in `ImageCarouselActivity` for swipeable gallery
+   - Proper title and image URL passing for context
+
+5. **Performance & Reliability**: 
+   - Fixed crash issues by replacing complex GridLayout with LinearLayout approach
+   - Optimized image loading with Glide integration and proper error handling
+   - Memory-efficient layout management with proper view visibility control
+   - Responsive design that adapts to different screen sizes
 
 #### 🖼️ Comprehensive Image Preview System (v2.9)
 1. **Universal Image Preview Implementation**: 
@@ -306,6 +369,11 @@ The application has been thoroughly tested for:
 - **Consistent image preview experience across all user types**
 - **Proper error handling for missing images**
 - **Image preview navigation and gesture handling**
+- **Dynamic image collage layouts for multiple images**
+- **Collage click functionality for image preview/carousel**
+- **Performance optimization and crash prevention**
+- **Visual polish with proper margins and spacing**
+- **Universal collage implementation across all food post displays**
 
 ## Contributing
 

@@ -45,10 +45,12 @@ public class CreatePostFragment extends Fragment {
 
     private EditText titleInput, descriptionInput, priceInput, quantityInput, locationInput, expiryDateEditText;
     private AutoCompleteTextView postTypeSpinner, foodTypeSpinner, quantityUnitSpinner;
-    private ImageView foodImageView;
+    private ImageView foodImageView1, foodImageView2, foodImageView3, foodImageView4;
+    private View imagePreview1, imagePreview2, imagePreview3, imagePreview4;
+    private View imagePreviewGrid, uploadPlaceholder;
+    private ImageButton removeImage1, removeImage2, removeImage3, removeImage4;
     private Button addImageButton, createPostButton;
     private ProgressBar progressBar;
-    private View uploadPlaceholder;
 
     private FirebaseService firebaseService;
     private CloudinaryService cloudinaryService;
@@ -109,11 +111,29 @@ public class CreatePostFragment extends Fragment {
         foodTypeSpinner = view.findViewById(R.id.foodTypeSpinner);
         quantityUnitSpinner = view.findViewById(R.id.quantityUnitSpinner);
         
-        foodImageView = view.findViewById(R.id.foodImageView);
+        // Multiple image views
+        foodImageView1 = view.findViewById(R.id.foodImageView1);
+        foodImageView2 = view.findViewById(R.id.foodImageView2);
+        foodImageView3 = view.findViewById(R.id.foodImageView3);
+        foodImageView4 = view.findViewById(R.id.foodImageView4);
+        
+        imagePreview1 = view.findViewById(R.id.imagePreview1);
+        imagePreview2 = view.findViewById(R.id.imagePreview2);
+        imagePreview3 = view.findViewById(R.id.imagePreview3);
+        imagePreview4 = view.findViewById(R.id.imagePreview4);
+        
+        imagePreviewGrid = view.findViewById(R.id.imagePreviewGrid);
+        uploadPlaceholder = view.findViewById(R.id.uploadPlaceholder);
+        
+        // Remove image buttons
+        removeImage1 = view.findViewById(R.id.removeImage1);
+        removeImage2 = view.findViewById(R.id.removeImage2);
+        removeImage3 = view.findViewById(R.id.removeImage3);
+        removeImage4 = view.findViewById(R.id.removeImage4);
+        
         addImageButton = view.findViewById(R.id.addImageButton);
         createPostButton = view.findViewById(R.id.createPostButton);
         progressBar = view.findViewById(R.id.progressBar);
-        uploadPlaceholder = view.findViewById(R.id.uploadPlaceholder);
     }
 
     private void setupSpinners() {
@@ -150,9 +170,12 @@ public class CreatePostFragment extends Fragment {
             result -> {
                 if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
                     Uri selectedImage = result.getData().getData();
-                    if (selectedImage != null) {
+                    if (selectedImage != null && selectedImages.size() < 4) {
                         selectedImages.add(selectedImage);
                         updateImageDisplay();
+                        updateAddButtonState();
+                    } else if (selectedImages.size() >= 4) {
+                        Toast.makeText(getContext(), "Maximum 4 images allowed", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -165,6 +188,9 @@ public class CreatePostFragment extends Fragment {
         
         // Expiry date picker
         expiryDateEditText.setOnClickListener(v -> showDateTimePicker());
+        
+        // Setup remove image buttons
+        setupRemoveImageListeners();
     }
 
     private void openImagePicker() {
@@ -172,14 +198,60 @@ public class CreatePostFragment extends Fragment {
         imagePickerLauncher.launch(intent);
     }
 
-    private void updateImageDisplay() {
-        if (!selectedImages.isEmpty()) {
-            foodImageView.setVisibility(View.VISIBLE);
-            uploadPlaceholder.setVisibility(View.GONE);
-            foodImageView.setImageURI(selectedImages.get(0));
+    private void setupRemoveImageListeners() {
+        removeImage1.setOnClickListener(v -> removeImage(0));
+        removeImage2.setOnClickListener(v -> removeImage(1));
+        removeImage3.setOnClickListener(v -> removeImage(2));
+        removeImage4.setOnClickListener(v -> removeImage(3));
+    }
+
+    private void removeImage(int index) {
+        if (index < selectedImages.size()) {
+            selectedImages.remove(index);
+            updateImageDisplay();
+            updateAddButtonState();
+        }
+    }
+
+    private void updateAddButtonState() {
+        if (selectedImages.size() >= 4) {
+            addImageButton.setEnabled(false);
+            addImageButton.setText("Maximum 4 photos reached");
         } else {
-            foodImageView.setVisibility(View.GONE);
+            addImageButton.setEnabled(true);
+            addImageButton.setText("Choose Photos (" + selectedImages.size() + "/4)");
+        }
+    }
+
+    private void updateImageDisplay() {
+        if (selectedImages.isEmpty()) {
+            // No images - show placeholder
+            imagePreviewGrid.setVisibility(View.GONE);
             uploadPlaceholder.setVisibility(View.VISIBLE);
+        } else {
+            // Has images - show grid
+            imagePreviewGrid.setVisibility(View.VISIBLE);
+            uploadPlaceholder.setVisibility(View.GONE);
+            
+            // Show/hide image previews based on count
+            imagePreview1.setVisibility(selectedImages.size() >= 1 ? View.VISIBLE : View.GONE);
+            imagePreview2.setVisibility(selectedImages.size() >= 2 ? View.VISIBLE : View.GONE);
+            imagePreview3.setVisibility(selectedImages.size() >= 3 ? View.VISIBLE : View.GONE);
+            imagePreview4.setVisibility(selectedImages.size() >= 4 ? View.VISIBLE : View.GONE);
+            
+            // Load images
+            if (selectedImages.size() >= 1) {
+                foodImageView1.setImageURI(selectedImages.get(0));
+            }
+            if (selectedImages.size() >= 2) {
+                foodImageView2.setImageURI(selectedImages.get(1));
+            }
+            if (selectedImages.size() >= 3) {
+                foodImageView3.setImageURI(selectedImages.get(2));
+            }
+            if (selectedImages.size() >= 4) {
+                foodImageView4.setImageURI(selectedImages.get(3));
+            }
         }
     }
 
@@ -245,34 +317,45 @@ public class CreatePostFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         createPostButton.setEnabled(false);
 
-        // Upload image to Cloudinary
-        cloudinaryService.uploadImage(selectedImages.get(0), "food_images", new OnCompleteListener<String>() {
+        // Upload multiple images to Cloudinary
+        uploadMultipleImages(selectedImages, 0, new ArrayList<>());
+    }
+
+    private void uploadMultipleImages(List<Uri> images, int currentIndex, List<String> uploadedUrls) {
+        if (currentIndex >= images.size()) {
+            // All images uploaded, create post
+            createFoodPostWithImages(uploadedUrls);
+            return;
+        }
+
+        Uri currentImage = images.get(currentIndex);
+        cloudinaryService.uploadImage(currentImage, "food_images", new OnCompleteListener<String>() {
             @Override
             public void onComplete(Task<String> task) {
                 if (task.isSuccessful() && task.getResult() != null) {
-                    // Image uploaded successfully to Cloudinary
+                    // Image uploaded successfully
                     String imageUrl = task.getResult();
-                    List<String> imageUrls = new ArrayList<>();
-                    imageUrls.add(imageUrl);
+                    uploadedUrls.add(imageUrl);
                     
-                    // Create food post with Cloudinary image URL
-                    createFoodPostWithImages(imageUrls);
+                    // Upload next image
+                    uploadMultipleImages(images, currentIndex + 1, uploadedUrls);
                 } else {
-                    // Failed to upload image, create post without image
+                    // Failed to upload image
                     progressBar.setVisibility(View.GONE);
                     createPostButton.setEnabled(true);
-                    String errorMessage = "Failed to upload image";
+                    String errorMessage = "Failed to upload image " + (currentIndex + 1);
                     if (task.getException() != null) {
                         errorMessage += ": " + task.getException().getMessage();
                     }
                     Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
                     
-                    // Show dialog to continue without image or retry
+                    // Show dialog to continue without this image or retry
                     new AlertDialog.Builder(requireContext())
                         .setTitle("Image Upload Failed")
-                        .setMessage("Would you like to create the post without an image?")
+                        .setMessage("Failed to upload image " + (currentIndex + 1) + ". Would you like to continue with the uploaded images?")
                         .setPositiveButton("Continue", (dialog, which) -> {
-                            createFoodPostWithImages(new ArrayList<>());
+                            // Continue with already uploaded images
+                            createFoodPostWithImages(uploadedUrls);
                         })
                         .setNegativeButton("Cancel", (dialog, which) -> {
                             // User cancelled, do nothing

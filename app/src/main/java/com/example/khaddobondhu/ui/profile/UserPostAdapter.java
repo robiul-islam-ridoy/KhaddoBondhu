@@ -17,6 +17,7 @@ import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.service.FirebaseService;
 import com.example.khaddobondhu.ui.post.PostDetailActivity;
+import com.example.khaddobondhu.ui.view.ImageCollageView;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;
@@ -117,17 +118,8 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
         }
         holder.statusTextView.setText(statusText);
         
-        // Load image
-        if (post.getImageUrls() != null && !post.getImageUrls().isEmpty()) {
-            Glide.with(context)
-                    .load(post.getImageUrls().get(0))
-                    .placeholder(R.drawable.placeholder_food)
-                    .error(R.drawable.placeholder_food)
-                    .centerCrop()
-                    .into(holder.imageView);
-        } else {
-            holder.imageView.setImageResource(R.drawable.placeholder_food);
-        }
+        // Load images using ImageCollageView
+        holder.imageCollageView.setImages(post.getImageUrls(), post.getTitle());
         
         // Set click listeners
         holder.itemView.setOnClickListener(v -> {
@@ -202,7 +194,7 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        ImageCollageView imageCollageView;
         TextView titleTextView;
         TextView priceTextView;
         TextView postTypeTextView;
@@ -217,7 +209,7 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
 
         ViewHolder(View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
+            imageCollageView = itemView.findViewById(R.id.imageCollageView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             priceTextView = itemView.findViewById(R.id.priceTextView);
             postTypeTextView = itemView.findViewById(R.id.postTypeTextView);

@@ -13,13 +13,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!-- Food Image -->
-        <ImageView
-            android:id="@+id/imageView"
+        <!-- Food Image Collage -->
+        <com.example.khaddobondhu.ui.view.ImageCollageView
+            android:id="@+id/imageCollageView"
             android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_food" />
+            android:layout_height="120dp" />
 
         <!-- Content Container -->
         <LinearLayout

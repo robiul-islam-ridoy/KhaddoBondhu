@@ -39,15 +39,12 @@
                 android:layout_gravity="center"
                 android:visibility="gone" />
 
-            <!-- Food Image -->
-            <ImageView
-                android:id="@+id/imageViewFood"
+            <!-- Food Image Collage -->
+            <com.example.khaddobondhu.ui.view.ImageCollageView
+                android:id="@+id/imageCollageView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/placeholder_food"
-                android:scaleType="centerCrop"
-                android:src="@drawable/placeholder_food" />
+                android:layout_marginBottom="16dp" />
 
             <!-- Post Type Badge -->
             <TextView
