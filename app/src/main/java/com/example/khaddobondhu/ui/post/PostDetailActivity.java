@@ -13,11 +13,14 @@ import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.model.Message;
 import com.example.khaddobondhu.service.FirebaseService;
 import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
+import com.example.khaddobondhu.ui.image.ImageCarouselActivity;
+import com.example.khaddobondhu.ui.view.ImageCollageView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class PostDetailActivity extends AppCompatActivity {
@@ -132,30 +135,8 @@ public class PostDetailActivity extends AppCompatActivity {
             binding.expiryLayout.setVisibility(View.GONE);
         }
 
-        // Load image
-        if (foodPost.getImageUrls() != null && !foodPost.getImageUrls().isEmpty()) {
-            String imageUrl = foodPost.getImageUrls().get(0);
-            
-            // Load image from Cloudinary URL
-            Glide.with(this)
-                .load(imageUrl)
-                .placeholder(R.drawable.placeholder_food)
-                .error(R.drawable.placeholder_food)
-                .centerCrop()
-                .into(binding.imageViewFood);
-            
-            // Add click listener for image preview
-            binding.imageViewFood.setOnClickListener(v -> {
-                Intent intent = new Intent(this, ImagePreviewActivity.class);
-                intent.putExtra("image_url", imageUrl);
-                intent.putExtra("image_title", foodPost.getTitle());
-                startActivity(intent);
-            });
-        } else {
-            binding.imageViewFood.setImageResource(R.drawable.placeholder_food);
-            // Remove click listener if no image
-            binding.imageViewFood.setOnClickListener(null);
-        }
+        // Load images using ImageCollageView
+        binding.imageCollageView.setImages(foodPost.getImageUrls(), foodPost.getTitle());
 
         // Show contact buttons for all post types
         binding.buttonContact.setVisibility(View.VISIBLE);

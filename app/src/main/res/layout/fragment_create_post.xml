@@ -22,40 +22,170 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Food Photo"
+                android:text="Food Photos (Max 4)"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_primary"
                 android:layout_marginBottom="8dp" />
 
+            <!-- Multiple Image Preview Grid -->
+            <GridLayout
+                android:id="@+id/imagePreviewGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:alignmentMode="alignMargins"
+                android:useDefaultMargins="true"
+                android:layout_marginBottom="12dp">
+
+                <!-- Image Preview 1 -->
+                <FrameLayout
+                    android:id="@+id/imagePreview1"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:background="@drawable/image_upload_background"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/foodImageView1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/placeholder_food" />
+
+                    <ImageButton
+                        android:id="@+id/removeImage1"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="top|end"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/circle_background"
+                        android:src="@android:drawable/ic_menu_close_clear_cancel"
+                        android:tint="@android:color/white"
+                        android:scaleType="fitCenter" />
+
+                </FrameLayout>
+
+                <!-- Image Preview 2 -->
+                <FrameLayout
+                    android:id="@+id/imagePreview2"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:background="@drawable/image_upload_background"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/foodImageView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/placeholder_food" />
+
+                    <ImageButton
+                        android:id="@+id/removeImage2"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="top|end"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/circle_background"
+                        android:src="@android:drawable/ic_menu_close_clear_cancel"
+                        android:tint="@android:color/white"
+                        android:scaleType="fitCenter" />
+
+                </FrameLayout>
+
+                <!-- Image Preview 3 -->
+                <FrameLayout
+                    android:id="@+id/imagePreview3"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:background="@drawable/image_upload_background"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/foodImageView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/placeholder_food" />
+
+                    <ImageButton
+                        android:id="@+id/removeImage3"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="top|end"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/circle_background"
+                        android:src="@android:drawable/ic_menu_close_clear_cancel"
+                        android:tint="@android:color/white"
+                        android:scaleType="fitCenter" />
+
+                </FrameLayout>
+
+                <!-- Image Preview 4 -->
+                <FrameLayout
+                    android:id="@+id/imagePreview4"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_columnWeight="1"
+                    android:background="@drawable/image_upload_background"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/foodImageView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/placeholder_food" />
+
+                    <ImageButton
+                        android:id="@+id/removeImage4"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="top|end"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/circle_background"
+                        android:src="@android:drawable/ic_menu_close_clear_cancel"
+                        android:tint="@android:color/white"
+                        android:scaleType="fitCenter" />
+
+                </FrameLayout>
+
+            </GridLayout>
+
+            <!-- Upload Placeholder (shown when no images) -->
             <FrameLayout
+                android:id="@+id/uploadPlaceholder"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:background="@drawable/image_upload_background"
                 android:layout_marginBottom="12dp">
 
-                <ImageView
-                    android:id="@+id/foodImageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/placeholder_food"
-                    android:visibility="gone" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:gravity="center"
-                    android:id="@+id/uploadPlaceholder">
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tap to add photo"
+                        android:text="Tap to add photos"
                         android:textSize="16sp"
                         android:textColor="@color/primary_color"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(Max 4 photos)"
+                        android:textSize="12sp"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginTop="4dp" />
 
                 </LinearLayout>
 
@@ -65,7 +195,7 @@
                 android:id="@+id/addImageButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:text="Choose Photo"
+                android:text="Choose Photos"
                 android:textSize="16sp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 

@@ -15,9 +15,12 @@ import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.ui.post.PostDetailActivity;
 import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
+import com.example.khaddobondhu.ui.image.ImageCarouselActivity;
+import com.example.khaddobondhu.ui.view.ImageCollageView;
 import com.example.khaddobondhu.utils.UserRoleUtils;
 import com.example.khaddobondhu.service.FirebaseService;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -100,28 +103,8 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
             holder.expiryTextView.setVisibility(View.GONE);
         }
         
-        // Load image
-        if (post.getImageUrls() != null && !post.getImageUrls().isEmpty()) {
-            String imageUrl = post.getImageUrls().get(0);
-            Glide.with(context)
-                    .load(imageUrl)
-                    .placeholder(R.drawable.placeholder_food)
-                    .error(R.drawable.placeholder_food)
-                    .centerCrop()
-                    .into(holder.imageView);
-            
-            // Add click listener for image preview
-            holder.imageView.setOnClickListener(v -> {
-                Intent intent = new Intent(context, ImagePreviewActivity.class);
-                intent.putExtra("image_url", imageUrl);
-                intent.putExtra("image_title", post.getTitle());
-                context.startActivity(intent);
-            });
-        } else {
-            holder.imageView.setImageResource(R.drawable.placeholder_food);
-            // Remove click listener if no image
-            holder.imageView.setOnClickListener(null);
-        }
+        // Load images using ImageCollageView
+        holder.imageCollageView.setImages(post.getImageUrls(), post.getTitle());
         
         // Set click listener
         holder.itemView.setOnClickListener(v -> {
@@ -202,7 +185,7 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        ImageCollageView imageCollageView;
         TextView titleTextView;
         TextView priceTextView;
         TextView postTypeTextView;
@@ -216,7 +199,7 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
 
         ViewHolder(View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
+            imageCollageView = itemView.findViewById(R.id.imageCollageView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             priceTextView = itemView.findViewById(R.id.priceTextView);
             postTypeTextView = itemView.findViewById(R.id.postTypeTextView);
