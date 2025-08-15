@@ -62,8 +62,10 @@ public class MessageFragment extends Fragment implements UserAdapter.OnUserClick
 
         FirebaseUser currentUser = firebaseService.getCurrentUser();
         if (currentUser == null) {
-            // User not logged in, show sample data
-            loadSampleUsers();
+            // User not logged in, show empty state
+            progressBar.setVisibility(View.GONE);
+            emptyStateText.setVisibility(View.VISIBLE);
+            emptyStateText.setText("Please log in to view users");
             return;
         }
 
@@ -83,29 +85,24 @@ public class MessageFragment extends Fragment implements UserAdapter.OnUserClick
                     }
                     
                     if (userList.isEmpty()) {
-                        // No users found, show sample data
-                        loadSampleUsers();
+                        // No users found, show empty state
+                        emptyStateText.setVisibility(View.VISIBLE);
+                        emptyStateText.setText("No users found");
+                        recyclerView.setVisibility(View.GONE);
                     } else {
                         setupAdapter();
                     }
                 } else {
                     Toast.makeText(getContext(), "Failed to load users", Toast.LENGTH_SHORT).show();
-                    loadSampleUsers();
+                    emptyStateText.setVisibility(View.VISIBLE);
+                    emptyStateText.setText("Failed to load users");
+                    recyclerView.setVisibility(View.GONE);
                 }
             }
         });
     }
 
-    private void loadSampleUsers() {
-        userList.clear();
-        userList.add(new User("1", "Ridoy", "ridoy@example.com"));
-        userList.add(new User("2", "Ayesha", "ayesha@example.com"));
-        userList.add(new User("3", "Rahim", "rahim@example.com"));
-        userList.add(new User("4", "Fatima", "fatima@example.com"));
-        userList.add(new User("5", "Karim", "karim@example.com"));
-        
-        setupAdapter();
-    }
+
 
     private void setupAdapter() {
         userAdapter = new UserAdapter(userList, this);
