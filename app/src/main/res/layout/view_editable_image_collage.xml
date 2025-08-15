@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Single Image View (for 1 image) -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_food" />
+
+        <!-- Remove button for single image -->
+        <ImageView
+            android:id="@+id/removeButton1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_close"
+            android:background="@drawable/circle_red_background"
+            android:padding="6dp"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <!-- Two Images Layout (for 2 images) -->
+    <LinearLayout
+        android:id="@+id/twoImagesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="2dp">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder_food" />
+
+            <ImageView
+                android:id="@+id/removeButton2"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="6dp"
+                android:src="@drawable/ic_close"
+                android:background="@drawable/circle_red_background"
+                android:padding="5dp"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="2dp">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder_food" />
+
+            <ImageView
+                android:id="@+id/removeButton3"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="6dp"
+                android:src="@drawable/ic_close"
+                android:background="@drawable/circle_red_background"
+                android:padding="5dp"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- Three Images Layout (for 3 images) -->
+    <LinearLayout
+        android:id="@+id/threeImagesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="2dp">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder_food" />
+
+                <ImageView
+                    android:id="@+id/removeButton4"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="6dp"
+                    android:src="@drawable/ic_close"
+                    android:background="@drawable/circle_red_background"
+                    android:padding="5dp"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="2dp">
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder_food" />
+
+                <ImageView
+                    android:id="@+id/removeButton5"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="6dp"
+                    android:src="@drawable/ic_close"
+                    android:background="@drawable/circle_red_background"
+                    android:padding="5dp"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="2dp">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder_food" />
+
+            <ImageView
+                android:id="@+id/removeButton6"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="6dp"
+                android:src="@drawable/ic_close"
+                android:background="@drawable/circle_red_background"
+                android:padding="5dp"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- Four Images Layout (for 4+ images) -->
+    <LinearLayout
+        android:id="@+id/fourImagesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="2dp">
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder_food" />
+
+                <ImageView
+                    android:id="@+id/removeButton7"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="6dp"
+                    android:src="@drawable/ic_close"
+                    android:background="@drawable/circle_red_background"
+                    android:padding="5dp"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="2dp">
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder_food" />
+
+                <ImageView
+                    android:id="@+id/removeButton8"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="6dp"
+                    android:src="@drawable/ic_close"
+                    android:background="@drawable/circle_red_background"
+                    android:padding="5dp"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="2dp">
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder_food" />
+
+                <ImageView
+                    android:id="@+id/removeButton9"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="6dp"
+                    android:src="@drawable/ic_close"
+                    android:background="@drawable/circle_red_background"
+                    android:padding="5dp"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="2dp">
+
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder_food" />
+
+                <ImageView
+                    android:id="@+id/removeButton10"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="6dp"
+                    android:src="@drawable/ic_close"
+                    android:background="@drawable/circle_red_background"
+                    android:padding="5dp"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Overlay for 4+ images -->
+    <FrameLayout
+        android:id="@+id/overlayView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/overlayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="+1"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
+</FrameLayout>

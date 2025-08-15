@@ -26,6 +26,7 @@ import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.service.CloudinaryService;
 import com.example.khaddobondhu.service.FirebaseService;
+import com.example.khaddobondhu.ui.view.EditableImageCollageView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,15 +42,17 @@ public class EditPostActivity extends AppCompatActivity {
     
     private EditText titleInput, descriptionInput, priceInput, quantityInput, locationInput, expiryDateEditText;
     private AutoCompleteTextView postTypeSpinner, foodTypeSpinner, quantityUnitSpinner;
-    private ImageView postImageView;
-    private FloatingActionButton changeImageButton;
+    private EditableImageCollageView imageCollageView;
+    private FloatingActionButton addImageButton;
     private Button saveButton;
     private ProgressBar progressBar;
     
     private FirebaseService firebaseService;
     private CloudinaryService cloudinaryService;
     private FoodPost currentPost;
-    private Uri selectedImageUri;
+    private List<String> currentImageUrls;
+    private List<Uri> newImageUris;
+    private List<String> imagesToDelete;
     private Calendar expiryCalendar;
     private SimpleDateFormat dateFormat;
     
@@ -63,6 +66,11 @@ public class EditPostActivity extends AppCompatActivity {
         // Initialize services
         firebaseService = new FirebaseService();
         cloudinaryService = new CloudinaryService(this);
+        
+        // Initialize lists
+        currentImageUrls = new ArrayList<>();
+        newImageUris = new ArrayList<>();
+        imagesToDelete = new ArrayList<>();
         
         // Initialize date formatter
         dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
@@ -93,8 +101,8 @@ public class EditPostActivity extends AppCompatActivity {
         quantityUnitSpinner = findViewById(R.id.quantityUnitSpinner);
         locationInput = findViewById(R.id.locationInput);
         expiryDateEditText = findViewById(R.id.expiryDateEditText);
-        postImageView = findViewById(R.id.postImageView);
-        changeImageButton = findViewById(R.id.changeImageButton);
+        imageCollageView = findViewById(R.id.imageCollageView);
+        addImageButton = findViewById(R.id.addImageButton);
         saveButton = findViewById(R.id.saveButton);
         progressBar = findViewById(R.id.progressBar);
         
@@ -107,6 +115,19 @@ public class EditPostActivity extends AppCompatActivity {
         
         // Setup spinners
         setupSpinners();
+        
+        // Setup image collage listener
+        imageCollageView.setOnImageRemoveListener(new EditableImageCollageView.OnImageRemoveListener() {
+            @Override
+            public void onImageRemove(int position, String imageUrl) {
+                showRemoveImageConfirmation(position, imageUrl);
+            }
+            
+            @Override
+            public void onNewImageRemove(int position, Uri imageUri) {
+                showRemoveNewImageConfirmation(position, imageUri);
+            }
+        });
     }
     
     private void setupSpinners() {
@@ -134,18 +155,65 @@ public class EditPostActivity extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    selectedImageUri = result.getData().getData();
+                    Uri selectedImageUri = result.getData().getData();
                     if (selectedImageUri != null) {
-                        Glide.with(this)
-                            .load(selectedImageUri)
-                            .placeholder(R.drawable.placeholder_food)
-                            .error(R.drawable.placeholder_food)
-                            .centerCrop()
-                            .into(postImageView);
+                        addNewImage(selectedImageUri);
                     }
                 }
             }
         );
+    }
+    
+    private void addNewImage(Uri imageUri) {
+        if (currentImageUrls.size() + newImageUris.size() >= 10) {
+            Toast.makeText(this, "Maximum 10 images allowed", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
+        newImageUris.add(imageUri);
+        updateImageCollage();
+    }
+    
+    private void updateImageCollage() {
+        // Show both existing images and new images for preview
+        imageCollageView.setImages(currentImageUrls, newImageUris);
+    }
+    
+    private void showRemoveImageConfirmation(int position, String imageUrl) {
+        new AlertDialog.Builder(this)
+            .setTitle("Remove Image")
+            .setMessage("Are you sure you want to remove this image?")
+            .setPositiveButton("Remove", (dialog, which) -> {
+                removeImage(position, imageUrl);
+            })
+            .setNegativeButton("Cancel", null)
+            .show();
+    }
+    
+    private void showRemoveNewImageConfirmation(int position, Uri imageUri) {
+        new AlertDialog.Builder(this)
+            .setTitle("Remove New Image")
+            .setMessage("Are you sure you want to remove this new image?")
+            .setPositiveButton("Remove", (dialog, which) -> {
+                removeNewImage(position, imageUri);
+            })
+            .setNegativeButton("Cancel", null)
+            .show();
+    }
+    
+    private void removeImage(int position, String imageUrl) {
+        // Remove from existing images
+        currentImageUrls.remove(position);
+        imagesToDelete.add(imageUrl);
+        updateImageCollage();
+    }
+    
+    private void removeNewImage(int position, Uri imageUri) {
+        // The position parameter is already the correct index for the new image
+        if (position < newImageUris.size()) {
+            newImageUris.remove(position);
+        }
+        updateImageCollage();
     }
     
     private void loadPostData(String postId) {
@@ -194,20 +262,16 @@ public class EditPostActivity extends AppCompatActivity {
             expiryDateEditText.setText(dateFormat.format(currentPost.getExpiryDate().toDate()));
         }
         
-        // Load image
+        // Load images
         if (currentPost.getImageUrls() != null && !currentPost.getImageUrls().isEmpty()) {
-            Glide.with(this)
-                .load(currentPost.getImageUrls().get(0))
-                .placeholder(R.drawable.placeholder_food)
-                .error(R.drawable.placeholder_food)
-                .centerCrop()
-                .into(postImageView);
+            currentImageUrls.addAll(currentPost.getImageUrls());
+            imageCollageView.setImages(currentImageUrls, newImageUris);
         }
     }
     
     private void setupClickListeners() {
-        // Change image button
-        changeImageButton.setOnClickListener(v -> {
+        // Add image button
+        addImageButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             imagePickerLauncher.launch(intent);
         });
@@ -289,58 +353,76 @@ public class EditPostActivity extends AppCompatActivity {
             expiryDate = new Timestamp(expiryCalendar.getTime());
         }
         
-        // Update post with image if selected
-        if (selectedImageUri != null) {
-            updatePostWithImage(title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate);
+        // Handle image updates
+        if (!newImageUris.isEmpty() || !imagesToDelete.isEmpty()) {
+            updatePostWithImages(title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate);
         } else {
             updatePost(title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate);
         }
     }
     
     private void updatePost(String title, String description, String postType, double price, int quantity, String quantityUnit, String foodType, String location, Timestamp expiryDate) {
-        updatePostWithData(title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate, null);
+        updatePostWithData(title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate, currentImageUrls);
     }
     
-    private void updatePostWithImage(String title, String description, String postType, double price, int quantity, String quantityUnit, String foodType, String location, Timestamp expiryDate) {
-        cloudinaryService.uploadImage(selectedImageUri, "food_posts", new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if (task.isSuccessful() && task.getResult() != null) {
-                    String imageUrl = task.getResult();
-                    List<String> imageUrls = Arrays.asList(imageUrl);
-                    
-                    // Delete old image if it exists and is different
-                    if (currentPost.getImageUrls() != null && !currentPost.getImageUrls().isEmpty()) {
-                        String oldImageUrl = currentPost.getImageUrls().get(0);
-                        if (!oldImageUrl.equals(imageUrl)) {
-                            cloudinaryService.deleteImage(oldImageUrl, new OnCompleteListener<Boolean>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Boolean> deleteTask) {
-                                    if (deleteTask.isSuccessful() && deleteTask.getResult()) {
-                                        Log.d("EditPostActivity", "Old post image deleted successfully");
-                                    } else {
-                                        Log.w("EditPostActivity", "Failed to delete old post image: " + (deleteTask.getException() != null ? deleteTask.getException().getMessage() : "Unknown error"));
-                                    }
-                                }
-                            });
-                        }
+    private void updatePostWithImages(String title, String description, String postType, double price, int quantity, String quantityUnit, String foodType, String location, Timestamp expiryDate) {
+        // First, delete removed images
+        deleteRemovedImages(() -> {
+            // Then upload new images
+            uploadNewImages(title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate);
+        });
+    }
+    
+    private void deleteRemovedImages(Runnable onComplete) {
+        if (imagesToDelete.isEmpty()) {
+            onComplete.run();
+            return;
+        }
+        
+        final int[] deletedCount = {0};
+        final int totalToDelete = imagesToDelete.size();
+        
+        for (String imageUrl : imagesToDelete) {
+            cloudinaryService.deleteImage(imageUrl, new OnCompleteListener<Boolean>() {
+                @Override
+                public void onComplete(@NonNull Task<Boolean> task) {
+                    deletedCount[0]++;
+                    if (deletedCount[0] >= totalToDelete) {
+                        onComplete.run();
+                    }
+                }
+            });
+        }
+    }
+    
+    private void uploadNewImages(String title, String description, String postType, double price, int quantity, String quantityUnit, String foodType, String location, Timestamp expiryDate) {
+        if (newImageUris.isEmpty()) {
+            updatePostWithData(title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate, currentImageUrls);
+            return;
+        }
+        
+        final List<String> uploadedUrls = new ArrayList<>();
+        final int[] uploadedCount = {0};
+        final int totalToUpload = newImageUris.size();
+        
+        for (Uri imageUri : newImageUris) {
+            cloudinaryService.uploadImage(imageUri, "food_posts", new OnCompleteListener<String>() {
+                @Override
+                public void onComplete(@NonNull Task<String> task) {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        uploadedUrls.add(task.getResult());
                     }
                     
-                    updatePostWithData(title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate, imageUrls);
-                } else {
-                    runOnUiThread(() -> {
-                        progressBar.setVisibility(View.GONE);
-                        saveButton.setEnabled(true);
-                        saveButton.setText("Save Changes");
-                        String errorMsg = "Failed to upload image";
-                        if (task.getException() != null) {
-                            errorMsg += ": " + task.getException().getMessage();
-                        }
-                        showErrorMessage(errorMsg);
-                    });
+                    uploadedCount[0]++;
+                    if (uploadedCount[0] >= totalToUpload) {
+                        // Combine existing and new images
+                        List<String> allImages = new ArrayList<>(currentImageUrls);
+                        allImages.addAll(uploadedUrls);
+                        updatePostWithData(title, description, postType, price, quantity, quantityUnit, foodType, location, expiryDate, allImages);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     
     private void updatePostWithData(String title, String description, String postType, double price, int quantity, String quantityUnit, String foodType, String location, Timestamp expiryDate, List<String> imageUrls) {
