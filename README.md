@@ -105,9 +105,16 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v2.3)
+## Recent Updates (v2.4)
 
-### 🔍 Smart Search & Filter System
+### 🔍 Explore Page Name-Only Search
+1. **Name-Based Search**: Explore page now searches only by user names by default
+2. **Advanced Filtering**: When user types are selected, search combines name + user type filtering
+3. **Simplified Search Logic**: Removed search in description, email, and user type fields
+4. **Enhanced User Experience**: Cleaner, more focused search results
+5. **Intelligent Filtering**: User type filters work in combination with name search
+
+### 🔍 Smart Search & Filter System (v2.3)
 1. **Context-Aware Filtering**: Dynamic filter options based on post type selection
 2. **Manual Search Control**: Search triggered only on Enter key or search icon click (no auto-search)
 3. **Clean Home Interface**: Removed toolbar search icon, kept main search bar on home page
@@ -129,6 +136,22 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 5. **View-Only Interface**: Removed edit/delete functionality for external profile viewing
 
 ### Key Technical Improvements
+
+#### 🔍 Explore Page Name-Only Search (v2.4)
+1. **Simplified Search Implementation**: 
+   - Modified `matchesSearch()` method to search only by user names
+   - Removed search in description, email, and user type fields
+   - Cleaner, more focused search results
+
+2. **Advanced Filtering Logic**: 
+   - When no user type is selected: Search only by name across all users
+   - When user type is selected: Filter by user type AND search by name within filtered set
+   - Combined filtering through `matchesSearch()` + `matchesFilter()` methods
+
+3. **Enhanced User Experience**: 
+   - Search hint already shows "Search Here by name"
+   - Results count shows appropriate filtering information
+   - Maintains existing filter dialog functionality
 
 #### 🔍 Smart Search & Filter System (v2.3)
 1. **Context-Aware Filter Implementation**: 
@@ -207,6 +230,9 @@ The application has been thoroughly tested for:
 - Manual search control and performance
 - Filter label visibility management
 - Category-based post browsing and navigation
+- Name-only search functionality on explore page
+- Advanced filtering with user type selection
+- Combined search and filter logic validation
 
 ## Contributing
 
