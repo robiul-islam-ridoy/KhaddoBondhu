@@ -1,11 +1,17 @@
 package com.example.khaddobondhu.ui.post;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.databinding.ActivityPostDetailBinding;
@@ -24,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class PostDetailActivity extends AppCompatActivity {
+    private static final int CALL_PERMISSION_REQUEST_CODE = 1001;
+    
     private ActivityPostDetailBinding binding;
     private FoodPost foodPost;
     private FirebaseService firebaseService;
@@ -208,8 +216,67 @@ public class PostDetailActivity extends AppCompatActivity {
     }
 
     private void contactPoster() {
-        // For now, just show a toast. In a real app, you'd show contact options
-        Toast.makeText(this, "Contact feature coming soon!", Toast.LENGTH_SHORT).show();
+        if (foodPost == null) {
+            Toast.makeText(this, "Post information not available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Check if we have permission to make phone calls
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // Request permission
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION_REQUEST_CODE);
+            return;
+        }
+
+        // Fetch the post owner's phone number and make the call
+        fetchUserPhoneAndCall();
+    }
+
+    private void fetchUserPhoneAndCall() {
+        if (foodPost == null) return;
+
+        binding.progressBar.setVisibility(View.VISIBLE);
+        
+        firebaseService.getUserById(foodPost.getUserId(), new FirebaseService.OnUserFetchListener() {
+            @Override
+            public void onSuccess(com.example.khaddobondhu.model.User user) {
+                binding.progressBar.setVisibility(View.GONE);
+                
+                if (user != null && user.getPhoneNumber() != null && !user.getPhoneNumber().isEmpty()) {
+                    // Show confirmation dialog before making the call
+                    showCallConfirmationDialog(user.getPhoneNumber(), user.getName());
+                } else {
+                    Toast.makeText(PostDetailActivity.this, "Phone number not available for this user", Toast.LENGTH_LONG).show();
+                }
+            }
+            
+            @Override
+            public void onError(Exception e) {
+                binding.progressBar.setVisibility(View.GONE);
+                Toast.makeText(PostDetailActivity.this, "Failed to get user information", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showCallConfirmationDialog(String phoneNumber, String userName) {
+        new AlertDialog.Builder(this)
+            .setTitle("Make Phone Call")
+            .setMessage("Do you want to call " + (userName != null ? userName : "this user") + " at " + phoneNumber + "?")
+            .setPositiveButton("Call", (dialog, which) -> {
+                makePhoneCall(phoneNumber);
+            })
+            .setNegativeButton("Cancel", null)
+            .show();
+    }
+
+    private void makePhoneCall(String phoneNumber) {
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + phoneNumber));
+            startActivity(callIntent);
+        } catch (Exception e) {
+            Toast.makeText(this, "Failed to make phone call", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void sendMessage() {
@@ -258,6 +325,21 @@ public class PostDetailActivity extends AppCompatActivity {
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
         startActivity(Intent.createChooser(shareIntent, "Share via"));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        
+        if (requestCode == CALL_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed with the call
+                fetchUserPhoneAndCall();
+            } else {
+                // Permission denied
+                Toast.makeText(this, "Phone call permission is required to contact the user", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
