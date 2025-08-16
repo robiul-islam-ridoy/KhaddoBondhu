@@ -137,7 +137,7 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v3.6)
+## Recent Updates (v3.7)
 
 ### 🚪 Streamlined Logout System (v3.2)
 1. **3-Dot Menu Removal**: 
@@ -272,6 +272,34 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
   - Improved user engagement through profile navigation
   - Consistent user experience across the app
   - Better social interaction between users
+
+### 📞 Direct Phone Call System (v3.7)
+
+**New Feature**: Users can now make direct phone calls to post owners through the "Contact" button in post details.
+
+**Features Implemented**:
+- **Direct Phone Calls**: Click "Contact" button to call the post owner directly
+- **Permission Management**: Automatic permission request for phone call access
+- **User Verification**: Fetches post owner's phone number from Firebase
+- **Confirmation Dialog**: Shows confirmation dialog before making the call
+- **Error Handling**: Proper error messages when phone number is not available
+- **Native Call Integration**: Uses phone's built-in call system
+
+**Technical Details**:
+- **Files Modified**: 
+  - `app/src/main/AndroidManifest.xml`
+  - `app/src/main/java/com/example/khaddobondhu/ui/post/PostDetailActivity.java`
+- **Key Changes**:
+  - Added `CALL_PHONE` permission to manifest
+  - Implemented `fetchUserPhoneAndCall()` method to get user's phone number
+  - Added `showCallConfirmationDialog()` for user confirmation
+  - Added `makePhoneCall()` method using `Intent.ACTION_CALL`
+  - Implemented permission request handling with `onRequestPermissionsResult()`
+- **Benefits**: 
+  - Direct communication between users
+  - Faster response times for food transactions
+  - Improved user experience with native call integration
+  - Secure permission handling with user confirmation
 
 ### 🖼️ Editable Image Collage System (v3.1)
 1. **EditableImageCollageView Implementation**: 
