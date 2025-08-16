@@ -137,7 +137,7 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v3.2)
+## Recent Updates (v3.3)
 
 ### 🚪 Streamlined Logout System (v3.2)
 1. **3-Dot Menu Removal**: 
@@ -164,6 +164,39 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
    - **Memory Optimization**: Eliminated unnecessary menu inflation overhead
    - **Maintainability**: Simplified navigation structure and user flow
    - **Consistency**: Unified logout experience across the entire application
+
+### 🏷️ Icon-Based User Type Badge System (v3.3)
+1. **Custom Badge Implementation**: 
+   - Created `UserTypeBadgeView` custom view for icon-based badges
+   - Replaced text badges with intuitive icons: 🧑 Individual, 🍽️ Restaurant, 👥 NGO/Charity
+   - Implemented interactive tooltips on click/long-press to show full user type names
+   - Added auto-dismiss functionality (2 seconds) for tooltips
+
+2. **Icon Design & Sizing**: 
+   - **Individual**: Person icon (16dp) with orange color (#FF6B35)
+   - **Restaurant**: Fork and knife icon (16dp) with green color (#4CAF50)
+   - **NGO/Charity**: Community group icon (18dp) with multi-color design (gold, orange, brown)
+   - Optimized padding and spacing for clean appearance
+
+3. **App-Wide Integration**: 
+   - **Profile Pages**: User profile views with integrated badges
+   - **Food Posts**: All food post cards with user type badges
+   - **Explore Sections**: Individual, Restaurant, NGO cards with badges
+   - **Search Results**: Search result cards with consistent badge display
+   - **Layout Updates**: Updated all relevant XML layouts to use new badge system
+
+4. **Enhanced Positioning**: 
+   - **Tight Integration**: 4dp margin between names and badges (reduced from 8dp)
+   - **Dynamic Positioning**: Badges appear right next to names regardless of name length
+   - **Responsive Layout**: Adapts to different screen sizes and name lengths
+   - **Consistent Spacing**: Same treatment across all app sections
+
+5. **Technical Implementation**: 
+   - **Custom View**: `UserTypeBadgeView` extends `LinearLayout` with icon management
+   - **Tooltip System**: PopupWindow with auto-dismiss and professional styling
+   - **Touch Handling**: Click and long-press support for tooltip display
+   - **Memory Efficient**: Proper cleanup and resource management
+   - **Adapter Updates**: Updated all RecyclerView adapters to use new badge system
 
 ### 🖼️ Editable Image Collage System (v3.1)
 1. **EditableImageCollageView Implementation**: 
@@ -473,6 +506,11 @@ The application has been thoroughly tested for:
 - **Logout confirmation dialog functionality**
 - **Clean navigation flow for logout process**
 - **Consistent button styling and layout**
+- **Icon-based user type badge system**
+- **Interactive tooltip functionality for badges**
+- **Dynamic badge positioning next to names**
+- **NGO/Charity icon sizing and visibility**
+- **App-wide badge integration across all screens**
 
 ## Contributing
 

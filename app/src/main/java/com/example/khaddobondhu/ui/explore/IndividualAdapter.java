@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.model.User;
 import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
+import com.example.khaddobondhu.ui.view.UserTypeBadgeView;
 import com.example.khaddobondhu.utils.UserRoleUtils;
 import java.util.List;
 
@@ -49,8 +50,7 @@ public class IndividualAdapter extends RecyclerView.Adapter<IndividualAdapter.Vi
         holder.userNameTextView.setText(individual.getName());
         
         // Set role badge
-        holder.userRoleBadgeTextView.setText(UserRoleUtils.getUserTypeDisplayName(individual.getUserType()));
-        holder.userRoleBadgeTextView.setBackgroundResource(UserRoleUtils.getUserTypeBadgeDrawable(individual.getUserType()));
+        holder.userRoleBadgeView.setUserType(individual.getUserType());
         
         // Set description
         if (individual.getDescription() != null && !individual.getDescription().isEmpty()) {
@@ -107,7 +107,7 @@ public class IndividualAdapter extends RecyclerView.Adapter<IndividualAdapter.Vi
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView userImageView;
         TextView userNameTextView;
-        TextView userRoleBadgeTextView;
+        UserTypeBadgeView userRoleBadgeView;
         TextView userDescriptionTextView;
         TextView postsCountTextView;
         TextView ratingTextView;
@@ -116,7 +116,7 @@ public class IndividualAdapter extends RecyclerView.Adapter<IndividualAdapter.Vi
             super(itemView);
             userImageView = itemView.findViewById(R.id.userImageView);
             userNameTextView = itemView.findViewById(R.id.userNameTextView);
-            userRoleBadgeTextView = itemView.findViewById(R.id.userRoleBadgeTextView);
+            userRoleBadgeView = itemView.findViewById(R.id.userRoleBadgeView);
             userDescriptionTextView = itemView.findViewById(R.id.userDescriptionTextView);
             postsCountTextView = itemView.findViewById(R.id.postsCountTextView);
             ratingTextView = itemView.findViewById(R.id.ratingTextView);

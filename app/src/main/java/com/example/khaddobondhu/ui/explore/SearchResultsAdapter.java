@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.model.User;
 import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
+import com.example.khaddobondhu.ui.view.UserTypeBadgeView;
 import com.example.khaddobondhu.utils.UserRoleUtils;
 import java.util.List;
 
@@ -49,8 +50,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         holder.userNameTextView.setText(user.getName());
         
         // Set role badge
-        holder.userRoleBadgeTextView.setText(UserRoleUtils.getUserTypeDisplayName(user.getUserType()));
-        holder.userRoleBadgeTextView.setBackgroundResource(UserRoleUtils.getUserTypeBadgeDrawable(user.getUserType()));
+        holder.userRoleBadgeView.setUserType(user.getUserType());
         
         // Set description
         if (user.getDescription() != null && !user.getDescription().isEmpty()) {
@@ -124,7 +124,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView userImageView;
         TextView userNameTextView;
-        TextView userRoleBadgeTextView;
+        UserTypeBadgeView userRoleBadgeView;
         TextView userDescriptionTextView;
         TextView postsCountTextView;
         TextView ratingTextView;
@@ -133,7 +133,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             super(itemView);
             userImageView = itemView.findViewById(R.id.userImageView);
             userNameTextView = itemView.findViewById(R.id.userNameTextView);
-            userRoleBadgeTextView = itemView.findViewById(R.id.userRoleBadgeTextView);
+            userRoleBadgeView = itemView.findViewById(R.id.userRoleBadgeView);
             userDescriptionTextView = itemView.findViewById(R.id.userDescriptionTextView);
             postsCountTextView = itemView.findViewById(R.id.postsCountTextView);
             ratingTextView = itemView.findViewById(R.id.ratingTextView);
