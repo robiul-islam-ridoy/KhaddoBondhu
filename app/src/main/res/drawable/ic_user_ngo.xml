@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="18dp"
-    android:height="18dp"
+    android:width="24dp"
+    android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
-    <!-- Center person -->
-    <path
-        android:fillColor="#FFD700"
-        android:pathData="M12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,10c-1.33,0 -4,0.67 -4,2v2h8v-2c0,-1.33 -2.67,-2 -4,-2z"/>
-    <!-- Left person -->
-    <path
-        android:fillColor="#FF8C00"
-        android:pathData="M8,10c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM8,12c-1.33,0 -4,0.67 -4,2v2h8v-2c0,-1.33 -2.67,-2 -4,-2z"/>
-    <!-- Right person -->
+    
+    <!-- Background figure (right) - Dark brown -->
     <path
         android:fillColor="#8B4513"
-        android:pathData="M16,10c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,12c-1.33,0 -4,0.67 -4,2v2h8v-2c0,-1.33 -2.67,-2 -4,-2z"/>
+        android:pathData="M18,12c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c-1.33,0 -4,0.67 -4,2v2h8v-2c0,-1.33 -2.67,-2 -4,-2z"/>
+    
+    <!-- Middle figure (left) - Orange brown -->
+    <path
+        android:fillColor="#FF8C00"
+        android:pathData="M10,12c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM10,14c-1.33,0 -4,0.67 -4,2v2h8v-2c0,-1.33 -2.67,-2 -4,-2z"/>
+    
+    <!-- Foreground figure (center) - Light yellow -->
+    <path
+        android:fillColor="#FFD700"
+        android:pathData="M14,10c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM14,12c-1.33,0 -4,0.67 -4,2v2h8v-2c0,-1.33 -2.67,-2 -4,-2z"/>
 </vector>

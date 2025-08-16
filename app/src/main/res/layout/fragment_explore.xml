@@ -4,317 +4,352 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="#FFFDF8">
 
-    <!-- Header -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Explore Community"
-        android:textAppearance="?attr/textAppearanceHeadline4"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Discover restaurants, NGOs, and individuals in your community"
-        android:textAppearance="?attr/textAppearanceBody2"
-        android:textColor="@android:color/darker_gray"
-        android:layout_marginBottom="16dp" />
-
-    <!-- Search Bar - Slimmer design -->
-    <com.google.android.material.card.MaterialCardView
+    <!-- Header with Gradient Background -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="2dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="@color/design_default_color_primary">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="16dp">
-
-            <EditText
-                android:id="@+id/searchEditText"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="Search Here by name"
-                android:textSize="14sp"
-                android:background="@null"
-                android:padding="0dp"
-                android:inputType="text"
-                android:maxLines="1"
-                android:imeOptions="actionSearch"
-                android:gravity="center_vertical" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="20dp"
-                android:background="@android:color/darker_gray"
-                android:layout_marginHorizontal="8dp" />
-
-            <ImageView
-                android:id="@+id/filterButton"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_filter"
-                android:tint="@color/design_default_color_primary"
-                android:padding="2dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginEnd="8dp" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="20dp"
-                android:background="@android:color/darker_gray"
-                android:layout_marginEnd="8dp" />
-
-            <ImageView
-                android:id="@+id/searchButton"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_search"
-                android:tint="@color/design_default_color_primary"
-                android:padding="2dp"
-                android:background="?attr/selectableItemBackgroundBorderless" />
-
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <!-- Search Results Count -->
-    <TextView
-        android:id="@+id/searchResultsCount"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"
-        android:layout_marginBottom="16dp"
-        android:visibility="gone" />
+        android:background="@drawable/toolbar_gradient_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <!-- Content Area - This will contain either search results or default content -->
-    <FrameLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Explore Community"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Discover restaurants, NGOs, and individuals in your community"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:alpha="0.9"
+            android:gravity="center"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <!-- Content Area with Padding -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- Search Results RecyclerView (takes full priority when visible) -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchResultsRecyclerView"
+        <!-- Search Bar - Enhanced design -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:clipToPadding="false"
-            android:paddingTop="8dp"
-            android:paddingBottom="16dp"
-            android:scrollbars="vertical"
-            android:nestedScrollingEnabled="false"
-            android:overScrollMode="always"
-            android:descendantFocusability="beforeDescendants"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="@color/primary_dark">
 
-        <!-- Default Content with SwipeRefreshLayout (only visible when not searching) -->
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible">
-
-            <!-- Default Content (when not searching) -->
-            <ScrollView
-                android:id="@+id/defaultContentScrollView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fillViewport="true"
-                android:scrollbars="none">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
 
-                <LinearLayout
+                <EditText
+                    android:id="@+id/searchEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="Search Here by name"
+                    android:textSize="14sp"
+                    android:background="@null"
+                    android:padding="0dp"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:imeOptions="actionSearch"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_secondary" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="20dp"
+                    android:background="@color/divider_color"
+                    android:layout_marginHorizontal="8dp" />
+
+                <ImageView
+                    android:id="@+id/filterButton"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_filter"
+                    android:tint="@color/primary_dark"
+                    android:padding="2dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_marginEnd="8dp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="20dp"
+                    android:background="@color/divider_color"
+                    android:layout_marginEnd="8dp" />
+
+                <ImageView
+                    android:id="@+id/searchButton"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_search"
+                    android:tint="@color/primary_dark"
+                    android:padding="2dp"
+                    android:background="?attr/selectableItemBackgroundBorderless" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Search Results Count -->
+        <TextView
+            android:id="@+id/searchResultsCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="14sp"
+            android:textColor="@color/text_secondary"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
+
+        <!-- Content Area - This will contain either search results or default content -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <!-- Search Results RecyclerView (takes full priority when visible) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/searchResultsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:clipToPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp"
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="always"
+                android:descendantFocusability="beforeDescendants"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+
+            <!-- Default Content with SwipeRefreshLayout (only visible when not searching) -->
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <!-- Default Content (when not searching) -->
+                <ScrollView
+                    android:id="@+id/defaultContentScrollView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="120dp">
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:scrollbars="none">
 
-                    <!-- Restaurants Section -->
                     <LinearLayout
-                        android:id="@+id/restaurantsSection"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginBottom="24dp">
+                        android:paddingBottom="120dp">
 
+                        <!-- Restaurants Section -->
                         <LinearLayout
+                            android:id="@+id/restaurantsSection"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:layout_marginBottom="12dp">
+                            android:orientation="vertical"
+                            android:layout_marginBottom="24dp">
 
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:src="@drawable/ic_restaurant"
-                                android:tint="@color/design_default_color_primary"
-                                android:layout_marginEnd="8dp" />
-
-                            <TextView
-                                android:layout_width="0dp"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Restaurants"
-                                android:textAppearance="?attr/textAppearanceHeadline6"
-                                android:textStyle="bold" />
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Restaurants"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_primary" />
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_restaurant"
+                                    android:tint="@color/primary_dark"
+                                    android:layout_marginStart="8dp" />
+
+                            </LinearLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Donate or sell surplus food"
-                                android:textAppearance="?attr/textAppearanceCaption"
-                                android:textColor="@android:color/darker_gray" />
+                                android:textSize="12sp"
+                                android:textColor="@color/text_secondary"
+                                android:layout_marginStart="32dp"
+                                android:layout_marginBottom="12dp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/restaurantsRecyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clipToPadding="false"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp" />
 
                         </LinearLayout>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/restaurantsRecyclerView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clipToPadding="false"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp" />
-
-                    </LinearLayout>
-
-                    <!-- NGOs Section -->
-                    <LinearLayout
-                        android:id="@+id/ngosSection"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="24dp">
-
+                        <!-- NGOs Section -->
                         <LinearLayout
+                            android:id="@+id/ngosSection"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:layout_marginBottom="12dp">
+                            android:orientation="vertical"
+                            android:layout_marginBottom="24dp">
 
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:src="@drawable/ic_favorite"
-                                android:tint="@color/design_default_color_primary"
-                                android:layout_marginEnd="8dp" />
-
-                            <TextView
-                                android:layout_width="0dp"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="NGOs and Charities"
-                                android:textAppearance="?attr/textAppearanceHeadline6"
-                                android:textStyle="bold" />
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="NGOs and Charities"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_primary" />
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_user_ngo"
+                                    android:tint="@color/primary_dark"
+                                    android:layout_marginStart="8dp" />
+
+                            </LinearLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Help distribute food to those in need"
-                                android:textAppearance="?attr/textAppearanceCaption"
-                                android:textColor="@android:color/darker_gray" />
+                                android:textSize="12sp"
+                                android:textColor="@color/text_secondary"
+                                android:layout_marginStart="32dp"
+                                android:layout_marginBottom="12dp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/ngosRecyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clipToPadding="false"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp" />
 
                         </LinearLayout>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/ngosRecyclerView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clipToPadding="false"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp" />
-
-                    </LinearLayout>
-
-                    <!-- Individuals Section -->
-                    <LinearLayout
-                        android:id="@+id/individualsSection"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="24dp">
-
+                        <!-- Individuals Section -->
                         <LinearLayout
+                            android:id="@+id/individualsSection"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:layout_marginBottom="12dp">
+                            android:orientation="vertical"
+                            android:layout_marginBottom="24dp">
 
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:src="@drawable/ic_person"
-                                android:tint="@color/design_default_color_primary"
-                                android:layout_marginEnd="8dp" />
-
-                            <TextView
-                                android:layout_width="0dp"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Individuals"
-                                android:textAppearance="?attr/textAppearanceHeadline6"
-                                android:textStyle="bold" />
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="8dp">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Individuals"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_primary" />
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_person"
+                                    android:tint="@color/primary_dark"
+                                    android:layout_marginStart="8dp" />
+
+                            </LinearLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Regular users sharing food"
-                                android:textAppearance="?attr/textAppearanceCaption"
-                                android:textColor="@android:color/darker_gray" />
+                                android:textSize="12sp"
+                                android:textColor="@color/text_secondary"
+                                android:layout_marginStart="32dp"
+                                android:layout_marginBottom="12dp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/individualsRecyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clipToPadding="false"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp" />
 
                         </LinearLayout>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/individualsRecyclerView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clipToPadding="false"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp" />
-
                     </LinearLayout>
 
-                </LinearLayout>
+                </ScrollView>
 
-            </ScrollView>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </FrameLayout>
 
-    </FrameLayout>
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:indeterminateTint="@color/primary_dark" />
 
-    <!-- Progress Bar -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+        <!-- Empty State -->
+        <TextView
+            android:id="@+id/emptyStateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="No users found\nPull to refresh"
+            android:textSize="16sp"
+            android:textColor="@color/text_secondary"
+            android:textAlignment="center"
+            android:visibility="gone" />
 
-    <!-- Empty State -->
-    <TextView
-        android:id="@+id/emptyStateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="No users found\nPull to refresh"
-        android:textAppearance="?attr/textAppearanceBody1"
-        android:textAlignment="center"
-        android:visibility="gone" />
+    </LinearLayout>
 
 </LinearLayout> 
