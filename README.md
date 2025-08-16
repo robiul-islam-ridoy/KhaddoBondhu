@@ -137,7 +137,7 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v3.4)
+## Recent Updates (v3.5)
 
 ### 🚪 Streamlined Logout System (v3.2)
 1. **3-Dot Menu Removal**: 
@@ -220,6 +220,32 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
    - **Added**: `if (foodPost.getExpiryDate() != null) { postData.put("expiryDate", foodPost.getExpiryDate()); }`
    - **Location**: `FirebaseService.createFoodPost()` method
    - **Impact**: All newly created food posts now properly save and display expiry dates
+
+### 👤 Dynamic User Name Display System (v3.5)
+
+**Issue Fixed**: When users changed their profile names, the old names remained on their existing food posts because user names were stored directly in the `food_posts` table.
+
+**Solution Implemented**:
+- **Root Cause**: User names were being saved directly in the `food_posts` table during post creation, creating stale data
+- **Fix Applied**: 
+  - **Post Creation**: Only save `userId` in `food_posts` table (remove `userName` storage)
+  - **Post Display**: Fetch user names dynamically from `users` table using `userId` when displaying posts
+  - **Real-time Updates**: User name changes now immediately reflect on all their posts
+
+**Technical Details**:
+- **Files Modified**: 
+  - `app/src/main/java/com/example/khaddobondhu/ui/createpost/CreatePostFragment.java`
+  - `app/src/main/java/com/example/khaddobondhu/service/FirebaseService.java`
+  - `app/src/main/java/com/example/khaddobondhu/ui/home/FoodPostAdapter.java`
+- **Key Changes**:
+  - Removed `userName` fetching and storage during post creation
+  - Added `fetchUserNameAndSetDisplay()` method in `FoodPostAdapter`
+  - Updated `createFoodPost()` to not save `userName` in Firestore
+- **Benefits**: 
+  - Always shows current user names
+  - Reduces data redundancy
+  - Maintains data consistency
+  - Improves user experience
 
 ### 🖼️ Editable Image Collage System (v3.1)
 1. **EditableImageCollageView Implementation**: 
