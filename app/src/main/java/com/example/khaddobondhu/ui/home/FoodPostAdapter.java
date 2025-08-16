@@ -75,8 +75,8 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         // Set post type
         holder.postTypeTextView.setText(post.getPostType());
 
-        // Set seller name - fetch dynamically from user table
-        fetchUserNameAndSetDisplay(post.getUserId(), holder.sellerNameTextView);
+        // Set seller name and profile picture - fetch dynamically from user table
+        fetchUserDataAndSetDisplay(post.getUserId(), holder.sellerNameTextView, holder.profilePictureImageView);
         
         // Set user role badge - fetch from user table
         fetchUserTypeAndSetBadge(post.getUserId(), holder.userRoleBadgeView);
@@ -148,33 +148,65 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         }
     }
     
-    private void fetchUserNameAndSetDisplay(String userId, TextView nameTextView) {
+    private void fetchUserDataAndSetDisplay(String userId, TextView nameTextView, ImageView profileImageView) {
         if (userId == null || userId.isEmpty()) {
-            // Set default name if no user ID
+            // Set default name and image if no user ID
             nameTextView.setText("Unknown User");
+            profileImageView.setImageResource(R.drawable.ic_person);
             return;
         }
         
-        firebaseService.getUserNameById(userId, new OnCompleteListener<String>() {
+        firebaseService.getUserById(userId, new FirebaseService.OnUserFetchListener() {
             @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if (task.isSuccessful() && task.getResult() != null) {
-                    String userName = task.getResult();
-                    // Update UI on main thread
-                    if (context != null) {
-                        ((android.app.Activity) context).runOnUiThread(() -> {
-                            nameTextView.setText(userName);
-                        });
-                    }
-                } else {
-                    // Set default name on error
-                    if (context != null) {
-                        ((android.app.Activity) context).runOnUiThread(() -> {
-                            nameTextView.setText("Unknown User");
-                        });
-                    }
+            public void onSuccess(com.example.khaddobondhu.model.User user) {
+                // Update UI on main thread
+                if (context != null) {
+                    ((android.app.Activity) context).runOnUiThread(() -> {
+                        // Set user name
+                        nameTextView.setText(user.getName() != null ? user.getName() : "Unknown User");
+                        
+                        // Set profile picture
+                        if (user.getProfilePictureUrl() != null && !user.getProfilePictureUrl().isEmpty()) {
+                            Glide.with(context)
+                                .load(user.getProfilePictureUrl())
+                                .placeholder(R.drawable.ic_person)
+                                .error(R.drawable.ic_person)
+                                .circleCrop()
+                                .into(profileImageView);
+                        } else {
+                            profileImageView.setImageResource(R.drawable.ic_person);
+                        }
+                        
+                        // Set up click listeners for profile navigation
+                        setupProfileClickListeners(userId, user.getName(), nameTextView, profileImageView);
+                    });
                 }
             }
+            
+            @Override
+            public void onError(Exception e) {
+                // Set default values on error
+                if (context != null) {
+                    ((android.app.Activity) context).runOnUiThread(() -> {
+                        nameTextView.setText("Unknown User");
+                        profileImageView.setImageResource(R.drawable.ic_person);
+                    });
+                }
+            }
+        });
+    }
+    
+    private void setupProfileClickListeners(String userId, String userName, TextView nameTextView, ImageView profileImageView) {
+        // Click listener for profile picture
+        profileImageView.setOnClickListener(v -> {
+            Intent intent = com.example.khaddobondhu.ui.profile.UserProfileViewActivity.newIntent(context, userId, userName);
+            context.startActivity(intent);
+        });
+        
+        // Click listener for user name
+        nameTextView.setOnClickListener(v -> {
+            Intent intent = com.example.khaddobondhu.ui.profile.UserProfileViewActivity.newIntent(context, userId, userName);
+            context.startActivity(intent);
         });
     }
 
@@ -220,6 +252,7 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         TextView priceTextView;
         TextView postTypeTextView;
         TextView sellerNameTextView;
+        ImageView profilePictureImageView;
         TextView descriptionTextView;
         TextView quantityTextView;
         TextView timeLeftTextView;
@@ -234,6 +267,7 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
             priceTextView = itemView.findViewById(R.id.priceTextView);
             postTypeTextView = itemView.findViewById(R.id.postTypeTextView);
             sellerNameTextView = itemView.findViewById(R.id.sellerNameTextView);
+            profilePictureImageView = itemView.findViewById(R.id.profilePictureImageView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             quantityTextView = itemView.findViewById(R.id.quantityTextView);
             timeLeftTextView = itemView.findViewById(R.id.timeLeftTextView);

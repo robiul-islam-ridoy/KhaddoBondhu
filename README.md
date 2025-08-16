@@ -137,7 +137,7 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v3.5)
+## Recent Updates (v3.6)
 
 ### 🚪 Streamlined Logout System (v3.2)
 1. **3-Dot Menu Removal**: 
@@ -246,6 +246,32 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
   - Reduces data redundancy
   - Maintains data consistency
   - Improves user experience
+
+### 👤 Interactive Profile Pictures on Food Posts (v3.6)
+
+**New Feature**: Food posts now display user profile pictures and allow navigation to user profiles by clicking on profile pictures or names.
+
+**Features Implemented**:
+- **Profile Picture Display**: Shows user's actual profile picture in the circular area next to their name
+- **Dynamic Loading**: Fetches profile pictures from Firebase using Glide with proper error handling
+- **Clickable Elements**: Both profile picture and user name are clickable for navigation
+- **Profile Navigation**: Clicking profile picture or name opens the user's full profile (UserProfileViewActivity)
+- **Fallback Handling**: Shows default person icon if no profile picture is available
+- **Consistent Experience**: Same navigation pattern as explore section
+
+**Technical Details**:
+- **Files Modified**: 
+  - `app/src/main/java/com/example/khaddobondhu/ui/home/FoodPostAdapter.java`
+- **Key Changes**:
+  - Added `fetchUserDataAndSetDisplay()` method to load both name and profile picture
+  - Added `setupProfileClickListeners()` method for navigation
+  - Updated ViewHolder to include `profilePictureImageView`
+  - Integrated with existing `UserProfileViewActivity` for profile viewing
+- **Benefits**: 
+  - Enhanced visual appeal with profile pictures
+  - Improved user engagement through profile navigation
+  - Consistent user experience across the app
+  - Better social interaction between users
 
 ### 🖼️ Editable Image Collage System (v3.1)
 1. **EditableImageCollageView Implementation**: 
