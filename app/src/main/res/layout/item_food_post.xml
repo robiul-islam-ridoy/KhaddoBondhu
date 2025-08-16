@@ -47,6 +47,36 @@
                     android:maxLines="2"
                     android:ellipsize="end" />
 
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <!-- Post Type Badge (Left) -->
+                <TextView
+                    android:id="@+id/postTypeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DONATE"
+                    android:textSize="10sp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/bg_post_type"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="2dp" />
+
+                <!-- Spacer pushes next item to right -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <!-- Price (Right) -->
                 <TextView
                     android:id="@+id/priceTextView"
                     android:layout_width="wrap_content"
@@ -56,23 +86,8 @@
                     android:textStyle="bold"
                     android:textColor="@color/design_default_color_primary"
                     android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp"
-                    android:layout_marginStart="8dp" />
-
+                    android:paddingVertical="4dp" />
             </LinearLayout>
-
-            <!-- Post Type Badge -->
-            <TextView
-                android:id="@+id/postTypeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="DONATE"
-                android:textSize="12sp"
-                android:textColor="@android:color/white"
-                android:background="@drawable/bg_post_type"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:layout_marginTop="4dp" />
 
             <!-- Seller Name and Role Badge Row -->
             <LinearLayout
@@ -104,7 +119,7 @@
                     android:layout_weight="1"
                     android:text="Seller Name"
                     android:paddingLeft="10dp"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
                     android:maxLines="1"

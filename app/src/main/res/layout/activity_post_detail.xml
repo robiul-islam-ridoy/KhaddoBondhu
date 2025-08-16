@@ -46,17 +46,17 @@
                 android:layout_height="200dp"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Post Type Badge -->
-            <TextView
-                android:id="@+id/textViewPostType"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/bg_post_type"
-                android:padding="8dp"
-                android:text="DONATE"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <!-- Post Type Badge -->
+
+
+            </LinearLayout>
+
 
             <!-- Seller Name and Role Badge Row -->
             <LinearLayout
@@ -78,7 +78,7 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_person"
                         android:scaleType="centerCrop"
-                        android:padding="2dp" />
+                        android:padding="4dp" />
                 </FrameLayout>
 
                 <TextView
@@ -102,15 +102,39 @@
 
             </LinearLayout>
 
-            <!-- Title -->
-            <TextView
-                android:id="@+id/textViewTitle"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Food Title"
-                android:textAppearance="?attr/textAppearanceHeadline5"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
+                    android:layout_marginBottom="8dp"
+                    android:text="Food Title"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonShare"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    app:icon="@drawable/ic_share"
+                    app:iconTint="?attr/colorPrimary"
+                    android:backgroundTint="@color/background"
+                    app:strokeWidth="0dp"
+                    app:rippleColor="@android:color/darker_gray"
+                    android:elevation="0dp"
+                    android:translationZ="0dp"
+                    style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+
+            </LinearLayout>
+
 
             <!-- Description -->
             <TextView
@@ -142,22 +166,45 @@
                         android:layout_marginBottom="12dp"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <!-- Price section (90%) -->
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Price: "
-                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:layout_weight="0.9"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Price: "
+                                android:textAppearance="?attr/textAppearanceBody1"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/textViewPrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="৳0"
+                                android:textAppearance="?attr/textAppearanceBody1"
+                                android:textColor="?attr/colorPrimary" />
+                        </LinearLayout>
+
+                        <!-- Icon -->
+                        <TextView
+                            android:id="@+id/textViewPostType"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.2"
+                            android:gravity="center"
+                            android:background="@drawable/bg_post_type"
+                            android:paddingHorizontal="2dp"
+                            android:paddingVertical="3dp"
+                            android:text="DONATE"
+                            android:textSize="10dp"
+                            android:textColor="@color/white"
                             android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textViewPrice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="৳0"
-                            android:textAppearance="?attr/textAppearanceBody1"
-                            android:textColor="?attr/colorPrimary" />
-
                     </LinearLayout>
+
 
                     <!-- Quantity -->
                     <LinearLayout
@@ -364,17 +411,14 @@
                     android:text="Message"
                     app:icon="@drawable/ic_message"
                     app:cornerRadius="24dp" />
-
             </LinearLayout>
-
-            <!-- Share Button -->
+            <!-- Accept Request Button -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonShare"
+                android:id="@+id/buttonAccceptRequest"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Share Post"
-                app:icon="@drawable/ic_share"
+                android:text="Accept Request"
                 app:cornerRadius="24dp"
                 app:strokeColor="?attr/colorPrimary" />
 
