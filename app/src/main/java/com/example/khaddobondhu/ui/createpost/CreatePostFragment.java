@@ -416,61 +416,43 @@ public class CreatePostFragment extends Fragment {
             // Get current user ID
             String userId = firebaseService.getCurrentUser().getUid();
 
-            // Fetch user name from Firestore
-            firebaseService.getUserNameById(userId, new OnCompleteListener<String>() {
+            // Create FoodPost object
+            FoodPost foodPost = new FoodPost();
+            foodPost.setUserId(userId);
+            // Don't set userName - it will be fetched dynamically when displaying
+
+            foodPost.setTitle(title);
+            foodPost.setDescription(description);
+            foodPost.setPostType(postType);
+            foodPost.setPrice(price);
+            foodPost.setQuantity(quantity);
+            foodPost.setQuantityUnit(quantityUnit);
+            foodPost.setFoodType(foodType);
+            foodPost.setPickupLocation(pickupLocation);
+            foodPost.setImageUrls(imageUrls);
+            foodPost.setExpiryDate(expiryDate);
+
+            // Save to Firestore
+            firebaseService.createFoodPost(foodPost, new OnCompleteListener<DocumentReference>() {
                 @Override
-                public void onComplete(@NonNull Task<String> task) {
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        String userName = task.getResult();
+                public void onComplete(@NonNull Task<DocumentReference> task) {
+                    progressBar.setVisibility(View.GONE);
+                    createPostButton.setEnabled(true);
 
-                        // Create FoodPost object
-                        FoodPost foodPost = new FoodPost();
-                        foodPost.setUserId(userId);
-                        foodPost.setUserName(userName);
-
-                        foodPost.setTitle(title);
-                        foodPost.setDescription(description);
-                        foodPost.setPostType(postType);
-                        foodPost.setPrice(price);
-                        foodPost.setQuantity(quantity);
-                        foodPost.setQuantityUnit(quantityUnit);
-                        foodPost.setFoodType(foodType);
-                        foodPost.setPickupLocation(pickupLocation);
-                        foodPost.setImageUrls(imageUrls);
-                        foodPost.setExpiryDate(expiryDate);
-
-                        Log.d("CREATE_POST", "Fetched userName = " + userName);
-
-
-                        // Save to Firestore
-                        firebaseService.createFoodPost(foodPost, new OnCompleteListener<DocumentReference>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                progressBar.setVisibility(View.GONE);
-                                createPostButton.setEnabled(true);
-
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(getContext(), "Post created successfully!", Toast.LENGTH_SHORT).show();
-                                    clearForm();
-                                    if (getActivity() != null) {
-                                        getActivity().onBackPressed();
-                                    }
-                                } else {
-                                    String errorMessage = "Failed to create post";
-                                    if (task.getException() != null) {
-                                        errorMessage += ": " + task.getException().getMessage();
-                                    }
-                                    showErrorDialog("Error Creating Post", errorMessage);
-                                }
-                            }
-                        });
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getContext(), "Post created successfully!", Toast.LENGTH_SHORT).show();
+                        clearForm();
+                        if (getActivity() != null) {
+                            getActivity().onBackPressed();
+                        }
                     } else {
-                        progressBar.setVisibility(View.GONE);
-                        createPostButton.setEnabled(true);
-                        Toast.makeText(getContext(), "Failed to fetch user name.", Toast.LENGTH_SHORT).show();
+                        String errorMessage = "Failed to create post";
+                        if (task.getException() != null) {
+                            errorMessage += ": " + task.getException().getMessage();
+                        }
+                        showErrorDialog("Error Creating Post", errorMessage);
                     }
                 }
-
             });
 
         } catch (Exception e) {

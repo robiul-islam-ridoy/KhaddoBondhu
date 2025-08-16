@@ -20,6 +20,8 @@ import com.example.khaddobondhu.ui.view.ImageCollageView;
 import com.example.khaddobondhu.ui.view.UserTypeBadgeView;
 import com.example.khaddobondhu.utils.UserRoleUtils;
 import com.example.khaddobondhu.service.FirebaseService;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,8 +75,8 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         // Set post type
         holder.postTypeTextView.setText(post.getPostType());
 
-        // Set seller name
-        holder.sellerNameTextView.setText(post.getUserName());
+        // Set seller name - fetch dynamically from user table
+        fetchUserNameAndSetDisplay(post.getUserId(), holder.sellerNameTextView);
         
         // Set user role badge - fetch from user table
         fetchUserTypeAndSetBadge(post.getUserId(), holder.userRoleBadgeView);
@@ -146,6 +148,36 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         }
     }
     
+    private void fetchUserNameAndSetDisplay(String userId, TextView nameTextView) {
+        if (userId == null || userId.isEmpty()) {
+            // Set default name if no user ID
+            nameTextView.setText("Unknown User");
+            return;
+        }
+        
+        firebaseService.getUserNameById(userId, new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    String userName = task.getResult();
+                    // Update UI on main thread
+                    if (context != null) {
+                        ((android.app.Activity) context).runOnUiThread(() -> {
+                            nameTextView.setText(userName);
+                        });
+                    }
+                } else {
+                    // Set default name on error
+                    if (context != null) {
+                        ((android.app.Activity) context).runOnUiThread(() -> {
+                            nameTextView.setText("Unknown User");
+                        });
+                    }
+                }
+            }
+        });
+    }
+
     private void fetchUserTypeAndSetBadge(String userId, UserTypeBadgeView badgeView) {
         if (userId == null || userId.isEmpty()) {
             // Set default badge if no user ID
