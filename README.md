@@ -137,7 +137,7 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
 - **Search:** Custom search implementation with real-time filtering
 - **Build System:** Gradle
 
-## Recent Updates (v3.3)
+## Recent Updates (v3.4)
 
 ### 🚪 Streamlined Logout System (v3.2)
 1. **3-Dot Menu Removal**: 
@@ -197,6 +197,29 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
    - **Touch Handling**: Click and long-press support for tooltip display
    - **Memory Efficient**: Proper cleanup and resource management
    - **Adapter Updates**: Updated all RecyclerView adapters to use new badge system
+
+### 🕒 Expiry Date Fix for Food Post Creation (v3.4)
+1. **Issue Resolution**: 
+   - **Problem**: Expiry date was not appearing on food posts immediately after creation
+   - **Root Cause**: Expiry date was not being saved to Firestore in the `createFoodPost` method
+   - **Solution**: Added expiry date to the `postData` map before saving to Firestore
+
+2. **Technical Fix**: 
+   - **FirebaseService.java**: Added conditional expiry date saving in `createFoodPost` method
+   - **Data Persistence**: Expiry date now properly saved to Firestore database
+   - **Immediate Display**: Expiry date appears on food post cards right after creation
+   - **Consistent Behavior**: Same functionality for both new posts and edited posts
+
+3. **User Experience Improvements**: 
+   - **No More Re-editing**: Users no longer need to edit and re-save posts to see expiry dates
+   - **Immediate Feedback**: Expiry date visible immediately when post is created
+   - **Reliable Functionality**: Consistent expiry date display across all food posts
+   - **Proper Validation**: Expiry date picker works correctly with proper date/time selection
+
+4. **Code Changes**: 
+   - **Added**: `if (foodPost.getExpiryDate() != null) { postData.put("expiryDate", foodPost.getExpiryDate()); }`
+   - **Location**: `FirebaseService.createFoodPost()` method
+   - **Impact**: All newly created food posts now properly save and display expiry dates
 
 ### 🖼️ Editable Image Collage System (v3.1)
 1. **EditableImageCollageView Implementation**: 
@@ -511,6 +534,10 @@ The application has been thoroughly tested for:
 - **Dynamic badge positioning next to names**
 - **NGO/Charity icon sizing and visibility**
 - **App-wide badge integration across all screens**
+- **Expiry date functionality in food post creation**
+- **Immediate expiry date display after post creation**
+- **Proper expiry date saving to Firestore database**
+- **Consistent expiry date behavior across create and edit**
 
 ## Contributing
 
