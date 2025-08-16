@@ -48,17 +48,11 @@
                     android:maxLines="1"
                     android:ellipsize="end" />
 
-                <TextView
-                    android:id="@+id/userRoleBadgeTextView"
+                <com.example.khaddobondhu.ui.view.UserTypeBadgeView
+                    android:id="@+id/userRoleBadgeView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Individual"
-                    android:textSize="10sp"
-                    android:textColor="@android:color/white"
-                    android:background="@drawable/badge_individual"
-                    android:paddingHorizontal="6dp"
-                    android:paddingVertical="2dp"
-                    android:layout_marginStart="8dp" />
+                    android:layout_marginStart="4dp" />
 
             </LinearLayout>
 

@@ -23,6 +23,7 @@ import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.model.User;
 import com.example.khaddobondhu.service.FirebaseService;
 import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
+import com.example.khaddobondhu.ui.view.UserTypeBadgeView;
 import com.example.khaddobondhu.utils.UserRoleUtils;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -38,10 +39,11 @@ public class UserProfileViewActivity extends AppCompatActivity {
     // Views
     private Toolbar toolbar;
     private ProgressBar progressBar;
-    private TextView textViewName, textViewEmail, textViewPhone, textViewBio, textViewUserType;
+    private TextView textViewName, textViewEmail, textViewPhone, textViewBio;
     private TextView textViewPostsCount, textViewRating, textViewViews, textViewEmptyPosts;
     private RecyclerView recyclerViewPosts;
     private ImageView profilePictureImageView;
+    private UserTypeBadgeView userTypeBadgeView;
 
     // Data
     private FirebaseService firebaseService;
@@ -96,7 +98,7 @@ public class UserProfileViewActivity extends AppCompatActivity {
         textViewEmail = findViewById(R.id.textViewEmail);
         textViewPhone = findViewById(R.id.textViewPhone);
         textViewBio = findViewById(R.id.textViewBio);
-        textViewUserType = findViewById(R.id.textViewUserType);
+        userTypeBadgeView = findViewById(R.id.userTypeBadgeView);
         textViewPostsCount = findViewById(R.id.textViewPostsCount);
         textViewRating = findViewById(R.id.textViewRating);
         textViewViews = findViewById(R.id.textViewViews);
@@ -182,11 +184,9 @@ public class UserProfileViewActivity extends AppCompatActivity {
 
         // Set user type badge
         if (user.getUserType() != null) {
-            textViewUserType.setText(UserRoleUtils.getUserTypeDisplayName(user.getUserType()));
-            textViewUserType.setBackgroundResource(UserRoleUtils.getUserTypeBadgeDrawable(user.getUserType()));
+            userTypeBadgeView.setUserType(user.getUserType());
         } else {
-            textViewUserType.setText("Individual");
-            textViewUserType.setBackgroundResource(R.drawable.badge_individual);
+            userTypeBadgeView.setUserType("INDIVIDUAL");
         }
 
         // Set stats - these will be updated when posts are loaded

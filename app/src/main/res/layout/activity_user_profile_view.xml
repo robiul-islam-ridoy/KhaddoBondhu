@@ -82,16 +82,10 @@
                             android:textStyle="bold"
                             android:textColor="@color/text_primary" />
 
-                        <TextView
-                            android:id="@+id/textViewUserType"
+                        <com.example.khaddobondhu.ui.view.UserTypeBadgeView
+                            android:id="@+id/userTypeBadgeView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Individual"
-                            android:textSize="12sp"
-                            android:textColor="@android:color/white"
-                            android:background="@drawable/badge_individual"
-                            android:paddingHorizontal="12dp"
-                            android:paddingVertical="6dp"
                             android:layout_marginStart="4dp" />
 
                     </LinearLayout>

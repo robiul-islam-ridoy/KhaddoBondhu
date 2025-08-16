@@ -17,6 +17,7 @@ import com.example.khaddobondhu.ui.post.PostDetailActivity;
 import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
 import com.example.khaddobondhu.ui.image.ImageCarouselActivity;
 import com.example.khaddobondhu.ui.view.ImageCollageView;
+import com.example.khaddobondhu.ui.view.UserTypeBadgeView;
 import com.example.khaddobondhu.utils.UserRoleUtils;
 import com.example.khaddobondhu.service.FirebaseService;
 import java.text.SimpleDateFormat;
@@ -76,7 +77,7 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         holder.sellerNameTextView.setText(post.getUserName());
         
         // Set user role badge - fetch from user table
-        fetchUserTypeAndSetBadge(post.getUserId(), holder.userRoleBadgeTextView);
+        fetchUserTypeAndSetBadge(post.getUserId(), holder.userRoleBadgeView);
 
         // Set description
         holder.descriptionTextView.setText(post.getDescription());
@@ -145,12 +146,11 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         }
     }
     
-    private void fetchUserTypeAndSetBadge(String userId, TextView badgeTextView) {
+    private void fetchUserTypeAndSetBadge(String userId, UserTypeBadgeView badgeView) {
         if (userId == null || userId.isEmpty()) {
             // Set default badge if no user ID
-            badgeTextView.setText(UserRoleUtils.getUserTypeDisplayName("INDIVIDUAL"));
-            badgeTextView.setBackgroundResource(UserRoleUtils.getUserTypeBadgeDrawable("INDIVIDUAL"));
-            badgeTextView.setVisibility(View.VISIBLE);
+            badgeView.setUserType("INDIVIDUAL");
+            badgeView.setVisibility(View.VISIBLE);
             return;
         }
         
@@ -163,9 +163,8 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
                 // Update UI on main thread
                 if (context != null) {
                     ((android.app.Activity) context).runOnUiThread(() -> {
-                        badgeTextView.setText(UserRoleUtils.getUserTypeDisplayName(finalUserType));
-                        badgeTextView.setBackgroundResource(UserRoleUtils.getUserTypeBadgeDrawable(finalUserType));
-                        badgeTextView.setVisibility(View.VISIBLE);
+                        badgeView.setUserType(finalUserType);
+                        badgeView.setVisibility(View.VISIBLE);
                     });
                 }
             }
@@ -175,9 +174,8 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
                 // Set default badge on error
                 if (context != null) {
                     ((android.app.Activity) context).runOnUiThread(() -> {
-                        badgeTextView.setText(UserRoleUtils.getUserTypeDisplayName("INDIVIDUAL"));
-                        badgeTextView.setBackgroundResource(UserRoleUtils.getUserTypeBadgeDrawable("INDIVIDUAL"));
-                        badgeTextView.setVisibility(View.VISIBLE);
+                        badgeView.setUserType("INDIVIDUAL");
+                        badgeView.setVisibility(View.VISIBLE);
                     });
                 }
             }
@@ -195,7 +193,7 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
         TextView timeLeftTextView;
         TextView distanceTextView;
         TextView expiryTextView;
-        TextView userRoleBadgeTextView;
+        UserTypeBadgeView userRoleBadgeView;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -209,7 +207,7 @@ public class FoodPostAdapter extends RecyclerView.Adapter<FoodPostAdapter.ViewHo
             timeLeftTextView = itemView.findViewById(R.id.timeLeftTextView);
             distanceTextView = itemView.findViewById(R.id.distanceTextView);
             expiryTextView = itemView.findViewById(R.id.expiryTextView);
-            userRoleBadgeTextView = itemView.findViewById(R.id.userRoleBadgeTextView);
+            userRoleBadgeView = itemView.findViewById(R.id.userRoleBadgeView);
         }
     }
 } 

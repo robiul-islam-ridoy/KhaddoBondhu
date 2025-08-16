@@ -60,13 +60,13 @@ public class UserRoleUtils {
     public static int getUserTypeIconDrawable(String userType) {
         switch (userType) {
             case Config.USER_TYPE_INDIVIDUAL:
-                return R.drawable.ic_person;
+                return R.drawable.ic_user_individual;
             case Config.USER_TYPE_RESTAURANT:
-                return R.drawable.ic_restaurant;
+                return R.drawable.ic_user_restaurant;
             case Config.USER_TYPE_NGO:
-                return R.drawable.ic_favorite;
+                return R.drawable.ic_user_ngo;
             default:
-                return R.drawable.ic_person;
+                return R.drawable.ic_user_individual;
         }
     }
     
