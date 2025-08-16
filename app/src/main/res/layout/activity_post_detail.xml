@@ -51,12 +51,56 @@
                 android:id="@+id/textViewPostType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/bg_post_type"
                 android:padding="8dp"
                 android:text="DONATE"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
+
+            <!-- Seller Name and Role Badge Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/profile_picture_background">
+
+                    <ImageView
+                        android:id="@+id/profilePictureImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_person"
+                        android:scaleType="centerCrop"
+                        android:padding="2dp" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/sellerNameTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Seller Name"
+                    android:paddingLeft="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+                <com.example.khaddobondhu.ui.view.UserTypeBadgeView
+                    android:id="@+id/userRoleBadgeView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp" />
+
+            </LinearLayout>
 
             <!-- Title -->
             <TextView
