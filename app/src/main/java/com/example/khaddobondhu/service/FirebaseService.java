@@ -273,6 +273,11 @@ public class FirebaseService {
         postData.put("imageUrls", foodPost.getImageUrls());
         postData.put("createdAt", com.google.firebase.Timestamp.now());
         postData.put("isActive", true);
+        
+        // Add expiry date if it exists
+        if (foodPost.getExpiryDate() != null) {
+            postData.put("expiryDate", foodPost.getExpiryDate());
+        }
 
         Log.d(TAG, "Attempting to create post with data: " + postData.toString());
 
