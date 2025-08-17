@@ -70,7 +70,10 @@
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/profile_picture_background">
+                    android:background="@drawable/profile_picture_background"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless">
 
                     <ImageView
                         android:id="@+id/profilePictureImageView"
@@ -92,7 +95,10 @@
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
                     android:maxLines="1"
-                    android:ellipsize="end" />
+                    android:ellipsize="end"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless" />
 
                 <com.example.khaddobondhu.ui.view.UserTypeBadgeView
                     android:id="@+id/userRoleBadgeView"

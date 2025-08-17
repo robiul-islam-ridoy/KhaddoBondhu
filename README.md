@@ -619,6 +619,15 @@ The application has been thoroughly tested for:
 - **Proper expiry date saving to Firestore database**
 - **Consistent expiry date behavior across create and edit**
 
+### 🆕 Interactive User Profile in Post Details (v3.9)
+- ✅ **Profile Picture Display**: Shows user's actual profile picture in post details page
+- ✅ **Dynamic User Name**: Displays current user name fetched from Firebase
+- ✅ **Clickable Elements**: Both profile picture and user name are clickable for navigation
+- ✅ **Profile Navigation**: Clicking profile picture or name opens the user's full profile (UserProfileViewActivity)
+- ✅ **Consistent Experience**: Same navigation pattern as food post cards and explore section
+- ✅ **Fallback Handling**: Shows default person icon if no profile picture is available
+- ✅ **Error Handling**: Proper error handling with default values when user data is unavailable
+
 ### 🆕 Explore Page Theming & Icon Updates (v3.8)
 - ✅ **Consistent App Theming**: Applied main app gradient background and color scheme to explore page
 - ✅ **Enhanced Header Design**: Beautiful gradient header with white text matching home page style
