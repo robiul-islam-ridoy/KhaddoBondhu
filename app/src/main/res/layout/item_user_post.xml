@@ -16,7 +16,8 @@
         <com.example.khaddobondhu.ui.view.ImageCollageView
             android:id="@+id/imageCollageView"
             android:layout_width="120dp"
-            android:layout_height="120dp" />
+            android:layout_height="120dp"
+            android:layout_gravity="center_vertical"/>
 
         <!-- Content Container -->
         <LinearLayout
@@ -44,19 +45,6 @@
                     android:textColor="@android:color/black"
                     android:maxLines="2"
                     android:ellipsize="end" />
-
-                <TextView
-                    android:id="@+id/priceTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Free"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/design_default_color_primary"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp"
-                    android:layout_marginStart="8dp" />
-
             </LinearLayout>
 
             <!-- Post Type and Status Row -->
@@ -64,9 +52,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:layout_marginTop="4dp">
 
+                <!-- Left aligned -->
                 <TextView
                     android:id="@+id/postTypeTextView"
                     android:layout_width="wrap_content"
@@ -78,16 +66,27 @@
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="2dp" />
 
+                <!-- Pushes the next view to the right -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <!-- Right aligned -->
                 <TextView
-                    android:id="@+id/statusTextView"
+                    android:id="@+id/priceTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Status: ACTIVE"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_marginStart="8dp" />
-
+                    android:text="Free"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/design_default_color_primary"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp" />
             </LinearLayout>
+
+
+
 
             <!-- Description -->
             <TextView
