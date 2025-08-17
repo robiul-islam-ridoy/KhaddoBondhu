@@ -154,6 +154,9 @@ public class PostDetailActivity extends AppCompatActivity {
         binding.buttonContact.setVisibility(View.VISIBLE);
         binding.buttonMessage.setVisibility(View.VISIBLE);
         
+        // Set request button text based on post type
+        setRequestButtonText(foodPost.getPostType());
+        
         // Increment view count (only if not the post owner)
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null && !currentUser.getUid().equals(foodPost.getUserId())) {
@@ -269,6 +272,28 @@ public class PostDetailActivity extends AppCompatActivity {
                 binding.textViewPostType.setTextColor(getResources().getColor(android.R.color.black));
                 break;
         }
+    }
+    
+    private void setRequestButtonText(String postType) {
+        String buttonText = "";
+        switch (postType) {
+            case "DONATE":
+                buttonText = "Request to Get";
+                break;
+            case "SELL":
+                buttonText = "Request to Buy";
+                break;
+            case "REQUEST_DONATION":
+                buttonText = "Want to Donate";
+                break;
+            case "REQUEST_TO_BUY":
+                buttonText = "Want to Sell";
+                break;
+            default:
+                buttonText = "Accept Request";
+                break;
+        }
+        binding.buttonAccceptRequest.setText(buttonText);
     }
 
     private void setupClickListeners() {
