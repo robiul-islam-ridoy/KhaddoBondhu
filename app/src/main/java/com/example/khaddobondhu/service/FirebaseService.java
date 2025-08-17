@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.model.Message;
+import com.example.khaddobondhu.model.Request;
 import com.example.khaddobondhu.model.User;
 import com.example.khaddobondhu.utils.SecurityUtils;
 import com.example.khaddobondhu.utils.ErrorHandler;
@@ -47,6 +48,7 @@ public class FirebaseService {
     private CollectionReference usersRef;
     private CollectionReference postsRef;
     private CollectionReference messagesRef;
+    private CollectionReference requestsRef;
     
     // Current user
     private FirebaseUser currentUser;
@@ -74,6 +76,8 @@ public class FirebaseService {
         usersRef = db.collection("users");
         postsRef = db.collection("food_posts");
         messagesRef = db.collection("messages");
+        requestsRef = db.collection("requests");
+        notificationsRef = db.collection("notifications");
         
         // Get current user
         currentUser = auth.getCurrentUser();
@@ -889,6 +893,324 @@ public class FirebaseService {
                         }
                         Log.e(TAG, error);
                         listener.onError(new Exception(error));
+                    }
+                });
+    }
+
+    // Request-related methods
+    public interface OnRequestListener {
+        void onSuccess();
+        void onError(String error);
+    }
+
+    public interface OnRequestsFetchListener {
+        void onSuccess(List<Request> requests);
+        void onError(Exception e);
+    }
+    
+    // Notification-related methods
+    public interface OnNotificationListener {
+        void onSuccess();
+        void onError(String error);
+    }
+    
+    public interface OnNotificationsFetchListener {
+        void onSuccess(List<com.example.khaddobondhu.model.Notification> notifications);
+        void onError(Exception e);
+    }
+
+    // Create a new request
+    public void createRequest(Request request, OnRequestListener listener) {
+        if (request == null) {
+            listener.onError("Request cannot be null");
+            return;
+        }
+
+        // Convert Request object to Map for Firestore
+        Map<String, Object> requestData = new HashMap<>();
+        requestData.put("postId", request.getPostId());
+        requestData.put("postTitle", request.getPostTitle());
+        requestData.put("requesterId", request.getRequesterId());
+        requestData.put("requesterName", request.getRequesterName());
+        requestData.put("requesterProfilePictureUrl", request.getRequesterProfilePictureUrl());
+        requestData.put("postOwnerId", request.getPostOwnerId());
+        requestData.put("postOwnerName", request.getPostOwnerName());
+        requestData.put("status", request.getStatus());
+        requestData.put("requestType", request.getRequestType());
+        requestData.put("message", request.getMessage());
+        requestData.put("createdAt", com.google.firebase.Timestamp.now());
+        requestData.put("updatedAt", com.google.firebase.Timestamp.now());
+
+        requestsRef.add(requestData)
+                .addOnSuccessListener(documentReference -> {
+                    request.setId(documentReference.getId());
+                    listener.onSuccess();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Failed to create request: " + e.getMessage());
+                    listener.onError("Failed to create request: " + e.getMessage());
+                });
+    }
+
+    // Get requests for a post owner
+    public void getRequestsForPostOwner(String postOwnerId, OnRequestsFetchListener listener) {
+        if (postOwnerId == null || postOwnerId.isEmpty()) {
+            listener.onError(new IllegalArgumentException("Post owner ID cannot be null or empty"));
+            return;
+        }
+
+        requestsRef.whereEqualTo("postOwnerId", postOwnerId)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        List<Request> requests = new ArrayList<>();
+                        for (DocumentSnapshot doc : task.getResult()) {
+                            try {
+                                Request request = new Request();
+                                request.setId(doc.getId());
+                                request.setPostId(doc.getString("postId"));
+                                request.setPostTitle(doc.getString("postTitle"));
+                                request.setRequesterId(doc.getString("requesterId"));
+                                request.setRequesterName(doc.getString("requesterName"));
+                                request.setRequesterProfilePictureUrl(doc.getString("requesterProfilePictureUrl"));
+                                request.setPostOwnerId(doc.getString("postOwnerId"));
+                                request.setPostOwnerName(doc.getString("postOwnerName"));
+                                request.setStatus(doc.getString("status"));
+                                request.setRequestType(doc.getString("requestType"));
+                                request.setMessage(doc.getString("message"));
+                                
+                                if (doc.getTimestamp("createdAt") != null) {
+                                    request.setCreatedAt(doc.getTimestamp("createdAt"));
+                                }
+                                if (doc.getTimestamp("updatedAt") != null) {
+                                    request.setUpdatedAt(doc.getTimestamp("updatedAt"));
+                                }
+                                
+                                requests.add(request);
+                            } catch (Exception e) {
+                                Log.e(TAG, "Error parsing request document: " + e.getMessage());
+                            }
+                        }
+                        listener.onSuccess(requests);
+                    } else {
+                        String error = "Failed to load requests";
+                        if (task.getException() != null) {
+                            error += ": " + task.getException().getMessage();
+                        }
+                        Log.e(TAG, error);
+                        listener.onError(new Exception(error));
+                    }
+                });
+    }
+
+    // Update request status (accept/decline)
+    public void updateRequestStatus(String requestId, String status, OnRequestListener listener) {
+        if (requestId == null || requestId.isEmpty()) {
+            listener.onError("Request ID cannot be null or empty");
+            return;
+        }
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("status", status);
+        updates.put("updatedAt", com.google.firebase.Timestamp.now());
+
+        requestsRef.document(requestId)
+                .update(updates)
+                .addOnSuccessListener(aVoid -> {
+                    listener.onSuccess();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Failed to update request: " + e.getMessage());
+                    listener.onError("Failed to update request: " + e.getMessage());
+                });
+    }
+
+    // Check if user has already requested this post
+    public void checkExistingRequest(String postId, String requesterId, OnRequestListener listener) {
+        if (postId == null || postId.isEmpty() || requesterId == null || requesterId.isEmpty()) {
+            listener.onError("Post ID and Requester ID cannot be null or empty");
+            return;
+        }
+
+        requestsRef.whereEqualTo("postId", postId)
+                .whereEqualTo("requesterId", requesterId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        if (task.getResult().isEmpty()) {
+                            // No existing request found
+                            listener.onSuccess();
+                        } else {
+                            // Existing request found
+                            listener.onError("You have already requested this post");
+                        }
+                    } else {
+                        String error = "Failed to check existing request";
+                        if (task.getException() != null) {
+                            error += ": " + task.getException().getMessage();
+                        }
+                        Log.e(TAG, error);
+                        listener.onError(error);
+                    }
+                });
+    }
+    
+    // Notification methods
+    private CollectionReference notificationsRef;
+    
+    // Create a notification
+    public void createNotification(com.example.khaddobondhu.model.Notification notification, OnNotificationListener listener) {
+        if (notification == null) {
+            listener.onError("Notification cannot be null");
+            return;
+        }
+
+        Map<String, Object> notificationData = new HashMap<>();
+        notificationData.put("userId", notification.getUserId());
+        notificationData.put("title", notification.getTitle());
+        notificationData.put("message", notification.getMessage());
+        notificationData.put("type", notification.getType());
+        notificationData.put("relatedId", notification.getRelatedId());
+        notificationData.put("isRead", notification.isRead());
+        notificationData.put("createdAt", com.google.firebase.Timestamp.now());
+        notificationData.put("senderId", notification.getSenderId());
+        notificationData.put("senderName", notification.getSenderName());
+        notificationData.put("senderProfilePictureUrl", notification.getSenderProfilePictureUrl());
+
+        notificationsRef.add(notificationData)
+                .addOnSuccessListener(documentReference -> {
+                    notification.setId(documentReference.getId());
+                    listener.onSuccess();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Failed to create notification: " + e.getMessage());
+                    listener.onError("Failed to create notification: " + e.getMessage());
+                });
+    }
+    
+    // Get notifications for a user
+    public void getNotificationsForUser(String userId, OnNotificationsFetchListener listener) {
+        // First try with ordering
+        notificationsRef.whereEqualTo("userId", userId)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .limit(50) // Limit to last 50 notifications
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<com.example.khaddobondhu.model.Notification> notifications = new ArrayList<>();
+                        for (DocumentSnapshot doc : task.getResult()) {
+                            try {
+                                com.example.khaddobondhu.model.Notification notification = new com.example.khaddobondhu.model.Notification();
+                                notification.setId(doc.getId());
+                                notification.setUserId(doc.getString("userId"));
+                                notification.setTitle(doc.getString("title"));
+                                notification.setMessage(doc.getString("message"));
+                                notification.setType(doc.getString("type"));
+                                notification.setRelatedId(doc.getString("relatedId"));
+                                notification.setRead(doc.getBoolean("isRead") != null ? doc.getBoolean("isRead") : false);
+                                notification.setSenderId(doc.getString("senderId"));
+                                notification.setSenderName(doc.getString("senderName"));
+                                notification.setSenderProfilePictureUrl(doc.getString("senderProfilePictureUrl"));
+                                
+                                if (doc.getTimestamp("createdAt") != null) {
+                                    notification.setCreatedAt(doc.getTimestamp("createdAt"));
+                                }
+                                
+                                notifications.add(notification);
+                            } catch (Exception e) {
+                                Log.e(TAG, "Error parsing notification document: " + e.getMessage());
+                            }
+                        }
+                        listener.onSuccess(notifications);
+                    } else {
+                        // If the ordered query fails, try without ordering
+                        Log.w(TAG, "Ordered query failed, trying without ordering: " + task.getException().getMessage());
+                        notificationsRef.whereEqualTo("userId", userId)
+                                .limit(50)
+                                .get()
+                                .addOnCompleteListener(simpleTask -> {
+                                    if (simpleTask.isSuccessful()) {
+                                        List<com.example.khaddobondhu.model.Notification> notifications = new ArrayList<>();
+                                        for (DocumentSnapshot doc : simpleTask.getResult()) {
+                                            try {
+                                                com.example.khaddobondhu.model.Notification notification = new com.example.khaddobondhu.model.Notification();
+                                                notification.setId(doc.getId());
+                                                notification.setUserId(doc.getString("userId"));
+                                                notification.setTitle(doc.getString("title"));
+                                                notification.setMessage(doc.getString("message"));
+                                                notification.setType(doc.getString("type"));
+                                                notification.setRelatedId(doc.getString("relatedId"));
+                                                notification.setRead(doc.getBoolean("isRead") != null ? doc.getBoolean("isRead") : false);
+                                                notification.setSenderId(doc.getString("senderId"));
+                                                notification.setSenderName(doc.getString("senderName"));
+                                                notification.setSenderProfilePictureUrl(doc.getString("senderProfilePictureUrl"));
+                                                
+                                                if (doc.getTimestamp("createdAt") != null) {
+                                                    notification.setCreatedAt(doc.getTimestamp("createdAt"));
+                                                }
+                                                
+                                                notifications.add(notification);
+                                            } catch (Exception e) {
+                                                Log.e(TAG, "Error parsing notification document: " + e.getMessage());
+                                            }
+                                        }
+                                        // Sort manually in the app
+                                        notifications.sort((n1, n2) -> {
+                                            if (n1.getCreatedAt() == null) return 1;
+                                            if (n2.getCreatedAt() == null) return -1;
+                                            return n2.getCreatedAt().compareTo(n1.getCreatedAt());
+                                        });
+                                        listener.onSuccess(notifications);
+                                    } else {
+                                        String error = "Failed to load notifications";
+                                        if (simpleTask.getException() != null) {
+                                            error += ": " + simpleTask.getException().getMessage();
+                                        }
+                                        Log.e(TAG, error);
+                                        listener.onError(new Exception(error));
+                                    }
+                                });
+                    }
+                });
+    }
+    
+    // Mark notification as read
+    public void markNotificationAsRead(String notificationId, OnNotificationListener listener) {
+        notificationsRef.document(notificationId)
+                .update("isRead", true)
+                .addOnSuccessListener(aVoid -> {
+                    listener.onSuccess();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Failed to mark notification as read: " + e.getMessage());
+                    listener.onError("Failed to mark notification as read: " + e.getMessage());
+                });
+    }
+    
+    // Delete notification
+    public void deleteNotification(String notificationId, OnNotificationListener listener) {
+        notificationsRef.document(notificationId)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    listener.onSuccess();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Failed to delete notification: " + e.getMessage());
+                    listener.onError("Failed to delete notification: " + e.getMessage());
+                });
+    }
+    
+    // Get unread notification count
+    public void getUnreadNotificationCount(String userId, OnCompleteListener<Long> listener) {
+        notificationsRef.whereEqualTo("userId", userId)
+                .whereEqualTo("isRead", false)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        listener.onComplete(com.google.android.gms.tasks.Tasks.forResult((long) task.getResult().size()));
+                    } else {
+                        listener.onComplete(com.google.android.gms.tasks.Tasks.forResult(0L));
                     }
                 });
     }

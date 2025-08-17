@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.tabs.TabLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.khaddobondhu.R;
@@ -53,15 +54,16 @@ import android.app.Activity;
 import android.view.ViewParent;
 import android.app.TimePickerDialog;
 
-public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostActionListener {
+public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
     private FirebaseService firebaseService;
-    private UserPostAdapter adapter;
-    private List<FoodPost> userPosts = new ArrayList<>();
     private static final int REQUEST_IMAGE_PICK = 1001;
     private CloudinaryService cloudinaryService;
     private static Uri selectedImageUri = null;
     private ImageView currentDialogImageView = null;
+    private MyPostsFragment myPostsFragment;
+    private RequestsFragment requestsFragment;
+    private int currentTab = 0;
 
     @Nullable
     @Override
@@ -69,10 +71,6 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         
         firebaseService = new FirebaseService();
-        
-        setupRecyclerView();
-        loadUserProfile();
-        loadUserPosts();
         
         return binding.getRoot();
     }
@@ -83,17 +81,72 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
         
         cloudinaryService = new CloudinaryService(requireContext());
         
-        // Setup click listeners
+        // Setup click listeners first
         binding.buttonEditProfile.setOnClickListener(v -> {
-            showEditProfileDialog();
+            if (isAdded()) {
+                showEditProfileDialog();
+            }
         });
         
         binding.buttonLogout.setOnClickListener(v -> {
-            logout();
+            if (isAdded()) {
+                logout();
+            }
         });
+        
+        // Load user profile data
+        loadUserProfile();
+        
+        // Setup tabs
+        setupTabs();
+    }
+
+    private void setupTabs() {
+        if (binding == null || !isAdded()) return;
+        
+        try {
+            // Add tabs
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("My Posts"));
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Requests"));
+            
+            // Create fragments
+            myPostsFragment = new MyPostsFragment();
+            requestsFragment = new RequestsFragment();
+            
+            // Show initial fragment
+            showFragment(myPostsFragment);
+            
+            // Setup tab selection listener
+            binding.tabLayout.addOnTabSelectedListener(new com.google.android.material.tabs.TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(com.google.android.material.tabs.TabLayout.Tab tab) {
+                    currentTab = tab.getPosition();
+                    if (currentTab == 0) {
+                        showFragment(myPostsFragment);
+                    } else {
+                        showFragment(requestsFragment);
+                    }
+                }
+                
+                @Override
+                public void onTabUnselected(com.google.android.material.tabs.TabLayout.Tab tab) {}
+                
+                @Override
+                public void onTabReselected(com.google.android.material.tabs.TabLayout.Tab tab) {}
+            });
+            
+        } catch (Exception e) {
+            Log.e("ProfileFragment", "Error setting up tabs: " + e.getMessage());
+        }
     }
     
-
+    private void showFragment(Fragment fragment) {
+        if (binding == null || !isAdded()) return;
+        
+        getChildFragmentManager().beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .commit();
+    }
     
     // Removed onCreateOptionsMenu and onOptionsItemSelected to eliminate 3-dot menu
     
@@ -263,24 +316,11 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
         });
     }
 
-    private void setupRecyclerView() {
-        binding.userPostsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        adapter = new UserPostAdapter(requireContext(), userPosts, this);
-        binding.userPostsRecyclerView.setAdapter(adapter);
-        
-        // Add item decoration for bottom spacing
-        binding.userPostsRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(@NonNull android.graphics.Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-                if (parent.getChildAdapterPosition(view) == parent.getAdapter().getItemCount() - 1) {
-                    outRect.bottom = 200; // Add bottom spacing for last item
-                }
-            }
-        });
-    }
+
 
     private void loadUserProfile() {
+        if (binding == null || !isAdded()) return;
+        
         String currentUserId = firebaseService.getCurrentUserId();
         if (currentUserId == null) {
             // User not logged in, redirect to login
@@ -294,6 +334,9 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
             @Override
             public void onSuccess() {
                 requireActivity().runOnUiThread(() -> {
+                    // Check if fragment is still attached and binding exists
+                    if (binding == null || !isAdded()) return;
+                    
                     // Update UI with user profile data
                     String userName = firebaseService.getCurrentUserName();
                     String userEmail = firebaseService.getCurrentUserEmail();
@@ -348,130 +391,32 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
             @Override
             public void onError(String error) {
                 requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(requireContext(), "Failed to load profile: " + error, Toast.LENGTH_LONG).show();
+                    if (isAdded()) {
+                        Toast.makeText(requireContext(), "Failed to load profile: " + error, Toast.LENGTH_LONG).show();
+                    }
                 });
             }
         });
     }
 
-    private void loadUserPosts() {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.emptyStateTextView.setVisibility(View.GONE);
-        
-        String currentUserId = firebaseService.getCurrentUserId();
-        if (currentUserId == null) return;
 
-        firebaseService.getUserFoodPosts(currentUserId, new FirebaseService.Callback() {
-            @Override
-            public void onSuccess() {
-                requireActivity().runOnUiThread(() -> {
-                    binding.progressBar.setVisibility(View.GONE);
-                    userPosts = firebaseService.getUserPosts();
-                    
-                    if (userPosts.isEmpty()) {
-                        binding.emptyStateTextView.setVisibility(View.VISIBLE);
-                    } else {
-                        adapter.updatePosts(userPosts);
-                        updateStats();
-                    }
-                });
-            }
-
-            @Override
-            public void onError(String error) {
-                requireActivity().runOnUiThread(() -> {
-                    binding.progressBar.setVisibility(View.GONE);
-                    binding.emptyStateTextView.setVisibility(View.VISIBLE);
-                    binding.emptyStateTextView.setText("Error loading posts: " + error);
-                });
-            }
-        });
-    }
-
-    private void updateStats() {
-        int totalPosts = userPosts.size();
-        int totalViews = 0;
-        int totalRequests = 0;
-        
-        for (FoodPost post : userPosts) {
-            totalViews += post.getViews();
-            totalRequests += post.getRequests();
-        }
-        
-        binding.totalPostsTextView.setText(String.valueOf(totalPosts));
-        binding.totalViewsTextView.setText(String.valueOf(totalViews));
-        binding.totalRequestsTextView.setText(String.valueOf(totalRequests));
-        // binding.postCountTextView.setText(totalPosts + " posts");
-    }
-
-    @Override
-    public void onEditPost(FoodPost post) {
-        // This method is no longer used since we now use EditPostActivity
-        // But keeping it for interface compatibility
-    }
-    
-    // Removed showEditPostDialog and related methods - now using EditPostActivity
-
-    @Override
-    public void onDeletePost(FoodPost post) {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        
-        // Delete images first if they exist
-        if (post.getImageUrls() != null && !post.getImageUrls().isEmpty()) {
-            deletePostImages(post.getImageUrls(), () -> {
-                // After images are deleted, delete the post
-                deletePostFromFirebase(post);
-            });
-        } else {
-            // No images to delete, just delete the post
-            deletePostFromFirebase(post);
-        }
-    }
-    
-    private void deletePostImages(List<String> imageUrls, Runnable onComplete) {
-        final int[] deletedCount = {0};
-        final int totalImages = imageUrls.size();
-        
-        for (String imageUrl : imageUrls) {
-            cloudinaryService.deleteImage(imageUrl, new com.google.android.gms.tasks.OnCompleteListener<Boolean>() {
-                @Override
-                public void onComplete(com.google.android.gms.tasks.Task<Boolean> task) {
-                    deletedCount[0]++;
-                    if (task.isSuccessful() && task.getResult()) {
-                        Log.d("ProfileFragment", "Post image deleted successfully: " + imageUrl);
-                    } else {
-                        Log.w("ProfileFragment", "Failed to delete post image: " + imageUrl);
-                    }
-                    
-                    // Check if all images have been processed
-                    if (deletedCount[0] >= totalImages) {
-                        onComplete.run();
-                    }
-                }
-            });
-        }
-    }
-    
-    private void deletePostFromFirebase(FoodPost post) {
-        firebaseService.deleteFoodPost(post.getId(), task -> {
-            requireActivity().runOnUiThread(() -> {
-                binding.progressBar.setVisibility(View.GONE);
-                if (task.isSuccessful()) {
-                    Toast.makeText(requireContext(), "Post deleted successfully", Toast.LENGTH_SHORT).show();
-                    loadUserPosts(); // Reload posts
-                } else {
-                    Toast.makeText(requireContext(), "Failed to delete post: " + (task.getException() != null ? task.getException().getMessage() : "Unknown error"), Toast.LENGTH_LONG).show();
-                }
-            });
-        });
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        // Reload data when returning to the fragment
-        loadUserProfile();
-        loadUserPosts();
+        // Only reload profile data if needed
+        if (isAdded() && !isDetached() && binding != null) {
+            loadUserProfile();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Clean up resources
+        binding = null;
+        myPostsFragment = null;
+        requestsFragment = null;
     }
 
     private void showSuccessMessage(String message) {
@@ -519,9 +464,7 @@ public class ProfileFragment extends Fragment implements UserPostAdapter.OnPostA
     
     // Public method to refresh data when navigating to this fragment
     public void refreshData() {
-        if (isAdded() && !isDetached()) {
-            loadUserProfile();
-            loadUserPosts();
-        }
+        // This method is called by MainActivity but we don't need to do anything
+        // The ViewPager2 handles its own state and the fragments handle their own data loading
     }
 } 

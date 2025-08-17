@@ -27,6 +27,18 @@ service cloud.firestore {
         request.auth.uid == resource.data.postOwnerId;
     }
     
+    // Notifications collection - users can read/write their own notifications
+    match /notifications/{notificationId} {
+      allow read: if request.auth != null && 
+        request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && 
+        request.auth.uid == request.resource.data.senderId;
+      allow update: if request.auth != null && 
+        request.auth.uid == resource.data.userId;
+      allow delete: if request.auth != null && 
+        request.auth.uid == resource.data.userId;
+    }
+    
     // Conversations collection - users can read/write conversations they participate in
     match /conversations/{conversationId} {
       allow read, write: if request.auth != null && 

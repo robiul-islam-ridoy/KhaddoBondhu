@@ -28,6 +28,13 @@ KhaddoBondhu is an Android application built with Java that serves as a bridge b
    - Download `google-services.json` and place it in the `app/` directory
    - Enable Authentication, Firestore, and Storage in Firebase Console
    - Configure Authentication methods (Email/Password, Anonymous)
+   - **Deploy Security Rules**: Use Firebase CLI to deploy the security rules:
+     ```bash
+     npm install -g firebase-tools
+     firebase login
+     firebase use your-project-id
+     firebase deploy --only firestore:rules
+     ```
 
 3. **Configure Cloudinary**
    - Create a Cloudinary account at [Cloudinary](https://cloudinary.com/)
@@ -618,6 +625,84 @@ The application has been thoroughly tested for:
 - **Immediate expiry date display after post creation**
 - **Proper expiry date saving to Firestore database**
 - **Consistent expiry date behavior across create and edit**
+
+### 🆕 Request System Implementation (v3.11)
+- ✅ **Request Model**: Complete Request data model with requester, post owner, status, and request type fields
+- ✅ **Firebase Integration**: Comprehensive request management in FirebaseService:
+  - Request creation with duplicate prevention
+  - Request fetching for post owners
+  - Request status updates (accept/decline)
+  - Existing request validation
+- ✅ **Profile Page Tabs**: 
+  - "My Posts" and "Requests" tabs using TabLayout and manual fragment management
+  - Separate fragments for posts and requests management
+  - Smooth tab navigation with proper adapters
+  - Fixed navigation crashes with simplified fragment management
+- ✅ **Request Management UI**:
+  - RequestAdapter with accept/decline functionality
+  - Request status tracking (Pending, Accepted, Declined)
+  - Request type badges and timestamps
+  - Requester profile pictures and information
+- ✅ **Request Creation Flow**:
+  - Request dialog in PostDetailActivity with optional messages
+  - Prevents self-requests and duplicate requests
+  - Dynamic request type based on post type
+  - Real-time request count updates
+- ✅ **UI Components**:
+  - Professional request item layouts
+  - Tab-based profile organization
+  - Status-based color coding
+  - Confirmation dialogs for actions
+- ✅ **Navigation Fixes**:
+  - Resolved app crashes when navigating between profile tabs and other pages
+  - Simplified ViewPager2 implementation to prevent state conflicts
+  - Improved fragment lifecycle management
+  - Enhanced user experience with stable navigation
+
+### 🆕 Comprehensive Notification System (v3.12)
+- ✅ **Notification Model**: Complete Notification data model with sender, recipient, type, and read status
+- ✅ **Firebase Integration**: Comprehensive notification management in FirebaseService:
+  - Notification creation and storage
+  - Notification fetching for users
+  - Mark as read functionality
+  - Delete notification capability
+  - Unread notification count tracking
+- ✅ **Notification UI Components**:
+  - Notification icon in main toolbar (top-right)
+  - NotificationActivity with full notification center
+  - SwipeRefreshLayout for pull-to-refresh
+  - RecyclerView with custom notification items
+  - Empty state when no notifications
+  - Loading indicator and error handling
+- ✅ **Notification Item Features**:
+  - Unread indicator (blue bar on the left)
+  - Notification icon based on type (request, status update, etc.)
+  - Title and message display
+  - Sender profile picture and name
+  - Timestamp showing "time ago"
+  - Delete button for each notification
+  - Click to mark as read functionality
+- ✅ **Notification Triggers**:
+  - **Request Received**: Post owner gets notification when someone requests their food
+  - **Request Accepted**: Requester gets notification when their request is accepted
+  - **Request Declined**: Requester gets notification when their request is declined
+  - **In-App Popups**: Custom notification dialogs with sound and vibration
+  - **Push Notifications**: System notifications with proper icons and sounds
+- ✅ **Technical Features**:
+  - Firestore security rules for notifications collection
+  - Proper error handling and fallback queries
+  - Manual sorting when Firestore indexes are building
+  - Notification type-based icon system
+  - Time ago formatting for timestamps
+  - Profile picture loading with Glide
+  - Memory-efficient notification management
+- ✅ **User Experience**:
+  - Easy access via toolbar notification icon
+  - Professional notification center design
+  - Consistent with app's Material Design theme
+  - Smooth animations and transitions
+  - Proper empty state messaging
+  - Real-time notification updates
 
 ### 🆕 Interactive User Profile in Post Details (v3.9)
 - ✅ **Profile Picture Display**: Shows user's actual profile picture in post details page

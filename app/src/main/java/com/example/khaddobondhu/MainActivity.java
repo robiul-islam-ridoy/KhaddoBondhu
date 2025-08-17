@@ -89,9 +89,25 @@ public class MainActivity extends AppCompatActivity {
 
     // Removed onCreateOptionsMenu and onOptionsItemSelected to eliminate 3-dot menu
     
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
+        return true;
+    }
 
-    
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        if (item.getItemId() == R.id.action_notifications) {
+            openNotificationActivity();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
+    private void openNotificationActivity() {
+        Intent intent = new Intent(this, com.example.khaddobondhu.ui.notification.NotificationActivity.class);
+        startActivity(intent);
+    }
 
     private void startLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -155,11 +171,8 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private void refreshProfileFragment() {
-        ProfileFragment profileFragment = (ProfileFragment) getSupportFragmentManager()
-                .findFragmentByTag("f4"); // Tag for fifth fragment
-        if (profileFragment != null && profileFragment.isVisible()) {
-            profileFragment.refreshData();
-        }
+        // Don't refresh ProfileFragment as it has ViewPager2 which can cause crashes
+        // The ProfileFragment will handle its own data loading in onResume()
     }
 
 }
