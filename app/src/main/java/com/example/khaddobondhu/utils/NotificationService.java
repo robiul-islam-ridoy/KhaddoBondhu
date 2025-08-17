@@ -5,13 +5,21 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import com.example.khaddobondhu.MainActivity;
 import com.example.khaddobondhu.ChatActivity;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.ui.post.PostDetailActivity;
+import com.example.khaddobondhu.ui.profile.UserProfileViewActivity;
+import com.example.khaddobondhu.model.Notification;
+import com.example.khaddobondhu.model.Request;
 import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -177,9 +185,77 @@ public class NotificationService extends FirebaseMessagingService {
             .setContentText(body)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
-            .setContentIntent(pendingIntent);
+            .setContentIntent(pendingIntent)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+            .setVibrate(new long[]{0, 500, 200, 500});
         
         NotificationManagerCompat.from(context).notify(foodRequestNotificationId++, builder.build());
+        
+        // Trigger vibration
+        triggerVibration(context);
+    }
+    
+    /**
+     * Show notification for request status update (accepted/declined)
+     */
+    public static void showRequestStatusNotification(Context context, String postOwnerName, String postTitle, String status, String postId) {
+        String title = "Request " + status.toLowerCase();
+        String body = postOwnerName + " has " + status.toLowerCase() + " your request for: " + postTitle;
+        
+        Intent intent = new Intent(context, PostDetailActivity.class);
+        intent.putExtra("post_id", postId);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+            context, 
+            foodRequestNotificationId, 
+            intent, 
+            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+        
+        int icon = status.equals("ACCEPTED") ? R.drawable.ic_check : R.drawable.ic_close;
+        
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_FOOD_REQUESTS)
+            .setSmallIcon(icon)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+            .setVibrate(new long[]{0, 500, 200, 500});
+        
+        NotificationManagerCompat.from(context).notify(foodRequestNotificationId++, builder.build());
+        
+        // Trigger vibration
+        triggerVibration(context);
+    }
+    
+    /**
+     * Show in-app notification popup
+     */
+    public static void showInAppNotification(Context context, String title, String message, String type) {
+        // This will be implemented with a custom popup dialog
+        // For now, we'll use a simple toast with vibration
+        android.widget.Toast.makeText(context, title + ": " + message, android.widget.Toast.LENGTH_LONG).show();
+        triggerVibration(context);
+    }
+    
+    /**
+     * Trigger device vibration
+     */
+    private static void triggerVibration(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null && vibrator.hasVibrator()) {
+                vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+            }
+        } else {
+            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null) {
+                vibrator.vibrate(500);
+            }
+        }
     }
     
     /**

@@ -16,7 +16,8 @@
             android:background="@drawable/toolbar_gradient_background"
             app:title="@string/app_name"
             app:titleTextColor="@color/white"
-            app:titleTextAppearance="@style/ToolbarTitleStyle" />
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
+            app:menu="@menu/main_toolbar_menu" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

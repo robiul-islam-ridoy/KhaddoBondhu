@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".KhaddoBondhuApplication"
@@ -47,8 +49,9 @@
         <activity android:name=".ui.post.PostDetailActivity" />
                     <activity android:name=".ui.post.EditPostActivity" />
             <activity android:name=".ui.profile.UserProfileViewActivity" />
-            <activity android:name=".ui.image.ImagePreviewActivity" />
-            <activity android:name=".ui.image.ImageCarouselActivity" />
+                    <activity android:name=".ui.image.ImagePreviewActivity" />
+        <activity android:name=".ui.image.ImageCarouselActivity" />
+        <activity android:name=".ui.notification.NotificationActivity" />
     
         
         <!-- Notification Service -->

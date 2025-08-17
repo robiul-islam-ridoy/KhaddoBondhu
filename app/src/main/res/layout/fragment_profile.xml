@@ -206,25 +206,27 @@
 
             </LinearLayout>
 
-            <!-- My Posts Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="My Posts"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp" />
-
-            <!-- Posts RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/userPostsRecyclerView"
+            <!-- Tab Layout -->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:padding="8dp" />
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:tabMode="fixed"
+                app:tabGravity="fill"
+                app:tabTextColor="@color/text_secondary"
+                app:tabSelectedTextColor="@color/primary_dark"
+                app:tabIndicatorColor="@color/primary_dark" />
+
+            <!-- Fragment Container for Tab Content -->
+            <FrameLayout
+                android:id="@+id/fragmentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="200dp" />
 
             <!-- Empty State -->
             <TextView

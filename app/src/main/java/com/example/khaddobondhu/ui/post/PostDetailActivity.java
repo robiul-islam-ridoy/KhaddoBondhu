@@ -17,6 +17,7 @@ import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.databinding.ActivityPostDetailBinding;
 import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.model.Message;
+import com.example.khaddobondhu.model.Request;
 import com.example.khaddobondhu.service.FirebaseService;
 import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
 import com.example.khaddobondhu.ui.image.ImageCarouselActivity;
@@ -300,6 +301,7 @@ public class PostDetailActivity extends AppCompatActivity {
         binding.buttonContact.setOnClickListener(v -> contactPoster());
         binding.buttonMessage.setOnClickListener(v -> sendMessage());
         binding.buttonShare.setOnClickListener(v -> sharePost());
+        binding.buttonAccceptRequest.setOnClickListener(v -> showRequestDialog());
     }
 
     private void contactPoster() {
@@ -429,9 +431,184 @@ public class PostDetailActivity extends AppCompatActivity {
         }
     }
 
+    private void showRequestDialog() {
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "Please sign in to make a request", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (foodPost == null) {
+            Toast.makeText(this, "Post information not available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Check if user is trying to request their own post
+        if (currentUser.getUid().equals(foodPost.getUserId())) {
+            Toast.makeText(this, "You cannot request your own post", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Check if user has already requested this post
+        firebaseService.checkExistingRequest(foodPost.getId(), currentUser.getUid(), new FirebaseService.OnRequestListener() {
+            @Override
+            public void onSuccess() {
+                // No existing request found, show the request dialog
+                showRequestInputDialog();
+            }
+
+            @Override
+            public void onError(String error) {
+                if (error.contains("already requested")) {
+                    Toast.makeText(PostDetailActivity.this, "You have already requested this post", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(PostDetailActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void showRequestInputDialog() {
+        // Create a dialog with an EditText for the request message
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Make Request");
+
+        // Set up the input
+        android.widget.EditText input = new android.widget.EditText(this);
+        input.setHint("Add a message (optional)");
+        input.setMinLines(3);
+        input.setMaxLines(5);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("Send Request", (dialog, which) -> {
+            String message = input.getText().toString().trim();
+            createRequest(message);
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        builder.show();
+    }
+
+    private void createRequest(String message) {
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null || foodPost == null) return;
+
+        binding.progressBar.setVisibility(View.VISIBLE);
+
+        // Get current user's profile information
+        firebaseService.getUserById(currentUser.getUid(), new FirebaseService.OnUserFetchListener() {
+            @Override
+            public void onSuccess(com.example.khaddobondhu.model.User user) {
+                // Determine request type based on post type
+                String requestType = getRequestTypeFromPostType(foodPost.getPostType());
+
+                // Create the request
+                Request request = new Request(
+                    foodPost.getId(),
+                    foodPost.getTitle(),
+                    currentUser.getUid(),
+                    user.getName(),
+                    user.getProfilePictureUrl(),
+                    foodPost.getUserId(),
+                    "Unknown User", // Will be fetched dynamically when needed
+                    requestType,
+                    message
+                );
+
+                // Save the request to Firebase
+                firebaseService.createRequest(request, new FirebaseService.OnRequestListener() {
+                    @Override
+                    public void onSuccess() {
+                        binding.progressBar.setVisibility(View.GONE);
+                        Toast.makeText(PostDetailActivity.this, "Request sent successfully!", Toast.LENGTH_SHORT).show();
+                        
+                        // Increment the request count for the post
+                        firebaseService.incrementPostRequests(foodPost.getId());
+                        
+                        // Send notification to post owner
+                        sendRequestNotificationToOwner(request);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        binding.progressBar.setVisibility(View.GONE);
+                        Toast.makeText(PostDetailActivity.this, "Failed to send request: " + error, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Exception e) {
+                binding.progressBar.setVisibility(View.GONE);
+                Toast.makeText(PostDetailActivity.this, "Failed to get user information", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private String getRequestTypeFromPostType(String postType) {
+        switch (postType) {
+            case "DONATE":
+                return "REQUEST_TO_GET";
+            case "SELL":
+                return "REQUEST_TO_BUY";
+            case "REQUEST_DONATION":
+                return "WANT_TO_DONATE";
+            case "REQUEST_TO_BUY":
+                return "WANT_TO_SELL";
+            default:
+                return "REQUEST_TO_GET";
+        }
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+    
+    /**
+     * Send notification to post owner when a request is created
+     */
+    private void sendRequestNotificationToOwner(Request request) {
+        // Create notification for post owner
+        com.example.khaddobondhu.model.Notification notification = new com.example.khaddobondhu.model.Notification(
+            request.getPostOwnerId(), // recipient
+            "New Food Request",
+            request.getRequesterName() + " is interested in your post: " + request.getPostTitle(),
+            "REQUEST_RECEIVED",
+            request.getPostId(), // related post ID
+            request.getRequesterId(), // sender
+            request.getRequesterName(),
+            request.getRequesterProfilePictureUrl()
+        );
+        
+        // Save notification to Firestore
+        firebaseService.createNotification(notification, new FirebaseService.OnNotificationListener() {
+            @Override
+            public void onSuccess() {
+                // Show push notification
+                com.example.khaddobondhu.utils.NotificationService.showFoodRequestNotification(
+                    PostDetailActivity.this,
+                    request.getRequesterName(),
+                    request.getPostTitle(),
+                    request.getPostId()
+                );
+                
+                // Show in-app notification if post owner is currently using the app
+                com.example.khaddobondhu.utils.NotificationManager.getInstance(PostDetailActivity.this)
+                    .showRequestReceivedNotification(
+                        PostDetailActivity.this,
+                        request.getRequesterName(),
+                        request.getPostTitle(),
+                        request.getRequesterProfilePictureUrl()
+                    );
+            }
+            
+            @Override
+            public void onError(String error) {
+                Log.e("PostDetailActivity", "Failed to create notification: " + error);
+            }
+        });
     }
 } 
