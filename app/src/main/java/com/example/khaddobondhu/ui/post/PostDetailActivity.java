@@ -587,22 +587,15 @@ public class PostDetailActivity extends AppCompatActivity {
         firebaseService.createNotification(notification, new FirebaseService.OnNotificationListener() {
             @Override
             public void onSuccess() {
-                // Show push notification
-                com.example.khaddobondhu.utils.NotificationService.showFoodRequestNotification(
+                // Send push notification to the post owner
+                com.example.khaddobondhu.utils.NotificationService.sendPushNotificationToUser(
                     PostDetailActivity.this,
-                    request.getRequesterName(),
-                    request.getPostTitle(),
+                    request.getPostOwnerId(),
+                    "New Food Request",
+                    request.getRequesterName() + " is interested in your post: " + request.getPostTitle(),
+                    "food_request",
                     request.getPostId()
                 );
-                
-                // Show in-app notification if post owner is currently using the app
-                com.example.khaddobondhu.utils.NotificationManager.getInstance(PostDetailActivity.this)
-                    .showRequestReceivedNotification(
-                        PostDetailActivity.this,
-                        request.getRequesterName(),
-                        request.getPostTitle(),
-                        request.getRequesterProfilePictureUrl()
-                    );
             }
             
             @Override

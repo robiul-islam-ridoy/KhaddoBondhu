@@ -113,4 +113,7 @@ dependencies {
 
     // Circle image view
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    
+    // OkHttp for HTTP requests (used for FCM notifications)
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }

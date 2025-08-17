@@ -407,6 +407,20 @@ public class ProfileFragment extends Fragment {
         // Only reload profile data if needed
         if (isAdded() && !isDetached() && binding != null) {
             loadUserProfile();
+            
+            // Check if we need to open the requests tab from notification
+            if (getActivity() != null) {
+                Intent intent = getActivity().getIntent();
+                if (intent != null && intent.getBooleanExtra("open_requests_tab", false)) {
+                    // Clear the flag so it doesn't trigger again
+                    intent.removeExtra("open_requests_tab");
+                    
+                    // Switch to requests tab
+                    if (binding.tabLayout != null && binding.tabLayout.getTabCount() > 1) {
+                        binding.tabLayout.selectTab(binding.tabLayout.getTabAt(1));
+                    }
+                }
+            }
         }
     }
 

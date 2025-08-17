@@ -659,7 +659,10 @@ The application has been thoroughly tested for:
   - Improved fragment lifecycle management
   - Enhanced user experience with stable navigation
 
-### 🆕 Comprehensive Notification System (v3.12)
+### 🆕 Spark Plan Compatible Notification System (v3.12)
+- ✅ **Free Plan Solution**: Works on Firebase Spark plan - no upgrade required!
+- ✅ **Background Polling Service**: Intelligent polling every 30 seconds for new notifications
+- ✅ **Local System Notifications**: Proper push notifications with sound, vibration, and clickable navigation
 - ✅ **Notification Model**: Complete Notification data model with sender, recipient, type, and read status
 - ✅ **Firebase Integration**: Comprehensive notification management in FirebaseService:
   - Notification creation and storage
@@ -686,10 +689,10 @@ The application has been thoroughly tested for:
   - **Request Received**: Post owner gets notification when someone requests their food
   - **Request Accepted**: Requester gets notification when their request is accepted
   - **Request Declined**: Requester gets notification when their request is declined
-  - **In-App Popups**: Custom notification dialogs with sound and vibration
-  - **Push Notifications**: System notifications with proper icons and sounds
+  - **System Notifications**: Proper push notifications with sound and vibration
 - ✅ **Technical Features**:
   - Firestore security rules for notifications collection
+  - Background service with battery-efficient polling
   - Proper error handling and fallback queries
   - Manual sorting when Firestore indexes are building
   - Notification type-based icon system
@@ -702,7 +705,9 @@ The application has been thoroughly tested for:
   - Consistent with app's Material Design theme
   - Smooth animations and transitions
   - Proper empty state messaging
-  - Real-time notification updates
+  - 30-second delay notification delivery (configurable)
+  - Works when app is in background
+  - **Zero cost** - works on free Firebase plan!
 
 ### 🆕 Interactive User Profile in Post Details (v3.9)
 - ✅ **Profile Picture Display**: Shows user's actual profile picture in post details page
@@ -725,6 +730,24 @@ The application has been thoroughly tested for:
 - ✅ **Empty State Styling**: Consistent empty state text styling
 - ✅ **Improved Layout**: Section descriptions positioned immediately below titles for better readability
 - ✅ **Icon Positioning**: Section icons moved to the right side of titles for better visual balance
+
+## 📱 Notification System Setup
+
+The notification system has been designed to work on the **free Firebase Spark plan** while providing professional push notification functionality. See [NOTIFICATION_SETUP.md](NOTIFICATION_SETUP.md) for detailed setup instructions.
+
+### Key Features:
+- **Free Plan Compatible**: No need to upgrade to Blaze plan
+- **Background Polling**: Intelligent 30-second polling for new notifications
+- **System Notifications**: Proper push notifications with sound and vibration
+- **Clickable Navigation**: Notifications navigate to relevant app screens
+- **Battery Efficient**: Minimal battery impact with optimized polling
+
+### Quick Setup:
+1. Deploy Firestore security rules: `firebase deploy --only firestore:rules`
+2. Deploy Firestore indexes: `firebase deploy --only firestore:indexes`
+3. Build and install the app: `./gradlew assembleDebug`
+
+The notification system will automatically start when the app launches and begin polling for new notifications.
 
 ## Contributing
 

@@ -16,7 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.model.Notification;
 import com.example.khaddobondhu.service.FirebaseService;
-import com.example.khaddobondhu.utils.NotificationManager;
+
 
 import java.util.ArrayList;
 import java.util.List;

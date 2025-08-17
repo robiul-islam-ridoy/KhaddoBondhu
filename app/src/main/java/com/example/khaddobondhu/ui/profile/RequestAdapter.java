@@ -233,14 +233,14 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         String currentUserName = firebaseService.getCurrentUserName();
         String currentUserProfilePictureUrl = firebaseService.getCurrentUserProfilePictureUrl();
         
-        // Create notification for requester
+        // Create notification for requester (not the post owner)
         com.example.khaddobondhu.model.Notification notification = new com.example.khaddobondhu.model.Notification(
-            request.getRequesterId(), // recipient
+            request.getRequesterId(), // recipient (the person who made the request)
             "Request " + status.toLowerCase(),
             currentUserName + " has " + status.toLowerCase() + " your request for: " + request.getPostTitle(),
             "REQUEST_" + status,
             request.getPostId(), // related post ID
-            currentUserId, // sender
+            currentUserId, // sender (post owner)
             currentUserName,
             currentUserProfilePictureUrl
         );
@@ -249,26 +249,15 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         firebaseService.createNotification(notification, new FirebaseService.OnNotificationListener() {
             @Override
             public void onSuccess() {
-                // Show push notification
-                com.example.khaddobondhu.utils.NotificationService.showRequestStatusNotification(
+                // Send push notification to the requester
+                com.example.khaddobondhu.utils.NotificationService.sendPushNotificationToUser(
                     context,
-                    currentUserName,
-                    request.getPostTitle(),
-                    status,
+                    request.getRequesterId(),
+                    "Request " + status.toLowerCase(),
+                    currentUserName + " has " + status.toLowerCase() + " your request for: " + request.getPostTitle(),
+                    "request_status",
                     request.getPostId()
                 );
-                
-                // Show in-app notification if requester is currently using the app
-                if (context instanceof android.app.Activity) {
-                    com.example.khaddobondhu.utils.NotificationManager.getInstance(context)
-                        .showRequestStatusNotification(
-                            (android.app.Activity) context,
-                            currentUserName,
-                            request.getPostTitle(),
-                            status,
-                            currentUserProfilePictureUrl
-                        );
-                }
             }
             
             @Override

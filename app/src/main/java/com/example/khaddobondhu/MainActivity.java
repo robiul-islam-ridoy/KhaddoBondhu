@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
         
         // Load current user profile data
         loadCurrentUserProfile();
+        
+                            // Refresh FCM token
+                    firebaseService.refreshAndUpdateFCMToken();
+                    
+                    // Start notification polling service
+                    startNotificationPollingService();
 
         setSupportActionBar(binding.toolbar);
 
@@ -85,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
                 refreshProfileFragment();
             }
         });
+        
+        // Handle notification navigation
+        handleNotificationNavigation();
     }
 
     // Removed onCreateOptionsMenu and onOptionsItemSelected to eliminate 3-dot menu
@@ -173,6 +182,36 @@ public class MainActivity extends AppCompatActivity {
     private void refreshProfileFragment() {
         // Don't refresh ProfileFragment as it has ViewPager2 which can cause crashes
         // The ProfileFragment will handle its own data loading in onResume()
+    }
+    
+                    /**
+                 * Start the notification polling service
+                 */
+                private void startNotificationPollingService() {
+                    Intent serviceIntent = new Intent(this, com.example.khaddobondhu.service.NotificationPollingService.class);
+                    startService(serviceIntent);
+                }
+
+                /**
+                 * Handle navigation from notifications
+                 */
+                private void handleNotificationNavigation() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            String navigateTo = intent.getStringExtra("navigate_to");
+            boolean openRequestsTab = intent.getBooleanExtra("open_requests_tab", false);
+            
+            if ("profile".equals(navigateTo)) {
+                // Navigate to profile tab
+                navController.navigate(R.id.navigation_profile);
+                
+                // If we need to open the requests tab, we'll handle this in ProfileFragment
+                if (openRequestsTab) {
+                    // We'll pass this information to ProfileFragment
+                    getIntent().putExtra("open_requests_tab", true);
+                }
+            }
+        }
     }
 
 }

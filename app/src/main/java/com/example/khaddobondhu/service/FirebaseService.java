@@ -29,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -1211,6 +1212,45 @@ public class FirebaseService {
                         listener.onComplete(com.google.android.gms.tasks.Tasks.forResult((long) task.getResult().size()));
                     } else {
                         listener.onComplete(com.google.android.gms.tasks.Tasks.forResult(0L));
+                    }
+                });
+    }
+    
+    // FCM Token Management
+    public void updateUserFCMToken(String userId, String fcmToken) {
+        Map<String, Object> tokenData = new HashMap<>();
+        tokenData.put("fcmToken", fcmToken);
+        tokenData.put("lastUpdated", new Date());
+        
+        usersRef.document(userId).update(tokenData)
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "FCM token updated successfully"))
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to update FCM token: " + e.getMessage()));
+    }
+    
+    public void getFCMTokenForUser(String userId, OnCompleteListener<String> listener) {
+        usersRef.document(userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult().exists()) {
+                        String fcmToken = task.getResult().getString("fcmToken");
+                        listener.onComplete(com.google.android.gms.tasks.Tasks.forResult(fcmToken));
+                    } else {
+                        listener.onComplete(com.google.android.gms.tasks.Tasks.forResult(null));
+                    }
+                });
+    }
+    
+    public void refreshAndUpdateFCMToken() {
+        FirebaseUser user = getCurrentUser();
+        if (user == null) return;
+        
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        String token = task.getResult();
+                        updateUserFCMToken(user.getUid(), token);
+                        Log.d(TAG, "FCM Token refreshed: " + token);
+                    } else {
+                        Log.e(TAG, "Failed to get FCM token: " + task.getException());
                     }
                 });
     }
