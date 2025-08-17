@@ -21,6 +21,7 @@ import com.example.khaddobondhu.service.FirebaseService;
 import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
 import com.example.khaddobondhu.ui.image.ImageCarouselActivity;
 import com.example.khaddobondhu.ui.view.ImageCollageView;
+import com.example.khaddobondhu.ui.profile.UserProfileViewActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -146,6 +147,9 @@ public class PostDetailActivity extends AppCompatActivity {
         // Load images using ImageCollageView
         binding.imageCollageView.setImages(foodPost.getImageUrls(), foodPost.getTitle());
 
+        // Load and display user profile data
+        fetchUserDataAndSetDisplay(foodPost.getUserId());
+
         // Show contact buttons for all post types
         binding.buttonContact.setVisibility(View.VISIBLE);
         binding.buttonMessage.setVisibility(View.VISIBLE);
@@ -158,6 +162,64 @@ public class PostDetailActivity extends AppCompatActivity {
         
         // Load and display post statistics
         loadPostStatistics();
+    }
+    
+    private void fetchUserDataAndSetDisplay(String userId) {
+        if (userId == null || userId.isEmpty()) {
+            // Set default name and image if no user ID
+            binding.sellerNameTextView.setText("Unknown User");
+            binding.profilePictureImageView.setImageResource(R.drawable.ic_person);
+            return;
+        }
+        
+        firebaseService.getUserById(userId, new FirebaseService.OnUserFetchListener() {
+            @Override
+            public void onSuccess(com.example.khaddobondhu.model.User user) {
+                // Update UI on main thread
+                runOnUiThread(() -> {
+                    // Set user name
+                    binding.sellerNameTextView.setText(user.getName() != null ? user.getName() : "Unknown User");
+                    
+                    // Set profile picture
+                    if (user.getProfilePictureUrl() != null && !user.getProfilePictureUrl().isEmpty()) {
+                        Glide.with(PostDetailActivity.this)
+                            .load(user.getProfilePictureUrl())
+                            .placeholder(R.drawable.ic_person)
+                            .error(R.drawable.ic_person)
+                            .circleCrop()
+                            .into(binding.profilePictureImageView);
+                    } else {
+                        binding.profilePictureImageView.setImageResource(R.drawable.ic_person);
+                    }
+                    
+                    // Set up click listeners for profile navigation
+                    setupProfileClickListeners(userId, user.getName());
+                });
+            }
+            
+            @Override
+            public void onError(Exception e) {
+                // Set default values on error
+                runOnUiThread(() -> {
+                    binding.sellerNameTextView.setText("Unknown User");
+                    binding.profilePictureImageView.setImageResource(R.drawable.ic_person);
+                });
+            }
+        });
+    }
+    
+    private void setupProfileClickListeners(String userId, String userName) {
+        // Click listener for profile picture
+        binding.profilePictureImageView.setOnClickListener(v -> {
+            Intent intent = UserProfileViewActivity.newIntent(this, userId, userName);
+            startActivity(intent);
+        });
+        
+        // Click listener for user name
+        binding.sellerNameTextView.setOnClickListener(v -> {
+            Intent intent = UserProfileViewActivity.newIntent(this, userId, userName);
+            startActivity(intent);
+        });
     }
     
     private void loadPostStatistics() {
