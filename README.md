@@ -682,12 +682,21 @@ The application has been thoroughly tested for:
   - Timestamp showing "time ago"
   - Delete button for each notification
   - Click to mark as read functionality
-- ✅ **Notification Triggers**:
-  - **Request Received**: Post owner gets notification when someone requests their food
-  - **Request Accepted**: Requester gets notification when their request is accepted
-  - **Request Declined**: Requester gets notification when their request is declined
-  - **In-App Popups**: Custom notification dialogs with sound and vibration
-  - **Push Notifications**: System notifications with proper icons and sounds
+- ✅ **Notification Triggers & Behavior**:
+  - **Request Received (Owner)**:
+    - True Heads-up notification (overlay) + persists in drawer
+    - Tapping deep-links to `Profile → Requests` tab
+  - **Request Accepted/Declined (Requester)**:
+    - True Heads-up notification (overlay) + persists in drawer
+    - Tapping deep-links to `PostDetailActivity` for the specific post
+  - **Foreground Delivery**:
+    - Real-time Firestore listener shows Heads-up while app is open
+  - **Channels**:
+    - `food_requests` (high importance) and `request_status_v2` (high importance)
+  - **Reliability**:
+    - Unique PendingIntent per notification prevents duplicates
+    - Proper auto-cancel and mark-as-read handling
+    - Channels ensured at post-time and FCM-time
 - ✅ **Technical Features**:
   - Firestore security rules for notifications collection
   - Proper error handling and fallback queries
@@ -698,11 +707,10 @@ The application has been thoroughly tested for:
   - Memory-efficient notification management
 - ✅ **User Experience**:
   - Easy access via toolbar notification icon
-  - Professional notification center design
-  - Consistent with app's Material Design theme
-  - Smooth animations and transitions
-  - Proper empty state messaging
-  - Real-time notification updates
+  - Heads-up + drawer parity for all request-related events
+  - Accurate deep-linking (Owner → Requests tab, Requester → Post details)
+  - Prevention of duplicate alerts on repeated clicks
+  - Real-time updates while app is foregrounded
 
 ### 🆕 Interactive User Profile in Post Details (v3.9)
 - ✅ **Profile Picture Display**: Shows user's actual profile picture in post details page

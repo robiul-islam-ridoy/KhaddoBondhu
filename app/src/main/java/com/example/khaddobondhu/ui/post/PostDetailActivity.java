@@ -568,14 +568,39 @@ public class PostDetailActivity extends AppCompatActivity {
     }
     
     /**
+     * Generate category-specific notification message
+     */
+    private String generateNotificationMessage(String requesterName, String postTitle, String requestType) {
+        switch (requestType) {
+            case "REQUEST_TO_GET":
+                return requesterName + " wants to get your donated food: " + postTitle;
+            case "REQUEST_TO_BUY":
+                return requesterName + " wants to buy your food: " + postTitle;
+            case "WANT_TO_DONATE":
+                return requesterName + " wants to donate food for your request: " + postTitle;
+            case "WANT_TO_SELL":
+                return requesterName + " wants to sell food for your request: " + postTitle;
+            default:
+                return requesterName + " is interested in your post: " + postTitle;
+        }
+    }
+    
+    /**
      * Send notification to post owner when a request is created
      */
     private void sendRequestNotificationToOwner(Request request) {
-        // Create notification for post owner
+        Log.d("PostDetailActivity", "Sending notification to post owner: " + request.getPostOwnerId());
+        Log.d("PostDetailActivity", "Requester: " + request.getRequesterName() + " (ID: " + request.getRequesterId() + ")");
+        Log.d("PostDetailActivity", "Post: " + request.getPostTitle() + " (ID: " + request.getPostId() + ")");
+        
+        // Create notification for post owner with category-specific text
+        String notificationTitle = "🍽️ New Food Request";
+        String notificationMessage = generateNotificationMessage(request.getRequesterName(), request.getPostTitle(), request.getRequestType());
+        
         com.example.khaddobondhu.model.Notification notification = new com.example.khaddobondhu.model.Notification(
             request.getPostOwnerId(), // recipient
-            "New Food Request",
-            request.getRequesterName() + " is interested in your post: " + request.getPostTitle(),
+            notificationTitle,
+            notificationMessage,
             "REQUEST_RECEIVED",
             request.getPostId(), // related post ID
             request.getRequesterId(), // sender
@@ -587,22 +612,9 @@ public class PostDetailActivity extends AppCompatActivity {
         firebaseService.createNotification(notification, new FirebaseService.OnNotificationListener() {
             @Override
             public void onSuccess() {
-                // Show push notification
-                com.example.khaddobondhu.utils.NotificationService.showFoodRequestNotification(
-                    PostDetailActivity.this,
-                    request.getRequesterName(),
-                    request.getPostTitle(),
-                    request.getPostId()
-                );
-                
-                // Show in-app notification if post owner is currently using the app
-                com.example.khaddobondhu.utils.NotificationManager.getInstance(PostDetailActivity.this)
-                    .showRequestReceivedNotification(
-                        PostDetailActivity.this,
-                        request.getRequesterName(),
-                        request.getPostTitle(),
-                        request.getRequesterProfilePictureUrl()
-                    );
+                Log.d("PostDetailActivity", "Notification saved to Firestore successfully");
+                // Note: We don't show notification here because we can't show it to another user
+                // The notification will be shown when the post owner opens the app or receives FCM
             }
             
             @Override

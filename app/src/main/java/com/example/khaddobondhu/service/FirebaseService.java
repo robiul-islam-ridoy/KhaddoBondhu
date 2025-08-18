@@ -919,6 +919,21 @@ public class FirebaseService {
         void onError(Exception e);
     }
 
+    /**
+     * Listen for unread notifications for a user in real-time
+     */
+    public ListenerRegistration addUnreadNotificationsListener(String userId, com.google.firebase.firestore.EventListener<QuerySnapshot> listener) {
+        if (userId == null || userId.isEmpty()) {
+            throw new IllegalArgumentException("User ID cannot be null or empty");
+        }
+
+        return notificationsRef
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("isRead", false)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .addSnapshotListener(listener);
+    }
+
     // Create a new request
     public void createRequest(Request request, OnRequestListener listener) {
         if (request == null) {

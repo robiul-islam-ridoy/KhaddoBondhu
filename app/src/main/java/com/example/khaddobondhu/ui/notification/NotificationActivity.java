@@ -1,5 +1,6 @@
 package com.example.khaddobondhu.ui.notification;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.model.Notification;
 import com.example.khaddobondhu.service.FirebaseService;
-import com.example.khaddobondhu.utils.NotificationManager;
+// Removed NotificationManager import as it's no longer used
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,18 +125,22 @@ public class NotificationActivity extends AppCompatActivity {
     private void markNotificationAsRead(Notification notification) {
         if (notification.isRead()) return;
 
+        // Mark as read immediately in UI to prevent multiple calls
+        notification.setRead(true);
+        adapter.notifyDataSetChanged();
+
         firebaseService.markNotificationAsRead(notification.getId(), new FirebaseService.OnNotificationListener() {
             @Override
             public void onSuccess() {
-                runOnUiThread(() -> {
-                    notification.setRead(true);
-                    adapter.notifyDataSetChanged();
-                });
+                // Already marked as read in UI
             }
 
             @Override
             public void onError(String error) {
                 runOnUiThread(() -> {
+                    // Revert the UI change if server update failed
+                    notification.setRead(false);
+                    adapter.notifyDataSetChanged();
                     Toast.makeText(NotificationActivity.this, "Failed to mark as read", Toast.LENGTH_SHORT).show();
                 });
             }
@@ -168,17 +173,38 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void handleNotificationClick(Notification notification) {
+        // Mark notification as read first to prevent multiple clicks
+        if (!notification.isRead()) {
+            markNotificationAsRead(notification);
+        }
+        
         // Handle different notification types
         switch (notification.getType()) {
             case "REQUEST_RECEIVED":
-            case "REQUEST_ACCEPTED":
-            case "REQUEST_DECLINED":
-                // Navigate to the related post
+                // Navigate to Requests tab in Profile
                 if (notification.getRelatedId() != null) {
-                    // You can implement navigation to post details here
-                    Toast.makeText(this, "Navigate to post: " + notification.getRelatedId(), Toast.LENGTH_SHORT).show();
+                    // Navigate to MainActivity with requests tab
+                    Intent intent = new Intent(this, com.example.khaddobondhu.MainActivity.class);
+                    intent.putExtra("navigate_to", "requests");
+                    intent.putExtra("post_id", notification.getRelatedId());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
                 }
                 break;
+                
+            case "REQUEST_ACCEPTED":
+            case "REQUEST_DECLINED":
+                // Navigate to the specific post that was requested
+                if (notification.getRelatedId() != null) {
+                    Intent intent = new Intent(this, com.example.khaddobondhu.ui.post.PostDetailActivity.class);
+                    intent.putExtra("post_id", notification.getRelatedId());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+                break;
+                
             default:
                 Toast.makeText(this, notification.getMessage(), Toast.LENGTH_SHORT).show();
                 break;
