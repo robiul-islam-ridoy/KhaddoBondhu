@@ -225,6 +225,17 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
     }
     
     /**
+     * Generate enhanced status notification message
+     */
+    private String generateEnhancedStatusMessage(String postOwnerName, String postTitle, String status) {
+        if (status.equals("ACCEPTED")) {
+            return postOwnerName + " has accepted your request! 🎉\nYou can now contact them about: " + postTitle;
+        } else {
+            return postOwnerName + " has declined your request for: " + postTitle + "\nDon't worry, there are other opportunities! 💪";
+        }
+    }
+    
+    /**
      * Send notification to requester when request status is updated
      */
     private void sendRequestStatusNotification(Request request, String status) {
@@ -233,11 +244,19 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         String currentUserName = firebaseService.getCurrentUserName();
         String currentUserProfilePictureUrl = firebaseService.getCurrentUserProfilePictureUrl();
         
-        // Create notification for requester
+        android.util.Log.d("RequestAdapter", "Sending notification to requester: " + request.getRequesterId());
+        android.util.Log.d("RequestAdapter", "Post owner: " + currentUserName + " (ID: " + currentUserId + ")");
+        android.util.Log.d("RequestAdapter", "Post: " + request.getPostTitle() + " (ID: " + request.getPostId() + ")");
+        android.util.Log.d("RequestAdapter", "Status: " + status);
+        
+        // Create notification for requester with enhanced text
+        String notificationTitle = status.equals("ACCEPTED") ? "✅ Request Accepted!" : "❌ Request Declined";
+        String notificationMessage = generateEnhancedStatusMessage(currentUserName, request.getPostTitle(), status);
+        
         com.example.khaddobondhu.model.Notification notification = new com.example.khaddobondhu.model.Notification(
             request.getRequesterId(), // recipient
-            "Request " + status.toLowerCase(),
-            currentUserName + " has " + status.toLowerCase() + " your request for: " + request.getPostTitle(),
+            notificationTitle,
+            notificationMessage,
             "REQUEST_" + status,
             request.getPostId(), // related post ID
             currentUserId, // sender
@@ -249,26 +268,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         firebaseService.createNotification(notification, new FirebaseService.OnNotificationListener() {
             @Override
             public void onSuccess() {
-                // Show push notification
-                com.example.khaddobondhu.utils.NotificationService.showRequestStatusNotification(
-                    context,
-                    currentUserName,
-                    request.getPostTitle(),
-                    status,
-                    request.getPostId()
-                );
-                
-                // Show in-app notification if requester is currently using the app
-                if (context instanceof android.app.Activity) {
-                    com.example.khaddobondhu.utils.NotificationManager.getInstance(context)
-                        .showRequestStatusNotification(
-                            (android.app.Activity) context,
-                            currentUserName,
-                            request.getPostTitle(),
-                            status,
-                            currentUserProfilePictureUrl
-                        );
-                }
+                android.util.Log.d("RequestAdapter", "Notification saved to Firestore successfully");
+                // Note: We don't show notification here because we can't show it to another user
+                // The notification will be shown when the requester opens the app or receives FCM
             }
             
             @Override

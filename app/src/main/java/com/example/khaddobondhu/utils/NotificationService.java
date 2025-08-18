@@ -18,6 +18,7 @@ import com.example.khaddobondhu.ChatActivity;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.ui.post.PostDetailActivity;
 import com.example.khaddobondhu.ui.profile.UserProfileViewActivity;
+import com.example.khaddobondhu.ui.notification.NotificationActivity;
 import com.example.khaddobondhu.model.Notification;
 import com.example.khaddobondhu.model.Request;
 import android.util.Log;
@@ -34,20 +35,58 @@ public class NotificationService extends FirebaseMessagingService {
     // Notification channels
     public static final String CHANNEL_MESSAGES = "messages";
     public static final String CHANNEL_FOOD_REQUESTS = "food_requests";
+    public static final String CHANNEL_REQUEST_STATUS = "request_status_v2";
     public static final String CHANNEL_GENERAL = "general";
     
     // Notification IDs
     private static final int NOTIFICATION_ID_MESSAGE = 1001;
     private static final int NOTIFICATION_ID_FOOD_REQUEST = 1002;
-    private static final int NOTIFICATION_ID_GENERAL = 1003;
+    private static final int NOTIFICATION_ID_REQUEST_STATUS = 1003;
+    private static final int NOTIFICATION_ID_GENERAL = 1004;
     
     private static int messageNotificationId = NOTIFICATION_ID_MESSAGE;
     private static int foodRequestNotificationId = NOTIFICATION_ID_FOOD_REQUEST;
+    private static int requestStatusNotificationId = NOTIFICATION_ID_REQUEST_STATUS;
     
     @Override
     public void onCreate() {
         super.onCreate();
         createNotificationChannels();
+    }
+
+    /**
+     * Ensure channels exist when posting from app context (not just FCM service)
+     */
+    private static void ensureNotificationChannels(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (manager == null) return;
+
+            boolean missing = false;
+            if (manager.getNotificationChannel(CHANNEL_MESSAGES) == null) missing = true;
+            if (manager.getNotificationChannel(CHANNEL_FOOD_REQUESTS) == null) missing = true;
+            if (manager.getNotificationChannel(CHANNEL_REQUEST_STATUS) == null) missing = true;
+            if (manager.getNotificationChannel(CHANNEL_GENERAL) == null) missing = true;
+
+            if (missing) {
+                try {
+                    // Create channels using a new service instance context-like method
+                    NotificationService temp = new NotificationService();
+                    temp.attachBaseContext(context.getApplicationContext());
+                    temp.createNotificationChannels();
+                } catch (Exception e) {
+                    // Fallback: create minimal channels inline
+                    try {
+                        NotificationChannel fallback = new NotificationChannel(
+                                CHANNEL_REQUEST_STATUS,
+                                "Request Status",
+                                NotificationManager.IMPORTANCE_HIGH
+                        );
+                        manager.createNotificationChannel(fallback);
+                    } catch (Exception ignored) {}
+                }
+            }
+        }
     }
     
     @Override
@@ -70,7 +109,14 @@ public class NotificationService extends FirebaseMessagingService {
                 showMessageNotification(this, title, body, targetId);
                 break;
             case "food_request":
-                showFoodRequestNotification(this, title, body, targetId);
+                showFoodRequestNotification(this, title, body, targetId, "REQUEST_TO_GET");
+                break;
+            case "request_status":
+                // Expecting data keys: owner_name, post_title, status, target_id
+                String ownerNameData = data.get("owner_name") != null ? data.get("owner_name") : title;
+                String postTitleData = data.get("post_title") != null ? data.get("post_title") : body;
+                String statusData = data.get("status") != null ? data.get("status") : "ACCEPTED";
+                showRequestStatusNotification(this, ownerNameData, postTitleData, statusData, targetId);
                 break;
             case "post_update":
                 showPostUpdateNotification(this, title, body, targetId);
@@ -95,7 +141,7 @@ public class NotificationService extends FirebaseMessagingService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             
-            // Messages channel
+            // Messages channel - High priority for heads-up notifications
             NotificationChannel messagesChannel = new NotificationChannel(
                 CHANNEL_MESSAGES,
                 "Messages",
@@ -104,27 +150,53 @@ public class NotificationService extends FirebaseMessagingService {
             messagesChannel.setDescription("Notifications for new messages");
             messagesChannel.enableVibration(true);
             messagesChannel.setVibrationPattern(new long[]{0, 500, 200, 500});
+            messagesChannel.setShowBadge(true);
+            messagesChannel.enableLights(true);
             
-            // Food requests channel
+            // Food requests channel - Maximum priority for heads-up notifications
             NotificationChannel foodRequestsChannel = new NotificationChannel(
                 CHANNEL_FOOD_REQUESTS,
                 "Food Requests",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             );
-            foodRequestsChannel.setDescription("Notifications for food requests");
+            foodRequestsChannel.setDescription("High priority notifications for food requests");
             foodRequestsChannel.enableVibration(true);
+            foodRequestsChannel.setVibrationPattern(new long[]{0, 300, 200, 300, 200, 300});
+            foodRequestsChannel.setShowBadge(true);
+            foodRequestsChannel.enableLights(true);
+            foodRequestsChannel.setLightColor(android.graphics.Color.GREEN);
+            // Set to allow heads-up notifications
+            foodRequestsChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
+            // Note: setLockscreenVisibility and setAllowBubbles are not available in current API level
+            
+            // Request status channel - Maximum priority for heads-up notifications
+            NotificationChannel requestStatusChannel = new NotificationChannel(
+                CHANNEL_REQUEST_STATUS,
+                "Request Status",
+                NotificationManager.IMPORTANCE_HIGH
+            );
+            requestStatusChannel.setDescription("High priority notifications for request status updates");
+            requestStatusChannel.enableVibration(true);
+            requestStatusChannel.setVibrationPattern(new long[]{0, 300, 200, 300, 200, 300});
+            requestStatusChannel.setShowBadge(true);
+            requestStatusChannel.enableLights(true);
+            requestStatusChannel.setLightColor(android.graphics.Color.BLUE);
+            // Set to allow heads-up notifications
+            requestStatusChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
+            // Note: setLockscreenVisibility and setAllowBubbles are not available in current API level
             
             // General channel
             NotificationChannel generalChannel = new NotificationChannel(
                 CHANNEL_GENERAL,
                 "General",
-                NotificationManager.IMPORTANCE_LOW
+                NotificationManager.IMPORTANCE_DEFAULT
             );
             generalChannel.setDescription("General app notifications");
             
             List<NotificationChannel> channels = new ArrayList<>();
             channels.add(messagesChannel);
             channels.add(foodRequestsChannel);
+            channels.add(requestStatusChannel);
             channels.add(generalChannel);
             notificationManager.createNotificationChannels(channels);
         }
@@ -154,107 +226,160 @@ public class NotificationService extends FirebaseMessagingService {
             .setContentTitle(title)
             .setContentText(body)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
-            .setStyle(new NotificationCompat.BigTextStyle().bigText(message));
+            .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+            .setVibrate(new long[]{0, 500, 200, 500})
+            .setDefaults(NotificationCompat.DEFAULT_ALL);
         
         NotificationManagerCompat.from(context).notify(messageNotificationId++, builder.build());
     }
     
     /**
-     * Show notification for food request
+     * Show notification for food request - This goes to POST OWNER
      */
-    public static void showFoodRequestNotification(Context context, String requesterName, String postTitle, String postId) {
-        String title = "Food request from " + requesterName;
-        String body = "Someone is interested in your post: " + postTitle;
+    public static void showFoodRequestNotification(Context context, String requesterName, String postTitle, String postId, String requestType) {
+        ensureNotificationChannels(context);
+        Log.d(TAG, "Showing food request notification to POST OWNER");
+        Log.d(TAG, "Requester: " + requesterName + ", Post: " + postTitle + ", PostId: " + postId + ", Type: " + requestType);
         
-        Intent intent = new Intent(context, PostDetailActivity.class);
+        // Generate category-specific notification text
+        String title = "🍽️ New Food Request";
+        String body = generateRequestNotificationText(requesterName, postTitle, requestType);
+        
+        // Navigate to Requests tab in Profile
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("navigate_to", "requests");
         intent.putExtra("post_id", postId);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         
+        // Use unique request code to prevent duplicate notifications
+        int requestCode = (int) System.currentTimeMillis();
+        
         PendingIntent pendingIntent = PendingIntent.getActivity(
             context, 
-            foodRequestNotificationId, 
+            requestCode, 
             intent, 
             PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
         
+        // Create heads-up notification that stays in drawer
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_FOOD_REQUESTS)
             .setSmallIcon(R.drawable.ic_request)
             .setContentTitle(title)
             .setContentText(body)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
+            .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-            .setVibrate(new long[]{0, 500, 200, 500});
+            .setVibrate(new long[]{0, 500, 200, 500})
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setFullScreenIntent(pendingIntent, true) // This makes it heads-up
+            .setOngoing(false) // Allow user to dismiss
+            .setOnlyAlertOnce(true); // Prevent duplicate alerts
         
-        NotificationManagerCompat.from(context).notify(foodRequestNotificationId++, builder.build());
+        NotificationManagerCompat.from(context).notify(requestCode, builder.build());
         
-        // Trigger vibration
-        triggerVibration(context);
+        Log.d(TAG, "Food request notification sent successfully with ID: " + requestCode);
+        
+        // Trigger enhanced vibration pattern
+        triggerEnhancedVibration(context);
     }
     
     /**
-     * Show notification for request status update (accepted/declined)
+     * Show notification for request status update (accepted/declined) - This goes to REQUESTER
      */
     public static void showRequestStatusNotification(Context context, String postOwnerName, String postTitle, String status, String postId) {
-        String title = "Request " + status.toLowerCase();
-        String body = postOwnerName + " has " + status.toLowerCase() + " your request for: " + postTitle;
+        ensureNotificationChannels(context);
+        Log.d(TAG, "Showing request status notification to REQUESTER");
+        Log.d(TAG, "Post Owner: " + postOwnerName + ", Post: " + postTitle + ", Status: " + status + ", PostId: " + postId);
         
+        String title = status.equals("ACCEPTED") ? "✅ Request Accepted!" : "❌ Request Declined";
+        String body = generateStatusNotificationText(postOwnerName, postTitle, status);
+        
+        // Navigate to the specific post that was requested
         Intent intent = new Intent(context, PostDetailActivity.class);
         intent.putExtra("post_id", postId);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         
+        // Use unique request code to prevent duplicate notifications
+        int requestCode = (int) System.currentTimeMillis();
+        
         PendingIntent pendingIntent = PendingIntent.getActivity(
             context, 
-            foodRequestNotificationId, 
+            requestCode, 
             intent, 
             PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
         
         int icon = status.equals("ACCEPTED") ? R.drawable.ic_check : R.drawable.ic_close;
         
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_FOOD_REQUESTS)
+        // Create enhanced heads-up notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_REQUEST_STATUS)
             .setSmallIcon(icon)
             .setContentTitle(title)
             .setContentText(body)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
+            .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-            .setVibrate(new long[]{0, 500, 200, 500});
+            .setVibrate(new long[]{0, 500, 200, 500})
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setFullScreenIntent(pendingIntent, true) // Heads-up
+            .setOngoing(false) // Allow user to dismiss
+            .setOnlyAlertOnce(true); // Prevent duplicate alerts
         
-        NotificationManagerCompat.from(context).notify(foodRequestNotificationId++, builder.build());
+        NotificationManagerCompat.from(context).notify(requestCode, builder.build());
         
-        // Trigger vibration
-        triggerVibration(context);
+        Log.d(TAG, "Request status notification sent successfully with ID: " + requestCode);
+        
+        // Trigger enhanced vibration pattern
+        triggerEnhancedVibration(context);
     }
     
     /**
-     * Show in-app notification popup
+     * Show notification for request received (when someone requests your food) - POST OWNER gets this
      */
-    public static void showInAppNotification(Context context, String title, String message, String type) {
-        // This will be implemented with a custom popup dialog
-        // For now, we'll use a simple toast with vibration
-        android.widget.Toast.makeText(context, title + ": " + message, android.widget.Toast.LENGTH_LONG).show();
-        triggerVibration(context);
+    public static void showRequestReceivedNotification(Context context, String requesterName, String postTitle, String postId, String requestType) {
+        showFoodRequestNotification(context, requesterName, postTitle, postId, requestType);
     }
     
     /**
-     * Trigger device vibration
+     * Show notification for request accepted/declined (when your request is responded to) - REQUESTER gets this
      */
-    private static void triggerVibration(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-            if (vibrator != null && vibrator.hasVibrator()) {
-                vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
-            }
-        } else {
-            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-            if (vibrator != null) {
-                vibrator.vibrate(500);
-            }
+    public static void showRequestResponseNotification(Context context, String postOwnerName, String postTitle, String status, String postId) {
+        showRequestStatusNotification(context, postOwnerName, postTitle, status, postId);
+    }
+    
+    /**
+     * Show notification for current user (for immediate heads-up display)
+     */
+    public static void showNotificationForCurrentUser(Context context, String title, String message, String type, String relatedId) {
+        switch (type) {
+            case "REQUEST_RECEIVED":
+                // Extract post title from message
+                String postTitle = message.replace(" is interested in your post: ", "");
+                showRequestReceivedNotification(context, title.replace("New Food Request from ", ""), postTitle, relatedId, "REQUEST_TO_GET");
+                break;
+                
+            case "REQUEST_ACCEPTED":
+            case "REQUEST_DECLINED":
+                // Extract post title from message
+                String status = type.equals("REQUEST_ACCEPTED") ? "ACCEPTED" : "DECLINED";
+                String ownerName = title.replace("Request " + status.toLowerCase() + " from ", "");
+                String postTitle2 = message.replace(" has " + status.toLowerCase() + " your request for: ", "");
+                showRequestResponseNotification(context, ownerName, postTitle2, status, relatedId);
+                break;
+                
+            default:
+                showGeneralNotification(context, title, message);
+                break;
         }
     }
     
@@ -277,9 +402,10 @@ public class NotificationService extends FirebaseMessagingService {
             .setSmallIcon(R.drawable.ic_home)
             .setContentTitle(title)
             .setContentText(body)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
-            .setContentIntent(pendingIntent);
+            .setContentIntent(pendingIntent)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID_GENERAL, builder.build());
     }
@@ -302,9 +428,10 @@ public class NotificationService extends FirebaseMessagingService {
             .setSmallIcon(R.drawable.ic_home)
             .setContentTitle(title)
             .setContentText(body)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
-            .setContentIntent(pendingIntent);
+            .setContentIntent(pendingIntent)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID_GENERAL, builder.build());
     }
@@ -332,7 +459,8 @@ public class NotificationService extends FirebaseMessagingService {
             .setContentText(body)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
-            .setContentIntent(pendingIntent);
+            .setContentIntent(pendingIntent)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID_GENERAL, builder.build());
     }
@@ -361,9 +489,77 @@ public class NotificationService extends FirebaseMessagingService {
             .setContentText(body)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
-            .setContentIntent(pendingIntent);
+            .setContentIntent(pendingIntent)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID_GENERAL, builder.build());
+    }
+    
+    /**
+     * Generate category-specific notification text for food requests
+     */
+    private static String generateRequestNotificationText(String requesterName, String postTitle, String requestType) {
+        switch (requestType) {
+            case "REQUEST_TO_GET":
+                return requesterName + " wants to get your donated food: " + postTitle;
+            case "REQUEST_TO_BUY":
+                return requesterName + " wants to buy your food: " + postTitle;
+            case "WANT_TO_DONATE":
+                return requesterName + " wants to donate food for your request: " + postTitle;
+            case "WANT_TO_SELL":
+                return requesterName + " wants to sell food for your request: " + postTitle;
+            default:
+                return requesterName + " is interested in your post: " + postTitle;
+        }
+    }
+    
+    /**
+     * Generate enhanced notification text for request status updates
+     */
+    private static String generateStatusNotificationText(String postOwnerName, String postTitle, String status) {
+        if (status.equals("ACCEPTED")) {
+            return postOwnerName + " has accepted your request! 🎉\nYou can now contact them about: " + postTitle;
+        } else {
+            return postOwnerName + " has declined your request for: " + postTitle + "\nDon't worry, there are other opportunities! 💪";
+        }
+    }
+    
+    /**
+     * Trigger enhanced device vibration with pattern
+     */
+    private static void triggerEnhancedVibration(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null && vibrator.hasVibrator()) {
+                // Enhanced vibration pattern: short-long-short
+                long[] pattern = {0, 200, 300, 400, 300, 200};
+                int[] amplitudes = {0, 255, 0, 255, 0, 255};
+                vibrator.vibrate(VibrationEffect.createWaveform(pattern, amplitudes, -1));
+            }
+        } else {
+            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null) {
+                // Fallback for older devices
+                vibrator.vibrate(new long[]{0, 200, 300, 400, 300, 200}, -1);
+            }
+        }
+    }
+    
+    /**
+     * Trigger device vibration (legacy method)
+     */
+    private static void triggerVibration(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null && vibrator.hasVibrator()) {
+                vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+            }
+        } else {
+            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null) {
+                vibrator.vibrate(500);
+            }
+        }
     }
     
     /**

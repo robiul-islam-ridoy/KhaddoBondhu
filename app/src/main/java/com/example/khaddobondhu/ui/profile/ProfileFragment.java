@@ -407,6 +407,20 @@ public class ProfileFragment extends Fragment {
         // Only reload profile data if needed
         if (isAdded() && !isDetached() && binding != null) {
             loadUserProfile();
+            try {
+                // If launched from notification, ensure we switch to Requests tab
+                Intent activityIntent = requireActivity().getIntent();
+                if (activityIntent != null) {
+                    String navigateTo = activityIntent.getStringExtra("navigate_to");
+                    if ("requests".equals(navigateTo)) {
+                        if (binding.tabLayout != null) {
+                            binding.tabLayout.selectTab(binding.tabLayout.getTabAt(1));
+                        }
+                        // Clear the extra so we don't repeat
+                        activityIntent.removeExtra("navigate_to");
+                    }
+                }
+            } catch (Exception ignored) {}
         }
     }
 
@@ -466,5 +480,15 @@ public class ProfileFragment extends Fragment {
     public void refreshData() {
         // This method is called by MainActivity but we don't need to do anything
         // The ViewPager2 handles its own state and the fragments handle their own data loading
+    }
+    
+    /**
+     * Navigate to Requests tab - called from MainActivity when notification is clicked
+     */
+    public void navigateToRequestsTab() {
+        if (binding != null && binding.tabLayout != null) {
+            // Switch to Requests tab (index 1)
+            binding.tabLayout.selectTab(binding.tabLayout.getTabAt(1));
+        }
     }
 } 

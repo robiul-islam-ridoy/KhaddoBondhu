@@ -69,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
         // Don't use NavigationUI for title updates - keep static title
         NavigationUI.setupWithNavController(navView, navController);
         
+        // Handle navigation from notifications
+        handleNotificationNavigation();
+        
+        // Clear old notification preferences and start realtime notifications
+        clearOldNotificationPreferences();
+        com.example.khaddobondhu.utils.NotificationChecker.startRealtimeNotifications(this);
+        
         // Listen for navigation changes to update toolbar and trigger refresh
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             invalidateOptionsMenu(); // This will call onCreateOptionsMenu again
@@ -103,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    
+    
 
     private void openNotificationActivity() {
         Intent intent = new Intent(this, com.example.khaddobondhu.ui.notification.NotificationActivity.class);
@@ -118,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void logout() {
         auth.signOut();
+        // Clear notification preferences when logging out
+        com.example.khaddobondhu.utils.NotificationChecker.clearShownNotifications(this);
         Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
         startLoginActivity();
     }
@@ -173,6 +184,76 @@ public class MainActivity extends AppCompatActivity {
     private void refreshProfileFragment() {
         // Don't refresh ProfileFragment as it has ViewPager2 which can cause crashes
         // The ProfileFragment will handle its own data loading in onResume()
+    }
+    
+    /**
+     * Handle navigation from notifications
+     */
+    private void handleNotificationNavigation() {
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("navigate_to")) {
+            String navigateTo = intent.getStringExtra("navigate_to");
+            
+            if ("requests".equals(navigateTo)) {
+                // Navigate to Profile tab and then to Requests tab
+                navController.navigate(R.id.navigation_profile);
+                
+                // Use postDelayed to ensure ProfileFragment is loaded first
+                new android.os.Handler().postDelayed(() -> {
+                    ProfileFragment profileFragment = (ProfileFragment) getSupportFragmentManager()
+                            .findFragmentByTag("f4"); // Tag for ProfileFragment
+                    if (profileFragment != null) {
+                        profileFragment.navigateToRequestsTab();
+                    } else {
+                        // Try alternative approach if fragment tag doesn't work
+                        try {
+                            // Get the current fragment from NavController
+                            android.os.Bundle args = navController.getCurrentBackStackEntry().getArguments();
+                            if (args != null) {
+                                // Force refresh the profile fragment
+                                navController.navigate(R.id.navigation_profile);
+                                new android.os.Handler().postDelayed(() -> {
+                                    ProfileFragment profileFragment2 = (ProfileFragment) getSupportFragmentManager()
+                                            .findFragmentByTag("f4");
+                                    if (profileFragment2 != null) {
+                                        profileFragment2.navigateToRequestsTab();
+                                    }
+                                }, 1000);
+                            }
+                        } catch (Exception e) {
+                            Log.e("MainActivity", "Error navigating to requests tab: " + e.getMessage());
+                        }
+                    }
+                }, 1000); // Increased delay to ensure fragment is loaded
+            }
+        }
+    }
+    
+    // Removed polling-based check; using realtime listener instead
+    
+    /**
+     * Clear old notification preferences to ensure fresh notifications
+     */
+    private void clearOldNotificationPreferences() {
+        // Clear old notification preferences when app starts
+        // This ensures that notifications are shown again if the app was closed
+        com.example.khaddobondhu.utils.NotificationChecker.clearShownNotifications(this);
+        
+        // Do not clear existing system notifications so they persist in the drawer
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Ensure realtime notifications are active
+        com.example.khaddobondhu.utils.NotificationChecker.startRealtimeNotifications(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Stop realtime notifications to avoid leaks
+        com.example.khaddobondhu.utils.NotificationChecker.stopRealtimeNotifications();
     }
 
 }
