@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.model.FoodPost;
 import com.example.khaddobondhu.service.FirebaseService;
+import com.example.khaddobondhu.service.CloudinaryService;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class MyPostsFragment extends Fragment implements UserPostAdapter.OnPostA
     private UserPostAdapter adapter;
     private List<FoodPost> userPosts = new ArrayList<>();
     private FirebaseService firebaseService;
+    private CloudinaryService cloudinaryService;
 
     @Nullable
     @Override
@@ -40,6 +42,7 @@ public class MyPostsFragment extends Fragment implements UserPostAdapter.OnPostA
         emptyStateTextView = view.findViewById(R.id.emptyStateTextView);
         
         firebaseService = new FirebaseService();
+        cloudinaryService = new CloudinaryService(requireContext());
         
         setupRecyclerView();
         loadUserPosts();
@@ -105,8 +108,43 @@ public class MyPostsFragment extends Fragment implements UserPostAdapter.OnPostA
 
     @Override
     public void onDeletePost(FoodPost post) {
-        // Handle post delete
-        Toast.makeText(getContext(), "Delete post: " + post.getTitle(), Toast.LENGTH_SHORT).show();
+        if (post == null || post.getId() == null) {
+            Toast.makeText(getContext(), "Invalid post", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setAlpha(0.5f);
+
+        // Delete Firestore document
+        firebaseService.deleteFoodPost(post.getId(), task -> {
+            requireActivity().runOnUiThread(() -> {
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setAlpha(1f);
+
+                if (task.isSuccessful()) {
+                    // Optimistically remove from list
+                    userPosts.remove(post);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getContext(), "Post deleted", Toast.LENGTH_SHORT).show();
+
+                    // Delete images in background (best-effort)
+                    if (post.getImageUrls() != null) {
+                        for (String url : post.getImageUrls()) {
+                            cloudinaryService.deleteImage(url, result -> { /* no-op */ });
+                        }
+                    }
+
+                    // Refresh empty state if needed
+                    if (userPosts.isEmpty()) {
+                        showEmptyState("You haven't created any posts yet.\nStart sharing food!");
+                    }
+                } else {
+                    Exception e = task.getException();
+                    Toast.makeText(getContext(), "Failed to delete: " + (e != null ? e.getMessage() : "Unknown error"), Toast.LENGTH_LONG).show();
+                }
+            });
+        });
     }
 
     public void refreshPosts() {
