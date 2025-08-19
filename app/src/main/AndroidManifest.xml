@@ -45,7 +45,6 @@
             android:name=".MainActivity"
             android:exported="false" />
             
-        <activity android:name=".ChatActivity" />
         <activity android:name=".ui.post.PostDetailActivity" />
                     <activity android:name=".ui.post.EditPostActivity" />
             <activity android:name=".ui.profile.UserProfileViewActivity" />

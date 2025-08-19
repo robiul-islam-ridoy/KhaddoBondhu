@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.example.khaddobondhu.model.FoodPost;
-import com.example.khaddobondhu.model.Message;
 import com.example.khaddobondhu.model.Request;
 import com.example.khaddobondhu.model.User;
 import com.example.khaddobondhu.utils.SecurityUtils;
@@ -47,7 +46,6 @@ public class FirebaseService {
     // Collection references
     private CollectionReference usersRef;
     private CollectionReference postsRef;
-    private CollectionReference messagesRef;
     private CollectionReference requestsRef;
     
     // Current user
@@ -75,7 +73,6 @@ public class FirebaseService {
         // Initialize collection references
         usersRef = db.collection("users");
         postsRef = db.collection("food_posts");
-        messagesRef = db.collection("messages");
         requestsRef = db.collection("requests");
         notificationsRef = db.collection("notifications");
         
@@ -377,38 +374,6 @@ public class FirebaseService {
     }
     
     // Messaging methods
-    public void sendMessage(Message message, OnCompleteListener<DocumentReference> listener) {
-        if (getCurrentUser() == null) {
-            Log.w(TAG, "No authenticated user");
-            return;
-        }
-
-        Map<String, Object> messageData = new HashMap<>();
-        messageData.put("senderId", message.getSenderId());
-        messageData.put("receiverId", message.getReceiverId());
-        messageData.put("content", message.getContent());
-        messageData.put("chatId", message.getChatId());
-        messageData.put("timestamp", com.google.firebase.Timestamp.now());
-        messageData.put("isRead", false);
-
-        db.collection("messages")
-            .add(messageData)
-            .addOnCompleteListener(listener);
-    }
-    
-    public void getMessages(String chatId, OnCompleteListener<QuerySnapshot> listener) {
-        db.collection("messages")
-            .whereEqualTo("chatId", chatId)
-            .orderBy("timestamp", Query.Direction.ASCENDING)
-            .get()
-            .addOnCompleteListener(listener);
-    }
-    
-    public void markMessageAsRead(String messageId, OnCompleteListener<Void> listener) {
-        messagesRef.document(messageId)
-                .update("isRead", true)
-                .addOnCompleteListener(listener);
-    }
     
     // Search and filter methods
     public void searchFoodPosts(String query, Callback callback) {
@@ -562,12 +527,6 @@ public class FirebaseService {
             });
     }
     
-    public ListenerRegistration addMessagesListener(String chatId, com.google.firebase.firestore.EventListener<QuerySnapshot> listener) {
-        return messagesRef.whereEqualTo("chatId", chatId)
-                .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.ASCENDING)
-                .addSnapshotListener(listener);
-    }
-    
     // Utility methods
     public void incrementPostViews(String postId) {
         if (postId == null || postId.isEmpty()) return;
@@ -607,13 +566,6 @@ public class FirebaseService {
             .addOnCompleteListener(listener);
     }
 
-    public void getUserChats(String userId, OnCompleteListener<QuerySnapshot> listener) {
-        db.collection("messages")
-            .whereEqualTo("chatId", userId)
-            .orderBy("timestamp", Query.Direction.DESCENDING)
-            .get()
-            .addOnCompleteListener(listener);
-    }
 
     public void getAllFoodPosts(Callback callback) {
         if (db == null) {

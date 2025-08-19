@@ -15,10 +15,6 @@
         android:icon="@drawable/ic_add_circle"
         android:title="@string/title_create_post" />
 
-    <item
-        android:id="@+id/navigation_messages"
-        android:icon="@drawable/ic_message"
-        android:title="@string/title_messages" />
 
     <item
         android:id="@+id/navigation_profile"

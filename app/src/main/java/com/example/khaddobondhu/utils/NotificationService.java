@@ -14,7 +14,6 @@ import android.os.Vibrator;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import com.example.khaddobondhu.MainActivity;
-import com.example.khaddobondhu.ChatActivity;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.ui.post.PostDetailActivity;
 import com.example.khaddobondhu.ui.profile.UserProfileViewActivity;
@@ -33,18 +32,15 @@ public class NotificationService extends FirebaseMessagingService {
     private static final String TAG = "NotificationService";
     
     // Notification channels
-    public static final String CHANNEL_MESSAGES = "messages";
     public static final String CHANNEL_FOOD_REQUESTS = "food_requests";
     public static final String CHANNEL_REQUEST_STATUS = "request_status_v2";
     public static final String CHANNEL_GENERAL = "general";
     
     // Notification IDs
-    private static final int NOTIFICATION_ID_MESSAGE = 1001;
     private static final int NOTIFICATION_ID_FOOD_REQUEST = 1002;
     private static final int NOTIFICATION_ID_REQUEST_STATUS = 1003;
     private static final int NOTIFICATION_ID_GENERAL = 1004;
     
-    private static int messageNotificationId = NOTIFICATION_ID_MESSAGE;
     private static int foodRequestNotificationId = NOTIFICATION_ID_FOOD_REQUEST;
     private static int requestStatusNotificationId = NOTIFICATION_ID_REQUEST_STATUS;
     
@@ -63,7 +59,6 @@ public class NotificationService extends FirebaseMessagingService {
             if (manager == null) return;
 
             boolean missing = false;
-            if (manager.getNotificationChannel(CHANNEL_MESSAGES) == null) missing = true;
             if (manager.getNotificationChannel(CHANNEL_FOOD_REQUESTS) == null) missing = true;
             if (manager.getNotificationChannel(CHANNEL_REQUEST_STATUS) == null) missing = true;
             if (manager.getNotificationChannel(CHANNEL_GENERAL) == null) missing = true;
@@ -105,9 +100,6 @@ public class NotificationService extends FirebaseMessagingService {
         String targetId = data.get("target_id");
         
         switch (type) {
-            case "message":
-                showMessageNotification(this, title, body, targetId);
-                break;
             case "food_request":
                 showFoodRequestNotification(this, title, body, targetId, "REQUEST_TO_GET");
                 break;
@@ -140,18 +132,6 @@ public class NotificationService extends FirebaseMessagingService {
     private void createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            
-            // Messages channel - High priority for heads-up notifications
-            NotificationChannel messagesChannel = new NotificationChannel(
-                CHANNEL_MESSAGES,
-                "Messages",
-                NotificationManager.IMPORTANCE_HIGH
-            );
-            messagesChannel.setDescription("Notifications for new messages");
-            messagesChannel.enableVibration(true);
-            messagesChannel.setVibrationPattern(new long[]{0, 500, 200, 500});
-            messagesChannel.setShowBadge(true);
-            messagesChannel.enableLights(true);
             
             // Food requests channel - Maximum priority for heads-up notifications
             NotificationChannel foodRequestsChannel = new NotificationChannel(
@@ -194,7 +174,6 @@ public class NotificationService extends FirebaseMessagingService {
             generalChannel.setDescription("General app notifications");
             
             List<NotificationChannel> channels = new ArrayList<>();
-            channels.add(messagesChannel);
             channels.add(foodRequestsChannel);
             channels.add(requestStatusChannel);
             channels.add(generalChannel);
@@ -202,40 +181,6 @@ public class NotificationService extends FirebaseMessagingService {
         }
     }
     
-    /**
-     * Show notification for new message
-     */
-    public static void showMessageNotification(Context context, String senderName, String message, String chatId) {
-        String title = "New message from " + senderName;
-        String body = message.length() > 50 ? message.substring(0, 47) + "..." : message;
-        
-        Intent intent = new Intent(context, ChatActivity.class);
-        intent.putExtra("chat_id", chatId);
-        intent.putExtra("sender_name", senderName);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-            context, 
-            messageNotificationId, 
-            intent, 
-            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
-        
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_MESSAGES)
-            .setSmallIcon(R.drawable.ic_message)
-            .setContentTitle(title)
-            .setContentText(body)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-            .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-            .setVibrate(new long[]{0, 500, 200, 500})
-            .setDefaults(NotificationCompat.DEFAULT_ALL);
-        
-        NotificationManagerCompat.from(context).notify(messageNotificationId++, builder.build());
-    }
     
     /**
      * Show notification for food request - This goes to POST OWNER

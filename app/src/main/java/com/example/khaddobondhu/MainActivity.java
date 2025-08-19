@@ -16,7 +16,6 @@ import com.example.khaddobondhu.service.FirebaseService;
 import com.example.khaddobondhu.ui.home.HomeFragment;
 import com.example.khaddobondhu.ui.explore.ExploreFragment;
 import com.example.khaddobondhu.ui.profile.ProfileFragment;
-import com.example.khaddobondhu.MessageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 R.id.navigation_home,
                 R.id.navigation_explore,
                 R.id.navigation_create_post,
-                R.id.navigation_messages,
                 R.id.navigation_profile
         ).build();
 
@@ -86,8 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 refreshHomeFragment();
             } else if (destinationId == R.id.navigation_explore) {
                 refreshExploreFragment();
-            } else if (destinationId == R.id.navigation_messages) {
-                refreshMessagesFragment();
             } else if (destinationId == R.id.navigation_profile) {
                 refreshProfileFragment();
             }
@@ -170,14 +166,6 @@ public class MainActivity extends AppCompatActivity {
                 .findFragmentByTag("f1"); // Tag for second fragment
         if (exploreFragment != null && exploreFragment.isVisible()) {
             exploreFragment.refreshData();
-        }
-    }
-    
-    private void refreshMessagesFragment() {
-        MessageFragment messageFragment = (MessageFragment) getSupportFragmentManager()
-                .findFragmentByTag("f3"); // Tag for fourth fragment
-        if (messageFragment != null && messageFragment.isVisible()) {
-            messageFragment.refreshData();
         }
     }
     

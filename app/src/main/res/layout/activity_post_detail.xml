@@ -408,15 +408,6 @@
                     app:icon="@drawable/ic_phone"
                     app:cornerRadius="24dp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttonMessage"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:text="Message"
-                    app:icon="@drawable/ic_message"
-                    app:cornerRadius="24dp" />
             </LinearLayout>
             <!-- Accept Request Button -->
             <com.google.android.material.button.MaterialButton
