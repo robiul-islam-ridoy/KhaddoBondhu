@@ -90,13 +90,7 @@ public class AnalyticsService {
         updateUserStats("searches_performed", 1);
     }
     
-    public void trackMessageSent(String recipientId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("recipient_id", recipientId);
-        
-        trackEvent("message_sent", params);
-        updateUserStats("messages_sent", 1);
-    }
+    // Messaging removed: trackMessageSent no longer used
     
     public void trackUserRegistration(String registrationMethod) {
         Map<String, Object> params = new HashMap<>();
@@ -152,9 +146,6 @@ public class AnalyticsService {
                 break;
             case "searches_performed":
                 userStats.searchesPerformed += increment;
-                break;
-            case "messages_sent":
-                userStats.messagesSent += increment;
                 break;
             case "logins":
                 userStats.logins += increment;
@@ -338,7 +329,6 @@ public class AnalyticsService {
         public int postsCreated = 0;
         public int postsViewed = 0;
         public int searchesPerformed = 0;
-        public int messagesSent = 0;
         public int logins = 0;
         
         public UserStatistics clone() {
@@ -346,7 +336,6 @@ public class AnalyticsService {
             clone.postsCreated = this.postsCreated;
             clone.postsViewed = this.postsViewed;
             clone.searchesPerformed = this.searchesPerformed;
-            clone.messagesSent = this.messagesSent;
             clone.logins = this.logins;
             return clone;
         }

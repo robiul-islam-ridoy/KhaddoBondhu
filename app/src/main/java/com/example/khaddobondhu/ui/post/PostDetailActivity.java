@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.example.khaddobondhu.R;
 import com.example.khaddobondhu.databinding.ActivityPostDetailBinding;
 import com.example.khaddobondhu.model.FoodPost;
-import com.example.khaddobondhu.model.Message;
 import com.example.khaddobondhu.model.Request;
 import com.example.khaddobondhu.service.FirebaseService;
 import com.example.khaddobondhu.ui.image.ImagePreviewActivity;
@@ -153,7 +152,6 @@ public class PostDetailActivity extends AppCompatActivity {
 
         // Show contact buttons for all post types
         binding.buttonContact.setVisibility(View.VISIBLE);
-        binding.buttonMessage.setVisibility(View.VISIBLE);
         
         // Set request button text based on post type
         setRequestButtonText(foodPost.getPostType());
@@ -299,7 +297,6 @@ public class PostDetailActivity extends AppCompatActivity {
 
     private void setupClickListeners() {
         binding.buttonContact.setOnClickListener(v -> contactPoster());
-        binding.buttonMessage.setOnClickListener(v -> sendMessage());
         binding.buttonShare.setOnClickListener(v -> sharePost());
         binding.buttonAccceptRequest.setOnClickListener(v -> showRequestDialog());
     }
@@ -368,38 +365,6 @@ public class PostDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void sendMessage() {
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser == null) {
-            Toast.makeText(this, "Please sign in to send messages", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (foodPost == null) return;
-
-        // Create a message
-        Message message = new Message();
-        message.setSenderId(currentUser.getUid());
-        message.setReceiverId(foodPost.getUserId());
-        message.setContent("Hi! I'm interested in your post: " + foodPost.getTitle());
-        message.setChatId(generateChatId(currentUser.getUid(), foodPost.getUserId()));
-
-        firebaseService.sendMessage(message, new OnCompleteListener<com.google.firebase.firestore.DocumentReference>() {
-            @Override
-            public void onComplete(Task<com.google.firebase.firestore.DocumentReference> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(PostDetailActivity.this, "Message sent successfully!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(PostDetailActivity.this, "Failed to send message", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private String generateChatId(String userId1, String userId2) {
-        // Create a consistent chat ID regardless of who initiates
-        return userId1.compareTo(userId2) < 0 ? userId1 + "_" + userId2 : userId2 + "_" + userId1;
-    }
 
     private void sharePost() {
         if (foodPost == null) return;

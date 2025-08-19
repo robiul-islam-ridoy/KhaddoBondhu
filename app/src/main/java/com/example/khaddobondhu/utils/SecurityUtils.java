@@ -148,8 +148,7 @@ public class SecurityUtils {
         switch (action) {
             case "create_post":
                 return timeDiff >= 30000; // 30 seconds between posts
-            case "send_message":
-                return timeDiff >= 5000;  // 5 seconds between messages
+            // Messaging removed
             case "search":
                 return timeDiff >= 1000;  // 1 second between searches
             default:

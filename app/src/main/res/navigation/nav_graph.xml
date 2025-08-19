@@ -24,10 +24,6 @@
         android:name="com.example.khaddobondhu.ui.createpost.CreatePostFragment"
         android:label="@string/app_name" />
 
-    <fragment
-        android:id="@+id/navigation_messages"
-        android:name="com.example.khaddobondhu.ui.messages.MessagesFragment"
-        android:label="@string/app_name" />
 
     <fragment
         android:id="@+id/navigation_profile"

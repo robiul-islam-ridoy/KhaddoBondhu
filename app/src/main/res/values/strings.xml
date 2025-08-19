@@ -6,8 +6,7 @@
     <string name="title_home">Home</string>
     <string name="title_explore">Explore</string>
     <string name="title_create_post">Create Post</string>
-    <string name="title_messages">Messages</string>
-    <string name="title_profile">Profile</string>
+        <string name="title_profile">Profile</string>
 
     <!-- Common -->
     <string name="loading">Loading…</string>
@@ -50,7 +49,6 @@
     <string name="verify_account">Verify Account</string>
     <string name="upload_nid">Upload NID</string>
 
-    <!-- Messages -->
     <string name="new_message">New Message</string>
     <string name="type_message">Type a message…</string>
     <string name="send">Send</string>

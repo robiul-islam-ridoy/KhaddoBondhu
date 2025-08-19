@@ -155,8 +155,7 @@ public class Notification {
                 return com.example.khaddobondhu.R.drawable.ic_check;
             case "REQUEST_DECLINED":
                 return com.example.khaddobondhu.R.drawable.ic_close;
-            case "MESSAGE":
-                return com.example.khaddobondhu.R.drawable.ic_message;
+            // MESSAGE type removed
             default:
                 return com.example.khaddobondhu.R.drawable.ic_notification;
         }
